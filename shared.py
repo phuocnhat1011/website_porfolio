@@ -14,10 +14,27 @@ html, body, [data-testid="stAppViewContainer"] {
 }
 
 /* Layout adjustments */
-.block-container {
-    padding-top: 3.8rem !important; 
-    padding-bottom: 3rem !important; 
+header[data-testid="stHeader"] {
+    background-color: transparent !important;
+}
+/* Hide only the Deploy button and settings menu, keeping the sidebar toggle button visible */
+[data-testid="stHeader"] [data-testid="stHeaderMenu"],
+[data-testid="stHeader"] div[data-testid="stConnectionStatus"],
+[data-testid="stHeader"] .stDeployButton {
+    display: none !important;
+}
+
+.block-container,
+.main .block-container,
+[data-testid="stMain"] .block-container,
+[data-testid="stAppViewContainer"] .block-container {
+    padding-top: 0rem !important; 
+    padding-bottom: 1rem !important; 
+    margin-top: 0px !important;
     max-width: 1200px !important;
+}
+[data-testid="stVerticalBlock"] {
+    padding-top: 0px !important;
 }
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
@@ -171,7 +188,19 @@ section[data-testid="stSidebar"] {
   backdrop-filter: blur(10px);
 }
 section[data-testid="stSidebar"] > div {
-  padding-top: 24px !important;
+  padding-top: 0px !important;
+}
+section[data-testid="stSidebar"] [data-testid="stSidebarNav"] {
+  padding-top: 0px !important;
+  margin-top: 0px !important;
+}
+section[data-testid="stSidebar"] [data-testid="stSidebarNavItems"] {
+  padding-top: 0px !important;
+  margin-top: 0px !important;
+}
+section[data-testid="stSidebar"] [data-testid="stSidebarNav"] > ul {
+  padding-top: 0px !important;
+  margin-top: 0px !important;
 }
 
 /* Hero Section Layout */

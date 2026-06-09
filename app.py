@@ -10,7 +10,6 @@ from shared import apply_style, cover_block
 # ---------------------------------------------------------
 st.set_page_config(
     page_title="Võ Phước Nhật | Portfolio",
-    page_icon="✨",
     layout="wide",
     initial_sidebar_state="expanded"
 )
