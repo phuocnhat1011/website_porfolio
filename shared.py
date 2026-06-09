@@ -6,223 +6,341 @@ import mimetypes
 
 CSS = """
 <style>
-/* Layout */
-.block-container {padding-top: 2.2rem; padding-bottom: 3rem; max-width: 1180px;}
+/* Font import */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+html, body, [data-testid="stAppViewContainer"] {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Layout adjustments */
+.block-container {
+    padding-top: 3.8rem !important; 
+    padding-bottom: 3rem !important; 
+    max-width: 1200px !important;
+}
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
 
-/* Light background */
-.stApp{
+/* Custom Radial Background (Premium Dark/Light Hybrid vibe) */
+.stApp {
   background:
-    radial-gradient(900px 600px at 12% 8%, rgba(91,33,182,0.10), transparent 55%),
-    radial-gradient(900px 600px at 85% 12%, rgba(37,99,235,0.10), transparent 60%),
-    linear-gradient(180deg, #F6F7FB 0%, #FFFFFF 45%, #F6F7FB 100%);
+    radial-gradient(1200px 800px at 10% 5%, rgba(91, 33, 182, 0.06), transparent 50%),
+    radial-gradient(1000px 800px at 90% 15%, rgba(37, 99, 235, 0.06), transparent 50%),
+    linear-gradient(180deg, #F8FAFC 0%, #FFFFFF 40%, #F8FAFC 100%) !important;
 }
 
-/* Typography */
-h1, h2, h3 {letter-spacing: -0.02em;}
-p {line-height: 1.65;}
-.muted {opacity: 0.75;}
-.small {font-size: 0.92rem; opacity: 0.85;}
-
-/* Surfaces (cards) */
-.surface, .card, .kpi, .hero{
-  border: 1px solid rgba(15,23,42,0.10);
-  background: rgba(255,255,255,0.92);
-  border-radius: 18px;
-  box-shadow: 0 10px 24px rgba(15,23,42,0.06);
+/* Typography & Headings */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    letter-spacing: -0.03em !important;
+    font-weight: 700 !important;
+    color: #0F172A !important;
+}
+p {
+    line-height: 1.7;
+    color: #334155;
+}
+.muted {
+    color: #64748B;
+    font-size: 0.95rem;
+}
+.small {
+    font-size: 0.88rem;
+    color: #64748B;
 }
 
-/* Hero */
-.hero{
-  background: linear-gradient(135deg, rgba(91,33,182,0.10), rgba(37,99,235,0.06));
-  padding: 26px;
+/* Text Gradient Effect */
+.text-gradient {
+    background: linear-gradient(135deg, #5B21B6 0%, #2563EB 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
 }
 
-.kpi {padding: 14px 16px;}
-.card {padding: 18px;}
-.surface {padding: 18px;}
+/* Glassmorphism Surfaces */
+.surface, .card, .kpi, .hero {
+  border: 1px solid rgba(226, 232, 240, 0.8) !important;
+  background: rgba(255, 255, 255, 0.75) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 20px !important;
+  box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.02) !important;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Hero Section specific details */
+.hero {
+  background: linear-gradient(135deg, rgba(91, 33, 182, 0.05) 0%, rgba(37, 99, 235, 0.03) 100%) !important;
+  border: 1px solid rgba(91, 33, 182, 0.08) !important;
+  padding: 32px !important;
+  margin-bottom: 24px !important;
+}
+
+.kpi { padding: 18px 20px !important; }
+.card { padding: 24px !important; }
+.surface { padding: 24px !important; }
+
+/* Interactive Hover Transitions */
+.card:hover, .kpi:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px -15px rgba(91, 33, 182, 0.12), 0 0 0 1px rgba(91, 33, 182, 0.1) !important;
+  border-color: rgba(91, 33, 182, 0.2) !important;
+}
 
 /* Badges */
-.badge{
-  display:inline-block;
-  padding: 6px 10px;
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 12px;
   border-radius: 999px;
-  border: 1px solid rgba(15,23,42,0.12);
-  background: rgba(15,23,42,0.04);
-  margin-right: 8px;
+  border: 1px solid rgba(226, 232, 240, 0.8) !important;
+  background: rgba(241, 245, 249, 0.8) !important;
+  color: #475569 !important;
+  margin-right: 6px;
   margin-bottom: 8px;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 550;
+  transition: all 0.2s ease;
+}
+.badge:hover {
+  background: rgba(91, 33, 182, 0.06) !important;
+  border-color: rgba(91, 33, 182, 0.2) !important;
+  color: #5B21B6 !important;
 }
 
-/* ========= COVER (FIX) =========
-   - ép ảnh fill full khung, hết dư trắng
-   - bleed đúng padding card 18px
-*/
-.cover{
-  height: 170px;
-  border-radius: 14px;
-  margin-bottom: 14px;
-  border: 1px solid rgba(15,23,42,0.10);
+/* Cover Image Bleed Settings */
+.cover {
+  height: 180px;
+  border-radius: 16px;
+  margin-bottom: 16px;
   overflow: hidden;
   position: relative;
-  background: rgba(15,23,42,0.02);
+  background: rgba(15, 23, 42, 0.02);
+  border: 1px solid rgba(226, 232, 240, 0.8);
 }
-
-/* ép img fill tuyệt đối */
-.cover > img{
+.cover > img {
   position: absolute;
   inset: 0;
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
   display: block;
+  transition: transform 0.5s ease;
+}
+.card:hover .cover > img {
+  transform: scale(1.04);
 }
 
-.cover.placeholder{
-  background: linear-gradient(135deg, rgba(91,33,182,0.12), rgba(37,99,235,0.08));
+.cover.placeholder {
+  background: linear-gradient(135deg, rgba(91, 33, 182, 0.08), rgba(37, 99, 235, 0.06)) !important;
 }
 
-/* cover ăn sát mép card (để không giống “box riêng” và không hở viền) */
-.proj-card .cover{
-  margin: -18px -18px 14px -18px;   /* ✅ card padding là 18px */
-  border-radius: 18px 18px 14px 14px;
-  border: none;                     /* tránh double-border */
+/* Bleed cover image inside container cards */
+div[data-testid="column"] div[data-testid="stContainer"] {
+  border: 1px solid rgba(226, 232, 240, 0.8) !important;
+  background: rgba(255, 255, 255, 0.75) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 20px !important;
+  padding: 24px !important;
+  box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.04) !important;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+div[data-testid="column"] div[data-testid="stContainer"]:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px -15px rgba(91, 33, 182, 0.12), 0 0 0 1px rgba(91, 33, 182, 0.1) !important;
+  border-color: rgba(91, 33, 182, 0.2) !important;
+}
+div[data-testid="column"] div[data-testid="stContainer"] .cover {
+  margin: -24px -24px 16px -24px !important;
+  border-radius: 20px 20px 0 0 !important;
+  border: none !important;
 }
 
-hr {border:none; border-top:1px solid rgba(15,23,42,0.10); margin: 22px 0;}
-a {text-decoration:none;}
-
-/* Sidebar polish */
-section[data-testid="stSidebar"]{
-  background: rgba(255,255,255,0.88);
-  border-right: 1px solid rgba(15,23,42,0.10);
-}
-section[data-testid="stSidebar"] > div{
-  padding-top: 18px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-section[data-testid="stSidebar"] a{
-  border-radius: 12px;
-  padding: 10px 12px !important;
-  margin: 4px 6px !important;
-  color: rgba(15,23,42,0.92) !important;
-}
-section[data-testid="stSidebar"] a:hover{
-  background: rgba(91,33,182,0.08);
-}
-section[data-testid="stSidebar"] a[aria-current="page"]{
-  background: rgba(91,33,182,0.12);
-  border: 1px solid rgba(91,33,182,0.18);
-}
-section[data-testid="stSidebar"]{
-  min-width: 255px;
+hr {
+  border: none !important;
+  border-top: 1px solid rgba(226, 232, 240, 0.8) !important;
+  margin: 24px 0 !important;
 }
 
-/* Hero layout */
-.hero-row{
-  display:flex;
-  gap: 22px;
-  align-items:center;
-  justify-content:space-between;
+/* Navigation & Sidebar styles */
+section[data-testid="stSidebar"] {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border-right: 1px solid rgba(226, 232, 240, 0.8) !important;
+  backdrop-filter: blur(10px);
+}
+section[data-testid="stSidebar"] > div {
+  padding-top: 24px !important;
+}
+
+/* Hero Section Layout */
+.hero-row {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+  justify-content: space-between;
   flex-wrap: wrap;
 }
-.hero-left{flex: 1; min-width: 360px;}
-.hero-right{width: 220px; display:flex; justify-content:center; align-items:center;}
-.avatar-ring{
-  width: 200px; height: 200px;
+.hero-left { flex: 1; min-width: 320px; }
+.hero-right { display: flex; justify-content: center; align-items: center; }
+.avatar-ring {
+  width: 170px;
+  height: 170px;
   border-radius: 999px;
   padding: 4px;
-  background: linear-gradient(135deg, rgba(91,33,182,0.45), rgba(37,99,235,0.35));
-  box-shadow: 0 14px 30px rgba(15,23,42,0.10);
+  background: linear-gradient(135deg, #5B21B6, #2563EB);
+  box-shadow: 0 10px 25px rgba(91, 33, 182, 0.2);
 }
-.avatar-img{
-  width: 100%; height: 100%;
+.avatar-img {
+  width: 100%;
+  height: 100%;
   border-radius: 999px;
   object-fit: cover;
-  border: 4px solid rgba(255,255,255,0.95);
+  border: 4px solid #FFFFFF;
   background: white;
 }
 
-.cta-wrap{ margin-top: 12px; margin-bottom: 6px; }
-div.stPageLink a, div.stLinkButton a{
-  border-radius: 14px !important;
-  padding: 10px 14px !important;
-  border: 1px solid rgba(15,23,42,0.12) !important;
-}
-div.stPageLink a:hover, div.stLinkButton a:hover{
-  border-color: rgba(91,33,182,0.35) !important;
-  background: rgba(91,33,182,0.06) !important;
-}
-
-/* Tight content box for accordion */
-.surface-tight{ padding: 12px 16px !important; }
-.surface-tight p{ margin: 0.35rem 0 !important; }
-.surface-tight ul{ margin: 0.35rem 0 0.35rem 1.2rem !important; }
-.surface-tight li{ margin: 0.25rem 0 !important; }
-
-.status-label{
-  font-size: 0.92rem;
-  opacity: 0.85;
-  margin-top: 6px;
-  margin-bottom: 10px;
-}
-
-/* HOME/GENERAL TIGHTEN */
-.block-container{
-  padding-top: 1.0rem !important;
-  padding-bottom: 2.0rem !important;
-}
-div[data-testid="stVerticalBlock"]{ gap: 0.75rem !important; }
-hr{ margin: 14px 0 !important; }
-
-.kpi-row{
-  display:flex;
-  gap: 14px;
+/* Custom layout classes */
+.kpi-row {
+  display: flex;
+  gap: 16px;
   flex-wrap: wrap;
-  align-items: stretch;
-  margin-top: 10px;
+  margin-top: 16px;
+  margin-bottom: 8px;
 }
-.kpi.kpi-compact{
+.kpi-compact {
   flex: 1;
-  min-width: 240px;
-  max-width: 360px;
-  padding: 14px 16px;
+  min-width: 200px;
 }
 
-.proj-card{
-  display:flex;
-  flex-direction: column;
-  height: 100%;
-}
-.proj-meta{ margin-top: 6px; }
-.proj-cta{ margin-top: 12px; margin-bottom: 8px; }
-
-.section-title{
-  font-size: 1.7rem;
-  font-weight: 800;
-  margin: 0;
-}
-
-.stButton > button{
-  border-radius: 14px !important;
-}
-.hero-actions{ margin-top: 14px; display:flex; gap:10px; flex-wrap:wrap; }
-
-.hero-contact{
-  display:inline-flex; align-items:center; gap:8px;
-  padding: 10px 14px;
-  border-radius: 14px;
-  border: 1px solid rgba(15,23,42,0.14);
-  background: rgba(255,255,255,0.75);
-  color: rgba(15,23,42,0.92);
+.status-label {
+  font-size: 0.85rem;
   font-weight: 600;
+  color: #475569;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  margin-bottom: 12px;
 }
 
-.hero-contact:hover{
-  border-color: rgba(91,33,182,0.35);
-  background: rgba(91,33,182,0.06);
+/* Buttons and Links */
+div.stButton > button, div.stDownloadButton > button {
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  padding: 8px 16px !important;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Style for primary buttons in Streamlit */
+div.stButton > button[data-testid="stBaseButton-primary"], 
+div.stButton > button[kind="primary"],
+div.stDownloadButton > button[data-testid="stBaseButton-primary"],
+div.stDownloadButton > button[kind="primary"] {
+    background: linear-gradient(135deg, #5B21B6 0%, #2563EB 100%) !important;
+    color: #FFFFFF !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(91, 33, 182, 0.18) !important;
+}
+div.stButton > button[data-testid="stBaseButton-primary"] *, 
+div.stButton > button[kind="primary"] *,
+div.stDownloadButton > button[data-testid="stBaseButton-primary"] *,
+div.stDownloadButton > button[kind="primary"] * {
+    color: #FFFFFF !important;
+}
+
+div.stButton > button[data-testid="stBaseButton-primary"]:hover, 
+div.stButton > button[kind="primary"]:hover,
+div.stDownloadButton > button[data-testid="stBaseButton-primary"]:hover,
+div.stDownloadButton > button[kind="primary"]:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 18px rgba(91, 33, 182, 0.28) !important;
+    background: linear-gradient(135deg, #6D28D9 0%, #1D4ED8 100%) !important;
+    color: #FFFFFF !important;
+}
+div.stButton > button[data-testid="stBaseButton-primary"]:hover *, 
+div.stButton > button[kind="primary"]:hover *,
+div.stDownloadButton > button[data-testid="stBaseButton-primary"]:hover *,
+div.stDownloadButton > button[kind="primary"]:hover * {
+    color: #FFFFFF !important;
+}
+
+/* Style for secondary buttons (like accordions or default secondary) */
+div.stButton > button[data-testid="stBaseButton-secondary"], 
+div.stButton > button[kind="secondary"],
+div.stDownloadButton > button[data-testid="stBaseButton-secondary"],
+div.stDownloadButton > button[kind="secondary"] {
+    background: #FFFFFF !important;
+    color: #475569 !important;
+    border: 1px solid rgba(226, 232, 240, 1) !important;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.02) !important;
+}
+div.stButton > button[data-testid="stBaseButton-secondary"] *, 
+div.stButton > button[kind="secondary"] *,
+div.stDownloadButton > button[data-testid="stBaseButton-secondary"] *,
+div.stDownloadButton > button[kind="secondary"] * {
+    color: #475569 !important;
+}
+
+div.stButton > button[data-testid="stBaseButton-secondary"]:hover, 
+div.stButton > button[kind="secondary"]:hover,
+div.stDownloadButton > button[data-testid="stBaseButton-secondary"]:hover,
+div.stDownloadButton > button[kind="secondary"]:hover {
+    border-color: rgba(91, 33, 182, 0.25) !important;
+    background: rgba(91, 33, 182, 0.04) !important;
+    color: #5B21B6 !important;
+    transform: translateY(-1px) !important;
+}
+div.stButton > button[data-testid="stBaseButton-secondary"]:hover *, 
+div.stButton > button[kind="secondary"]:hover *,
+div.stDownloadButton > button[data-testid="stBaseButton-secondary"]:hover *,
+div.stDownloadButton > button[kind="secondary"]:hover * {
+    color: #5B21B6 !important;
+}
+
+/* Accordion sections */
+.surface-tight {
+  padding: 16px 20px !important;
+  border-radius: 14px !important;
+  background: rgba(248, 250, 252, 0.7) !important;
+}
+.surface-tight ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+.surface-tight li {
+  margin: 6px 0;
+  font-size: 0.92rem;
+  color: #475569;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 8px;
+}
+
+.hero-contact {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  background: #FFFFFF;
+  color: #475569 !important;
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: all 0.25s ease;
+  text-decoration: none;
+}
+.hero-contact:hover {
+  border-color: rgba(91, 33, 182, 0.25);
+  background: rgba(91, 33, 182, 0.05);
+  color: #5B21B6 !important;
+  transform: translateY(-2px);
 }
 </style>
 """
