@@ -1,0 +1,57 @@
+[
+  {
+    "id": "bank_bctc",
+    "title": "Phân tích BCTC Ngân hàng VN",
+    "status": "DOING",
+    "tagline": "",
+    "stack": ["R/Python","Power BI", "DAX",  "Data Modeling", "Financial Analysis", "AI-assisted Extraction"],
+    "highlights": [
+      "Tự động crawl BCTC ngành chứng khoán từ SSI và chuẩn hoá dữ liệu theo kỳ/công ty/chỉ tiêu",
+      "Thiết kế mô hình Dim/Fact bằng R & Python để tối ưu phân tích đa chiều và so sánh theo công ty/toàn ngành"
+    ],
+    "what_i_did": [
+      "Crawl và chuẩn hoá dữ liệu BCTC ngành chứng khoán từ SSI bằng Python (pipeline thu thập + làm sạch)",
+      "Thiết kế schema Dim/Fact (Company/Date/Item → Fact values) để hỗ trợ phân tích theo nhiều lát cắt",
+      "Xây dựng hệ measures DAX (giá trị, tăng trưởng, hiệu suất, so sánh) và tối ưu tính tái sử dụng",
+      "Xây dựng Power BI report theo module (menu tiles), hỗ trợ cross-filter và drill nhanh insight"
+    ],
+    "process": [
+      "Data acquisition: crawl BCTC từ SSI, chuẩn hoá định dạng và kiểm soát chất lượng dữ liệu",
+      "Data modeling: xây dựng Dim/Fact bằng Python (kỳ, công ty, chỉ tiêu) để tối ưu truy vấn và phân tích",
+      "DAX layer: phát triển measures (value, YoY/QoQ, hiệu suất, so sánh) và chuẩn hoá measure table",
+      "Reporting: thiết kế UX theo module, hoàn thiện report và chuẩn bị publish/embed"
+    ],
+    "cover": "assets/previews/bank_bctc.png",
+    "page_path": "pages/3_Project_Bank_BCTC.py",
+    "powerbi_url": "PASTE_YOUR_PUBLISH_TO_WEB_URL"
+  },
+  {
+    "id": "securities_vn",
+    "title": "Phân tích BCTC Chứng khoán VN",
+    "status": "DONE",
+    "tagline": "",
+    "stack": ["Power BI", "DAX", "Python/R", "Data Modeling", "Financial Analysis", "AI-assisted Extraction"],
+    "highlights": [
+      "Tự động crawl BCTC ngành chứng khoán từ SSI và chuẩn hoá dữ liệu theo kỳ/công ty/chỉ tiêu",
+      "Thiết kế mô hình Dim/Fact bằng Python để tối ưu phân tích đa chiều và so sánh theo công ty/toàn ngành",
+      "Drill-down vào thuyết minh FVTPL & AFS (khoản mục trọng yếu của CTCK) bằng pipeline Python + AI"
+    ],
+    "what_i_did": [
+      "Crawl và chuẩn hoá dữ liệu BCTC ngành chứng khoán từ SSI bằng Python (pipeline thu thập + làm sạch)",
+      "Thiết kế schema Dim/Fact (Company/Date/Item → Fact values) để hỗ trợ phân tích theo nhiều lát cắt",
+      "Xây dựng hệ measures DAX (giá trị, tăng trưởng, hiệu suất, so sánh) và tối ưu tính tái sử dụng",
+      "Crawl & cấu trúc thuyết minh FVTPL và AFS bằng Python kết hợp AI để bổ sung lớp phân tích trọng yếu",
+      "Xây dựng Power BI report theo module (menu tiles), hỗ trợ cross-filter và drill nhanh insight"
+    ],
+    "process": [
+      "Data acquisition: crawl BCTC từ SSI, chuẩn hoá định dạng và kiểm soát chất lượng dữ liệu",
+      "Data modeling: xây dựng Dim/Fact bằng Python (kỳ, công ty, chỉ tiêu) để tối ưu truy vấn và phân tích",
+      "DAX layer: phát triển measures (value, YoY/QoQ, hiệu suất, so sánh) và chuẩn hoá measure table",
+      "Deep-dive notes: trích xuất & cấu trúc thuyết minh FVTPL/AFS bằng Python + AI",
+      "Reporting: thiết kế UX theo module, hoàn thiện report và chuẩn bị publish/embed"
+    ],
+    "cover": "assets/previews/securities_vn.png",
+    "page_path": "pages/4_Project_Securities_VN.py",
+    "powerbi_url": "PASTE_YOUR_PUBLISH_TO_WEB_URL"
+  }
+]
