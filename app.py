@@ -26,6 +26,8 @@ def render_home():
     # Load projects data
     with open("data/projects.json", "r", encoding="utf-8") as f:
         projects = json.load(f)
+    # Filter out BCTC Banking project (bank_bctc) as requested
+    projects = [p for p in projects if p.get("id") != "bank_bctc"]
     
     # Load avatar base64 string
     avatar_b64 = ""
@@ -48,16 +50,16 @@ def render_home():
           <div class="hero-row">
             <div class="hero-left">
               <h1 style="margin:0; font-size: 2.4rem;">👋 Võ Phước Nhật</h1>
-              <p class="muted" style="font-size:1.05rem; margin-top:14px;">
-                Mình xây dựng các <b>Power BI dashboards</b> chuyên nghiệp cho <b>BCTC</b> (Ngân hàng & Chứng khoán VN) —
-                tập trung vào <b>data modeling</b>, <b>DAX</b> và <b>trải nghiệm người dùng (UX)</b> để người xem ra insight nhanh nhất.
+              <p class="muted" style="font-size:1.02rem; margin-top:14px; line-height: 1.6;">
+                Phát triển giải pháp dữ liệu và báo cáo tự động cho lĩnh vực <b>Tài chính & Chứng khoán</b>. 
+                Tập trung vào <b>Data Engineering</b>, <b>Financial Modeling</b> và tối ưu quy trình xử lý dữ liệu.
               </p>
               <div style="margin-top:16px;">
-                <span class="badge">Power BI</span>
-                <span class="badge">DAX</span>
-                <span class="badge">Financial Statements</span>
-                <span class="badge">Data Modeling</span>
-                <span class="badge">Python</span>
+                <span class="badge">Data Analytics</span>
+                <span class="badge">Financial Analysis</span>
+                <span class="badge">Automation Pipeline</span>
+                <span class="badge">Python & SQL</span>
+                <span class="badge">Power BI & DAX</span>
               </div>
             </div>
             <div class="hero-right">
@@ -77,9 +79,8 @@ def render_home():
         st.markdown(
             """
             <div style="border-left: 3px solid #5B21B6; padding-left: 16px; margin-bottom: 20px; margin-top: 8px;">
-                <p style="font-size: 0.98rem; line-height: 1.65; margin: 0; color: #475569; font-style: italic;">
-                "Đam mê kết hợp phân tích tài chính với kỹ thuật dữ liệu hiện đại để tạo ra các dashboard báo cáo có giá trị thực tế cao. 
-                Tập trung giải quyết các bài toán dữ liệu lớn, trích xuất dữ liệu phi cấu trúc và mô hình hoá đa chiều."
+                <p style="font-size: 0.95rem; line-height: 1.65; margin: 0; color: #475569; font-style: italic;">
+                "Tôi đam mê kết hợp phân tích tài chính với kỹ thuật dữ liệu hiện đại. Với tư duy giải quyết vấn đề bằng code (Python/SQL) và công cụ trực quan (Power BI), tôi tập trung vào việc tự động hóa các luồng dữ liệu thô thành các báo cáo trực quan và mô hình phân tích hiệu quả. Mục tiêu của tôi là hỗ trợ quy trình vận hành và ra quyết định tài chính trở nên nhanh chóng, chính xác hơn."
                 </p>
             </div>
             """,
@@ -105,23 +106,23 @@ def render_home():
                 <div class="kpi" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 16px 14px;">
                     <div>
                         <div style="font-size: 1.5rem; margin-bottom: 8px;">📊</div>
-                        <b style="font-size: 0.9rem; color: #0F172A; display: block; line-height: 1.3;">2 Flagship Dashboards</b>
+                        <b style="font-size: 0.88rem; color: #0F172A; display: block; line-height: 1.3;">Data & BI Solutions</b>
                     </div>
-                    <div class="muted" style="font-size: 0.78rem; margin-top: 6px; line-height: 1.35;">Ngân hàng & CK VN phân tích sâu.</div>
+                    <div class="muted" style="font-size: 0.78rem; margin-top: 6px; line-height: 1.35;">Dashboard phân tích BCTC và thị trường trực quan.</div>
                 </div>
                 <div class="kpi" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 16px 14px;">
                     <div>
                         <div style="font-size: 1.5rem; margin-bottom: 8px;">🧠</div>
-                        <b style="font-size: 0.9rem; color: #0F172A; display: block; line-height: 1.3;">Modeling + DAX</b>
+                        <b style="font-size: 0.88rem; color: #0F172A; display: block; line-height: 1.3;">Financial & Data Modeling</b>
                     </div>
-                    <div class="muted" style="font-size: 0.78rem; margin-top: 6px; line-height: 1.35;">Schema tối ưu & measures hiệu năng cao.</div>
+                    <div class="muted" style="font-size: 0.78rem; margin-top: 6px; line-height: 1.35;">Star Schema tối ưu & hệ measures DAX hiệu năng cao.</div>
                 </div>
                 <div class="kpi" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 16px 14px;">
                     <div>
-                        <div style="font-size: 1.5rem; margin-bottom: 8px;">🧭</div>
-                        <b style="font-size: 0.9rem; color: #0F172A; display: block; line-height: 1.3;">Trải nghiệm UX mượt</b>
+                        <div style="font-size: 1.5rem; margin-bottom: 8px;">⚙️</div>
+                        <b style="font-size: 0.88rem; color: #0F172A; display: block; line-height: 1.3;">Automation & Pipeline</b>
                     </div>
-                    <div class="muted" style="font-size: 0.78rem; margin-top: 6px; line-height: 1.35;">Menu-driven navigation tinh gọn.</div>
+                    <div class="muted" style="font-size: 0.78rem; margin-top: 6px; line-height: 1.35;">Tự động hóa luồng dữ liệu ETL từ nguồn về báo cáo.</div>
                 </div>
             </div>
             """,
@@ -171,11 +172,9 @@ def render_home():
         status = (status or "").upper()
         if status == "DOING":
             return "<span class='badge' style='background: rgba(245, 158, 11, 0.1) !important; color: #D97706 !important; border-color: rgba(245, 158, 11, 0.2) !important;'>🟡 DOING</span>"
-        if status == "DONE":
-            return "<span class='badge' style='background: rgba(16, 185, 129, 0.1) !important; color: #059669 !important; border-color: rgba(16, 185, 129, 0.2) !important;'>🟢 DONE</span>"
         return ""
 
-    # Grid layout for 2 projects
+    # Grid layout for active projects
     cols = st.columns(2)
     for idx, p in enumerate(projects):
         pid = p.get("id", f"p_{idx}")
@@ -199,25 +198,17 @@ def render_home():
                 
                 # Actions/CTAs
                 if pid == "securities_vn":
-                    if st.button("📊 Mở dashboard", type="primary", use_container_width=True, key=f"cta_{pid}"):
+                    if st.button("Chi tiết dự án", type="primary", use_container_width=True, key=f"cta_{pid}"):
                         st.switch_page(securities_page)
                 elif pid == "bank_bctc":
-                    if st.button("📊 Mở dashboard", type="primary", use_container_width=True, key=f"cta_{pid}"):
-                        st.switch_page(bank_page)
+                    st.button("📊 Tạm ẩn", type="secondary", disabled=True, use_container_width=True, key=f"cta_{pid}")
+                elif pid == "hedging_vn30f1m":
+                    if st.button("Chi tiết dự án", type="primary", use_container_width=True, key=f"cta_{pid}"):
+                        st.switch_page(hedging_page)
                 else:
                     st.button("🔧 Hệ thống Backend (Không demo)", type="secondary", disabled=True, use_container_width=True, key=f"cta_{pid}")
                 
-                # Accordion sections
-                highlights = p.get("highlights", [])
-                what = p.get("what_i_did", [])
-                proc = p.get("process", [])
-                
-                if highlights:
-                    _section_box(pid, "highlights", "✨ Điểm nổi bật", _ul_html(highlights))
-                if what:
-                    _section_box(pid, "what", "🛠️ Bạn đã làm gì", _ul_html(what))
-                if proc:
-                    _section_box(pid, "process", "🧭 Quy trình", _ul_html(proc))
+
 
 
 def render_bank():
@@ -367,10 +358,10 @@ def render_securities():
         with col1:
             st.markdown(
                 """
-                <div class="card" style="height: 100%; min-height: 280px;">
-                    <h3 style="margin-top: 0; color: #5B21B6; font-size:1.3rem;">🎯 Bối cảnh & Nhiệm vụ (STAR)</h3>
-                    <p><b>Situation (Bối cảnh):</b> Báo cáo tài chính của các công ty chứng khoán Việt Nam thường được công bố ở dạng tài liệu PDF thô hoặc bảng biểu không đồng nhất qua nhiều kênh khác nhau. Điều này khiến cho việc tổng hợp dữ liệu, so sánh chỉ số và đặc biệt là phân tích chi tiết cấu trúc danh mục đầu tư tự doanh <b>FVTPL</b>, <b>AFS</b> gặp nhiều khó khăn, tốn kém thời gian nhập liệu thủ công.</p>
-                    <p><b>Task (Nhiệm vụ):</b> Xây dựng một giải pháp kỹ thuật tự động hóa để thu thập, chuẩn hóa dữ liệu tài chính đa chiều cho <b>500+ mã</b> doanh nghiệp và chứng khoán toàn thị trường, giúp chuyển đổi dữ liệu thô thành thông tin phân tích có cấu trúc một cách nhanh chóng.</p>
+                <div class="card" style="height: 100%; min-height: 320px;">
+                    <h3 style="margin-top: 0; color: #5B21B6; font-size:1.3rem;">🎯 Bối cảnh &amp; Nhiệm vụ (Situation &amp; Task)</h3>
+                    <p><b>Bối cảnh:</b> Danh mục tự doanh (FVTPL, AFS) là "trái tim" trong hiệu quả hoạt động của các công ty chứng khoán, nhưng dữ liệu này hiện rất khó tiếp cận khi nằm rải rác trong hàng trăm trang thuyết minh BCTC dưới dạng PDF. Nhà đầu tư và chuyên viên phân tích thường mất hàng giờ để tổng hợp thủ công mà vẫn thiếu tính đồng nhất để so sánh giữa các công ty.</p>
+                    <p><b>Nhiệm vụ:</b> Xây dựng một Hệ thống chuyên sâu về Phân tích danh mục tự doanh, tự động hóa việc bóc tách dữ liệu từ 3 báo cáo tài chính cốt lõi (CĐKT, KQKD, LCTT) và đặc biệt là chi tiết danh mục FVTPL/AFS của <b>37+ công ty chứng khoán</b> niêm yết trên thị trường Việt Nam.</p>
                 </div>
                 """,
                 unsafe_allow_html=True
@@ -378,21 +369,21 @@ def render_securities():
         with col2:
             st.markdown(
                 """
-                <div class="card" style="height: 100%; min-height: 280px;">
-                    <h3 style="margin-top: 0; color: #2563EB; font-size:1.3rem;">⚡ Hành động & Kết quả</h3>
-                    <p><b>Action (Hành động):</b>
-                        <ul>
-                            <li>Thiết kế pipeline crawl dữ liệu tự động bằng Python từ các nguồn cung cấp thông tin tài chính uy tín.</li>
-                            <li>Xây dựng mô hình dữ liệu quan hệ tối ưu theo mô hình <b>Star Schema</b> (Dim/Fact) trên hệ quản trị cơ sở dữ liệu.</li>
-                            <li>Tạo hệ thống <b>DAX Measures</b> hiệu năng cao để tính toán biên lợi nhuận ròng, tỷ suất sinh lời ROA, ROE và cơ cấu đóng góp tự doanh.</li>
-                            <li>Thiết kế báo cáo Power BI trực quan dựa trên phương pháp định hướng module (Menu-driven).</li>
+                <div class="card" style="height: 100%; min-height: 320px;">
+                    <h3 style="margin-top: 0; color: #2563EB; font-size:1.3rem;">⚡ Hành động &amp; Kết quả (Action &amp; Result)</h3>
+                    <p><b>Hành động:</b>
+                        <ul style="padding-left: 1.2rem; margin-top: 6px; margin-bottom: 12px;">
+                            <li style="margin-bottom: 6px;"><b>Targeted Extraction:</b> Thiết lập quy trình trích xuất chuyên biệt, tập trung bóc tách các danh mục tài sản tài chính (FVTPL, AFS) từ các bảng thuyết minh PDF vốn là "điểm mù" của dữ liệu truyền thống.</li>
+                            <li style="margin-bottom: 6px;"><b>Data Standardization:</b> Hợp nhất dữ liệu từ <b>37+ công ty chứng khoán</b> vào một cấu trúc chung, cho phép so sánh trực tiếp danh mục, tỷ trọng đầu tư và biến động tài sản giữa các đơn vị.</li>
+                            <li style="margin-bottom: 6px;"><b>Modeling &amp; Metrics:</b> Thiết kế mô hình dữ liệu quan hệ (Star Schema) để tự động hóa các chỉ số tài chính trọng yếu (NIM, ROA, ROE) kết hợp với cấu trúc danh mục đầu tư.</li>
+                            <li style="margin-bottom: 6px;"><b>Visual Insights:</b> Xây dựng Dashboard Power BI theo phương pháp Menu-driven Design, cho phép người dùng chỉ cần một cú click chuột để "X-ray" toàn bộ danh mục tự doanh của bất kỳ công ty chứng khoán nào.</li>
                         </ul>
                     </p>
-                    <p><b>Result (Kết quả):</b>
-                        <ul>
-                            <li>Tự động hóa hoàn toàn quy trình cập nhật dữ liệu tài chính, giúp <b>tiết kiệm 2 giờ</b> làm việc thủ công mỗi ngày.</li>
-                            <li>Quy trình làm sạch đạt độ chính xác dữ liệu lên tới <b>99.9%</b>.</li>
-                            <li>Trích xuất và trực quan hóa chi tiết cơ cấu tự doanh của toàn ngành chỉ trong <b>vài giây</b>.</li>
+                    <p><b>Kết quả (Value Delivered):</b>
+                        <ul style="padding-left: 1.2rem; margin-top: 6px;">
+                            <li style="margin-bottom: 4px;"><b>Tiết kiệm thời gian:</b> Chuyển đổi công việc tra cứu thủ công kéo dài hàng giờ thành báo cáo chỉ trong <b>vài giây</b>.</li>
+                            <li style="margin-bottom: 4px;"><b>Độ bao phủ:</b> Dữ liệu chuẩn hóa của <b>37+ công ty chứng khoán</b> niêm yết, cung cấp cái nhìn toàn cảnh về khẩu vị đầu tư của toàn ngành.</li>
+                            <li style="margin-bottom: 4px;"><b>Ra quyết định:</b> Giúp nhà đầu tư nhanh chóng nhận diện các biến động lớn trong danh mục tự doanh, từ đó đưa ra quyết định dựa trên dữ liệu (Data-driven) thay vì cảm tính.</li>
                         </ul>
                     </p>
                 </div>
@@ -413,6 +404,148 @@ def render_securities():
             st.image(str(img_path), caption="Kiến trúc quy trình ETL tự động hóa dữ liệu BCTC Chứng khoán", use_container_width=True)
         else:
             st.info("💡 Lưu ý: Hãy đặt sơ đồ kiến trúc tại `assets/previews/etl_pipeline.png` để hiển thị sơ đồ.")
+            
+        # PROJECT WORKFLOW (Long-form layout) section
+        st.markdown(
+            """
+            <style>
+              .workflow-container {
+                max-width: 100%;
+                margin: 32px 0 0 0;
+                padding: 0 10px;
+              }
+              .workflow-section {
+                margin-bottom: 56px;
+                padding-bottom: 40px;
+                border-bottom: 1px dashed rgba(226, 232, 240, 0.8);
+              }
+              .workflow-section:last-child {
+                margin-bottom: 0;
+                padding-bottom: 0;
+                border-bottom: none;
+              }
+              .workflow-header {
+                display: flex;
+                align-items: baseline;
+                gap: 16px;
+                margin-bottom: 20px;
+              }
+              .workflow-num {
+                font-size: 2.2rem;
+                font-weight: 800;
+                color: #5B21B6;
+                font-family: 'JetBrains Mono', 'Plus Jakarta Sans', monospace;
+                line-height: 1;
+                opacity: 0.9;
+              }
+              .workflow-title {
+                font-size: 1.4rem;
+                font-weight: 700;
+                color: #0F172A;
+                margin: 0;
+              }
+              .workflow-desc {
+                font-size: 1.05rem;
+                line-height: 1.8;
+                color: #334155;
+                margin-bottom: 20px;
+                text-align: justify;
+              }
+              .workflow-callout {
+                background: rgba(91, 33, 182, 0.03);
+                border-left: 5px solid #5B21B6;
+                border-radius: 8px;
+                padding: 18px 24px;
+                font-size: 0.95rem;
+                color: #334155;
+                line-height: 1.6;
+                margin-top: 18px;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.01);
+              }
+              .workflow-callout-header {
+                font-weight: 700;
+                color: #1E1B4B;
+                margin-bottom: 6px;
+              }
+            </style>
+            
+            <hr style="border:none; border-top:1px solid rgba(226,232,240,0.8); margin: 32px 0;"/>
+            <h3 style="margin-top:0; font-size:1.6rem; color:#0F172A; margin-bottom: 28px; letter-spacing: -0.02em;">🔄 PROJECT WORKFLOW</h3>
+            
+            <div class="workflow-container">
+              
+              <!-- STEP 1 -->
+              <div class="workflow-section">
+                <div class="workflow-header">
+                  <span class="workflow-num">01</span>
+                  <h4 class="workflow-title">Data Ingestion — Thu thập dữ liệu tự động</h4>
+                </div>
+                <p class="workflow-desc">
+                  Quy trình bắt đầu bằng việc xây dựng hệ thống kết nối tự động tới cổng API SSI FastConnect và các nguồn dữ liệu tài chính uy tín nhằm tải về thông tin giao dịch trực tiếp cùng báo cáo tài chính thô của các công ty chứng khoán. Việc tự động hóa khâu thu thập dữ liệu bằng mã Python (scripts) giúp loại bỏ hoàn toàn các thao tác thủ công vốn tiềm ẩn nhiều sai sót và tốn thời gian. Dữ liệu được trích xuất dưới định dạng JSON/CSV thô (Raw Data) và lưu trữ tạm thời trong phân vùng staging. Quy trình này hoạt động bền bỉ, được lập lịch chạy định kỳ ngoài giờ giao dịch và có cơ chế ghi log chi tiết cùng tự động thử lại (retry) khi gặp sự cố kết nối, đảm bảo tính liên tục và độ tin cậy tuyệt đối của nguồn dữ liệu đầu vào.
+                </p>
+                <div class="workflow-callout">
+                  <div class="workflow-callout-header">🛠️ <b>Giải pháp Kỹ thuật & Công cụ sử dụng:</b></div>
+                  <div style="margin-top: 6px;">
+                    Sử dụng ngôn ngữ <b>Python</b> kết hợp các thư viện chuyên dụng như <code>requests</code> để tương tác API, <code>pandas</code> để xử lý dữ liệu cấu trúc ban đầu. Cơ chế tải dữ liệu được thiết kế bất đồng bộ giúp tối ưu hóa thời gian phản hồi và lưu trữ file thô dưới dạng nén để tiết kiệm băng thông.
+                  </div>
+                </div>
+              </div>
+              
+              <!-- STEP 2 -->
+              <div class="workflow-section">
+                <div class="workflow-header">
+                  <span class="workflow-num">02</span>
+                  <h4 class="workflow-title">Transformation &amp; Modeling — Xử lý &amp; Mô hình hóa dữ liệu tài chính</h4>
+                </div>
+                <p class="workflow-desc">
+                  Sau khi thu thập, dữ liệu thô thường ở dạng phi cấu trúc và chứa nhiều thông tin không đồng nhất giữa các doanh nghiệp hoặc bị khuyết thiếu các chỉ tiêu do thay đổi thông tư kế toán. Tại bước này, các đoạn mã Python thực hiện việc tiền xử lý chuyên sâu: làm sạch dữ liệu, lọc bỏ các dòng trùng lặp, xử lý các giá trị null bằng thuật toán nội suy và chuẩn hóa định dạng dữ liệu số/ngày tháng. Tiếp theo, dữ liệu được chuyển đổi cấu trúc phức tạp từ dạng phẳng sang mô hình dữ liệu quan hệ <b>Star Schema</b> (Sơ đồ hình sao) tối ưu. Bằng việc phân tách rõ ràng thành các bảng chiều (Dimension Tables như Dim_Company, Dim_Time) và bảng sự kiện (Fact Tables như Fact_BalanceSheet, Fact_IncomeStatement), mô hình này giúp loại bỏ hoàn toàn sự dư thừa dữ liệu và chuẩn bị một cấu trúc tối ưu cho việc truy vấn phân tích đa chiều.
+                </p>
+                <div class="workflow-callout">
+                  <div class="workflow-callout-header">🧠 <b>Thiết kế Mô hình & Xử lý Dữ liệu:</b></div>
+                  <div style="margin-top: 6px;">
+                    Sử dụng thư viện <b>pandas</b> để thực hiện các thao tác xoay trục (Unpivot) dữ liệu tài chính phức tạp, chuẩn hóa mã định danh doanh nghiệp. Thiết kế mô hình Star Schema giúp tối ưu hóa hiệu năng truy vấn SQL và đơn giản hóa các phép tính lũy kế, so sánh cùng kỳ trong các bước phân tích sau.
+                  </div>
+                </div>
+              </div>
+              
+              <!-- STEP 3 -->
+              <div class="workflow-section">
+                <div class="workflow-header">
+                  <span class="workflow-num">03</span>
+                  <h4 class="workflow-title">Data Storage &amp; Management — Lưu trữ &amp; Quản trị dữ liệu</h4>
+                </div>
+                <p class="workflow-desc">
+                  Để đảm bảo tính nhất quán và khả năng truy cập nhanh chóng, toàn bộ Fact và Dimension tables sau khi xử lý sẽ được lưu trữ tập trung vào hệ quản trị cơ sở dữ liệu quan hệ <b>PostgreSQL</b>. PostgreSQL đóng vai trò là "Single Source of Truth" (Nguồn dữ liệu tin cậy duy nhất) cho toàn bộ hệ thống phân tích. Việc lưu trữ trong cơ sở dữ liệu quan hệ giúp duy trì tính toàn vẹn dữ liệu thông qua ràng buộc khóa chính/khóa ngoại (Primary/Foreign Keys) chặt chẽ. Đồng thời, việc tối ưu hóa hiệu năng được thực hiện bằng cách tạo các chỉ mục (Indexes) trên các trường thường xuyên dùng để lọc hoặc kết hợp bảng (Join), giúp tăng tốc độ truy xuất dữ liệu từ hàng triệu bản ghi xuống chỉ còn vài miligiây, sẵn sàng phục vụ cho các báo cáo trực quan hoặc các thuật toán phân tích nâng cao.
+                </p>
+                <div class="workflow-callout">
+                  <div class="workflow-callout-header">🗄️ <b>Quản trị Cơ sở Dữ liệu & Tối ưu hóa:</b></div>
+                  <div style="margin-top: 6px;">
+                    Triển khai trên <b>PostgreSQL Database</b>. Thiết lập các chỉ mục tối ưu (B-Tree Indexes) trên các trường khóa ngoại, thiết kế các Stored Procedures và Views để chuẩn bị sẵn các tập dữ liệu tổng hợp, giảm thiểu tải xử lý cho công cụ hiển thị Power BI.
+                  </div>
+                </div>
+              </div>
+              
+              <!-- STEP 4 -->
+              <div class="workflow-section">
+                <div class="workflow-header">
+                  <span class="workflow-num">04</span>
+                  <h4 class="workflow-title">Visualization &amp; Operation — Trực quan hóa &amp; Tự động hóa vận hành</h4>
+                </div>
+                <p class="workflow-desc">
+                  Ở lớp ứng dụng cuối cùng, **Power BI** được kết nối trực tiếp vào cơ sở dữ liệu PostgreSQL để phục vụ việc trực quan hóa dữ liệu. Giao diện báo cáo được thiết kế theo phương pháp mô-đun hóa, giúp người dùng dễ dàng chuyển đổi giữa các góc nhìn khác nhau và đi sâu vào phân tích chi tiết cơ cấu tự doanh (FVTPL, AFS, HTM) của từng doanh nghiệp. Để toàn bộ hệ thống vận hành trơn tru và tự động hoàn toàn, một quy trình điều phối (Orchestration) được thiết lập. Công cụ lập lịch sẽ kích hoạt pipeline ETL chạy định kỳ ngoài giờ giao dịch hằng ngày, tự động kéo dữ liệu mới, chạy script xử lý, cập nhật PostgreSQL và tự động đẩy dữ liệu (refresh) lên Power BI. Người xem luôn được tiếp cận với các thông tin phân tích mới nhất mà không cần bất kỳ sự can thiệp thủ công nào.
+                </p>
+                <div class="workflow-callout">
+                  <div class="workflow-callout-header">⚡ <b>Vận hành Tự động & Trực quan hóa tương tác:</b></div>
+                  <div style="margin-top: 6px;">
+                    Xây dựng báo cáo trên <b>Power BI Desktop & Service</b> sử dụng ngôn ngữ <b>DAX</b> để tính toán các chỉ số tài chính động. Tích hợp <b>Windows Task Scheduler</b> (hoặc Cron jobs) để tự động hóa toàn bộ chu kỳ ETL hằng ngày, giúp hệ thống vận hành liên tục và ổn định.
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
             
     with tab_code:
         st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
@@ -527,6 +660,744 @@ ORDER BY company_code, fiscal_year DESC, fiscal_quarter DESC;
             """,
             unsafe_allow_html=True
         )
+
+
+def render_hedging():
+    # Page specific CSS styles
+    st.markdown(
+        """
+        <style>
+          .title-badge {
+            background: #EEEDFE; color: #534AB7;
+            font-size: 11px; font-weight: 500; padding: 3px 10px;
+            border-radius: 20px; border: 1px solid #AFA9EC;
+            letter-spacing: .3px; text-transform: uppercase;
+            display: inline-block;
+            vertical-align: middle;
+            margin-left: 10px;
+          }
+          .tech-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+          .tech-tag {
+            background: #EFEFED; color: #5F5E5A; font-size: 12px;
+            font-weight: 500; padding: 5px 12px; border-radius: 20px; font-family: 'JetBrains Mono', monospace;
+          }
+          .tech-tag.purple { background: #EEEDFE; color: #534AB7; }
+          .tech-tag.teal { background: #E1F5EE; color: #0F6E56; }
+
+          /* Pipeline Step */
+          .pipeline-step {
+            background: #FFFFFF; border: 1px solid #E2E1DC;
+            border-radius: 12px; padding: 18px 16px; position: relative;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            height: 100%;
+          }
+          .step-num {
+            font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+            color: #6C63D5; margin-bottom: 6px; font-family: 'JetBrains Mono', monospace;
+          }
+          .step-title { font-size: 13px; font-weight: 600; color: #1A1A19; margin-bottom: 8px; }
+          .step-items { list-style: none; padding: 0; }
+          .step-items li {
+            font-size: 12px; color: #5F5E5A; padding: 3px 0;
+            border-bottom: 1px solid #EFEFED; line-height: 1.5;
+          }
+          .step-items li:last-child { border-bottom: none; }
+          .step-items li::before { content: '•  '; color: #6C63D5; margin-right: 4px; }
+
+          /* State Machine */
+          .sm-node {
+            border-radius: 10px; padding: 12px 16px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+          }
+          .sm-node.purple { background: #EEEDFE; border: 1.5px solid #AFA9EC; }
+          .sm-node.teal { background: #E1F5EE; border: 1.5px solid #9FE1CB; }
+          .sm-node-label { font-size: 13px; font-weight: 600; color: #3C3489; }
+          .sm-node.teal .sm-node-label { color: #0F6E56; }
+          .sm-node-sub { font-size: 11px; color: #534AB7; margin-top: 3px; }
+          .sm-node.teal .sm-node-sub { color: #1D9E75; }
+
+          .sm-arrow {
+            display: flex; align-items: center; gap: 8px; padding: 6px 0;
+          }
+          .sm-arrow-line { flex: 1; height: 1px; background: #E2E1DC; }
+          .sm-arrow-cond {
+            font-size: 11px; color: #888780; background: #F7F7F6;
+            padding: 3px 10px; border-radius: 20px; border: 1px solid #E2E1DC;
+            white-space: nowrap;
+          }
+
+          /* Email preview */
+          .email-preview {
+            background: #FFFFFF; border: 1px solid #E2E1DC; border-radius: 14px; overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+          }
+          .email-header {
+            background: #2D2B55; padding: 14px 18px;
+          }
+          .email-subject { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+          .email-meta { font-size: 11px; color: rgba(255,255,255,.55); }
+          .email-body { padding: 18px; }
+          .email-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #EFEFED; font-size: 13px; }
+          .email-row:last-child { border-bottom: none; }
+          .email-row .lbl { color: #888780; }
+          .email-row .val { font-weight: 500; color: #1A1A19; }
+          .val.red { color: #D85A30; }
+          .val.green { color: #1D9E75; }
+          .val.purple { color: #6C63D5; }
+
+          .email-footer {
+            margin: 12px 18px 18px; background: #EEEDFE; border-radius: 8px;
+            padding: 10px 14px; font-size: 12px; color: #3C3489; line-height: 1.6;
+          }
+          .email-footer strong { font-weight: 600; }
+
+          /* Table styling */
+          .bt-table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid #E2E1DC; }
+          table.bt-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+          table.bt-table thead th {
+              background: #F7F7F6; padding: 10px 14px; text-align: left;
+              font-size: 11px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase;
+              color: #888780; border-bottom: 1px solid #E2E1DC;
+          }
+          table.bt-table tbody td { padding: 10px 14px; border-bottom: 1px solid #EFEFED; color: #5F5E5A; }
+          table.bt-table tbody tr:last-child td { border-bottom: none; }
+          table.bt-table tbody tr:hover td { background: #F7F7F6; }
+
+          .pill {
+              display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 11px; font-weight: 600;
+          }
+          .pill.best { background: #E1F5EE; color: #0F6E56; }
+          .pill.mid { background: #EEEDFE; color: #3C3489; }
+          .pill.low { background: #FAECE7; color: #993C1D; }
+          
+          /* Streamlit tabs override for this page */
+          .stTabs [data-baseweb="tab-list"] {
+              gap: 8px;
+          }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+    
+    st.markdown(
+        """
+        <div class="project-header" style="margin-bottom: 20px;">
+            <div style="font-size: 26px; font-weight: 600; color: #0F172A; display: flex; align-items: center; flex-wrap: wrap;">
+                📉 VN30F1M Intraday Hedging System
+                <span class="title-badge">R · Algo Trading</span>
+            </div>
+            <p class="muted" style="font-size: 1.05rem; margin-top: 10px; line-height: 1.7;">
+                Hệ thống giao dịch phái sinh tự động hóa toàn diện cho hợp đồng tương lai VN30F1M — từ ETL dữ liệu OHLCV intraday, 
+                phát hiện tín hiệu short dựa trên MA spread ratio &amp; streak count, đến backtest walk-forward và gửi cảnh báo email theo state machine thời gian thực.
+            </p>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+    tab_overview, tab_pipeline, tab_code, tab_backtest, tab_alert = st.tabs([
+        "Tổng quan", "Quy trình", "Code mẫu", "Backtest", "Alert Email"
+    ])
+    
+    with tab_overview:
+        st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
+        col1, col2 = st.columns(2)
+        with col1:
+            st.markdown(
+                """
+                <div class="card" style="height: 100%; min-height: 250px;">
+                    <h3 style="margin-top: 0; color: #5B21B6; font-size:1.3rem;">🎯 Bối cảnh &amp; Nhiệm vụ</h3>
+                    <p><b>Situation (Bối cảnh):</b> Giao dịch intraday VN30F1M đòi hỏi phản ứng tức thì khi tín hiệu hình thành — không thể theo dõi màn hình liên tục suốt phiên 9:00–14:30.</p>
+                    <p><b>Task (Nhiệm vụ):</b> Xây dựng pipeline khép kín: tự động lấy dữ liệu OHLCV, tính toán tín hiệu theo bộ rules mean-reversion, backtest và tối ưu tham số, phát cảnh báo email realtime khi điều kiện thỏa mãn.</p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        with col2:
+            st.markdown(
+                """
+                <div class="card" style="height: 100%; min-height: 250px;">
+                    <h3 style="margin-top: 0; color: #2563EB; font-size:1.3rem;">⚡ Hành động &amp; Kết quả</h3>
+                    <p><b>Action &amp; Result (Hành động &amp; Kết quả):</b>
+                        <ul>
+                            <li>ETL OHLCV 1-min từ SSI FastConnect, chuẩn hóa bằng R <code>data.table</code></li>
+                            <li>Thiết kế <code>calc_signals</code> với MA spread ratio, streak count, Signal5 filter, hedge nhánh</li>
+                            <li>Candlestick chart (<code>echarts4r</code>) tích hợp scatter signal + TP annotation</li>
+                            <li>State machine <code>WAIT_SHORT ↔ WAIT_OUT</code> + email alert realtime</li>
+                            <li>Grid search spread/streak → tối ưu tham số, walk-forward backtest</li>
+                        </ul>
+                    </p>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+            
+        st.markdown("<div style='height:16px;'></div>", unsafe_allow_html=True)
+        
+        st.markdown(
+            """
+            <div class="card">
+                <h3 style="margin-top: 0; color: #0F172A; font-size:1.3rem; margin-bottom:16px;">Tính năng cốt lõi</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">
+                    <div style="border: 1px solid rgba(226,232,240,0.8); border-radius: 12px; padding: 16px; background: rgba(255,255,255,0.5);">
+                        <div style="font-size: 20px; margin-bottom: 8px;">📡</div>
+                        <div style="font-size: 13px; font-weight: 600; color: #0F172A; margin-bottom: 6px;">ETL Intraday</div>
+                        <div style="font-size: 12px; color: #475569; line-height: 1.6;">Tự động lấy OHLCV từ SSI API, chuẩn hóa theo khung thời gian 1-min / 5-min, lưu trữ RDS.</div>
+                    </div>
+                    <div style="border: 1px solid rgba(226,232,240,0.8); border-radius: 12px; padding: 16px; background: rgba(255,255,255,0.5);">
+                        <div style="font-size: 20px; margin-bottom: 8px;">🧮</div>
+                        <div style="font-size: 13px; font-weight: 600; color: #0F172A; margin-bottom: 6px;">Signal Engine</div>
+                        <div style="font-size: 12px; color: #475569; line-height: 1.6;">MA spread ratio, negative streak, had_positive_today flag, Signal5 confirmation, hedge nhánh early entry.</div>
+                    </div>
+                    <div style="border: 1px solid rgba(226,232,240,0.8); border-radius: 12px; padding: 16px; background: rgba(255,255,255,0.5);">
+                        <div style="font-size: 20px; margin-bottom: 8px;">📊</div>
+                        <div style="font-size: 13px; font-weight: 600; color: #0F172A; margin-bottom: 6px;">Backtest Engine</div>
+                        <div style="font-size: 12px; color: #475569; line-height: 1.6;">Grid search tham số, walk-forward validation, candlestick chart tích hợp trade annotation.</div>
+                    </div>
+                    <div style="border: 1px solid rgba(226,232,240,0.8); border-radius: 12px; padding: 16px; background: rgba(255,255,255,0.5);">
+                        <div style="font-size: 20px; margin-bottom: 8px;">📧</div>
+                        <div style="font-size: 13px; font-weight: 600; color: #0F172A; margin-bottom: 6px;">Alert Email</div>
+                        <div style="font-size: 12px; color: #475569; line-height: 1.6;">State machine persist qua file, 3 loại email: SHORT signal, EXIT signal, Daily summary.</div>
+                    </div>
+                    <div style="border: 1px solid rgba(226,232,240,0.8); border-radius: 12px; padding: 16px; background: rgba(255,255,255,0.5);">
+                        <div style="font-size: 20px; margin-bottom: 8px;">🔁</div>
+                        <div style="font-size: 13px; font-weight: 600; color: #0F172A; margin-bottom: 6px;">Auto Refresh</div>
+                        <div style="font-size: 12px; color: #475569; line-height: 1.6;">HTML chart tự động refresh mỗi 5 phút trong phiên, xuất báo cáo cuối ngày.</div>
+                    </div>
+                    <div style="border: 1px solid rgba(226,232,240,0.8); border-radius: 12px; padding: 16px; background: rgba(255,255,255,0.5);">
+                        <div style="font-size: 20px; margin-bottom: 8px;">🎯</div>
+                        <div style="font-size: 13px; font-weight: 600; color: #0F172A; margin-bottom: 6px;">TP Tiers</div>
+                        <div style="font-size: 12px; color: #475569; line-height: 1.6;">Take-profit nhiều mức, streak-based exit, stop-loss tự động. Logic exit tích hợp trong <code>get_trade_log</code>.</div>
+                    </div>
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+        
+        st.markdown(
+            """
+            <div class="tech-tags">
+                <span class="tech-tag purple">Data Processing</span>
+                <span class="tech-tag purple">Automated Scripting</span>
+                <span class="tech-tag purple">Interactive Charts</span>
+                <span class="tech-tag teal">SSI FastConnect</span>
+                <span class="tech-tag teal">VN30F1M Futures</span>
+                <span class="tech-tag">Logic Implementation</span>
+                <span class="tech-tag">Backtesting</span>
+                <span class="tech-tag">Walk-forward</span>
+                <span class="tech-tag">Grid Search</span>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+    with tab_pipeline:
+        st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
+        st.markdown("### 🔄 Quy trình ETL &amp; Kiến trúc Dữ liệu")
+        
+        cols_step = st.columns(4)
+        with cols_step[0]:
+            st.markdown(
+                """
+                <div class="pipeline-step">
+                    <div class="step-num">01 / Extract</div>
+                    <div class="step-title">Data Ingestion</div>
+                    <ul class="step-items">
+                        <li>SSI FastConnect API</li>
+                        <li>OHLCV 1-min intraday</li>
+                        <li>VN30F1M tick data</li>
+                        <li>Lịch phiên, trading hours</li>
+                    </ul>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        with cols_step[1]:
+            st.markdown(
+                """
+                <div class="pipeline-step">
+                    <div class="step-num">02 / Transform</div>
+                    <div class="step-title">Signal Processing</div>
+                    <ul class="step-items">
+                        <li>Chuẩn hóa OHLCV (data.table)</li>
+                        <li>Tính MA &amp; spread ratio</li>
+                        <li>Đếm streak âm liên tiếp</li>
+                        <li>Signal5 + hedge nhánh flag</li>
+                    </ul>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        with cols_step[2]:
+            st.markdown(
+                """
+                <div class="pipeline-step">
+                    <div class="step-num">03 / Validate</div>
+                    <div class="step-title">Backtest Engine</div>
+                    <ul class="step-items">
+                        <li>get_trade_log() simulation</li>
+                        <li>TP tiers + streak exit</li>
+                        <li>Grid search tham số</li>
+                        <li>Walk-forward validation</li>
+                    </ul>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        with cols_step[3]:
+            st.markdown(
+                """
+                <div class="pipeline-step">
+                    <div class="step-num">04 / Alert</div>
+                    <div class="step-title">Output Layer</div>
+                    <ul class="step-items">
+                        <li>State machine persist file</li>
+                        <li>Email alert realtime</li>
+                        <li>HTML chart auto-refresh</li>
+                        <li>Daily P&amp;L summary</li>
+                    </ul>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+            
+        st.markdown("<hr class='section-divider'>", unsafe_allow_html=True)
+        
+        col_flow, col_rules = st.columns(2)
+        with col_flow:
+            st.markdown(
+                """
+                <div class="card" style="height: 100%;">
+                    <h3 style="margin-top: 0; color: #0F172A; font-size:1.15rem; margin-bottom: 16px;">State machine — ALERT_EMAIL_V2</h3>
+                    <div class="state-machine-wrap">
+                        <div class="sm-node purple">
+                            <div class="sm-node-label">WAIT_SHORT</div>
+                            <div class="sm-node-sub">Chờ tín hiệu short đủ điều kiện</div>
+                        </div>
+                        <div class="sm-arrow">
+                            <div class="sm-arrow-line"></div>
+                            <div class="sm-arrow-cond">spread &lt; threshold &amp; streak &le; -N &amp; Signal5 &check;</div>
+                            <div class="sm-arrow-line"></div>
+                        </div>
+                        <div style="text-align:center; font-size:12px; margin-bottom:6px; color:#475569;">↓ Gửi email SHORT signal</div>
+                        <div class="sm-node teal">
+                            <div class="sm-node-label">WAIT_OUT</div>
+                            <div class="sm-node-sub">Đang giữ lệnh — chờ điều kiện exit</div>
+                        </div>
+                        <div class="sm-arrow">
+                            <div class="sm-arrow-line"></div>
+                            <div class="sm-arrow-cond">TP hit / streak đảo chiều / EOD</div>
+                            <div class="sm-arrow-line"></div>
+                        </div>
+                        <div style="text-align:center; font-size:12px; margin-bottom:6px; color:#475569;">↓ Gửi email EXIT signal</div>
+                        <div class="sm-node purple">
+                            <div class="sm-node-label">WAIT_SHORT</div>
+                            <div class="sm-node-sub">Reset — chờ tín hiệu tiếp theo</div>
+                        </div>
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+            
+        with col_rules:
+            st.markdown(
+                """
+                <div class="card" style="height: 100%;">
+                    <h3 style="margin-top: 0; color: #0F172A; font-size:1.15rem; margin-bottom: 16px;">Entry &amp; exit rules</h3>
+                    <div style="margin-bottom:16px;">
+                        <div style="font-size:13px; font-weight:600; color:#0F6E56; margin-bottom:8px;">✅ Điều kiện SHORT (Entry)</div>
+                        <div style="display:flex; flex-direction:column; gap:6px;">
+                            <div style="background:#E1F5EE; border-radius:8px; padding:9px 12px; font-size:12px; color:#0F6E56; border-left: 3px solid #1D9E75;">MA spread ratio &lt; ngưỡng âm (từ grid search)</div>
+                            <div style="background:#E1F5EE; border-radius:8px; padding:9px 12px; font-size:12px; color:#0F6E56; border-left: 3px solid #1D9E75;">Streak âm liên tiếp &le; -N candle</div>
+                            <div style="background:#E1F5EE; border-radius:8px; padding:9px 12px; font-size:12px; color:#0F6E56; border-left: 3px solid #1D9E75;">had_positive_today = FALSE (chưa có candle dương trong ngày)</div>
+                            <div style="background:#E1F5EE; border-radius:8px; padding:9px 12px; font-size:12px; color:#0F6E56; border-left: 3px solid #1D9E75;">Signal5 xác nhận (Volume spike + spread cực âm)</div>
+                            <div style="background:#EEEDFE; border-radius:8px; padding:9px 12px; font-size:12px; color:#3C3489; border-left: 3px solid #6C63D5;">Hedge nhánh: early entry khi thỏa điều kiện phụ đặc biệt</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="font-size:13px; font-weight:600; color:#993C1D; margin-bottom:8px;">❌ Điều kiện EXIT</div>
+                        <div style="display:flex; flex-direction:column; gap:6px;">
+                            <div style="background:#FAECE7; border-radius:8px; padding:9px 12px; font-size:12px; color:#993C1D; border-left: 3px solid #D85A30;">Take-profit tier 1: đạt mốc +X pts</div>
+                            <div style="background:#FAECE7; border-radius:8px; padding:9px 12px; font-size:12px; color:#993C1D; border-left: 3px solid #D85A30;">Streak đảo chiều về dương (giá tăng trở lại)</div>
+                            <div style="background:#FAECE7; border-radius:8px; padding:9px 12px; font-size:12px; color:#993C1D; border-left: 3px solid #D85A30;">Stop-loss tự động: chạm mốc -Y pts</div>
+                            <div style="background:#FAECE7; border-radius:8px; padding:9px 12px; font-size:12px; color:#993C1D; border-left: 3px solid #D85A30;">Hết giờ giao dịch phiên intraday (14:30)</div>
+                        </div>
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+
+    with tab_code:
+        st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
+        st.markdown("### 💻 Mã nguồn Kỹ thuật Tiêu biểu (R)")
+        
+        st.markdown(
+            """
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px; margin-top: 12px;">
+                <span style="background: #6C63D5; color: white; padding: 3px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: bold; text-transform: uppercase;">R</span>
+                <span style="font-weight: 700; color: #0F172A; font-size: 1.05rem;">calc_signals() — tính toán MA spread, streak, Signal5</span>
+            </div>
+            """, 
+            unsafe_allow_html=True
+        )
+        st.code(
+            """
+calc_signals <- function(dt, ma_short = 5, ma_long = 20, spread_thresh = -0.003, min_streak = -3) {
+  dt[, ma_s  := frollmean(close, ma_short, align = "right")]
+  dt[, ma_l  := frollmean(close, ma_long,  align = "right")]
+
+  # MA spread ratio: (MA_short - MA_long) / MA_long
+  dt[, spread := (ma_s - ma_l) / ma_l]
+
+  # Streak: đếm candle âm liên tiếp (reset về 0 khi dương)
+  dt[, streak := Reduce(function(acc, x) ifelse(x < 0, acc - 1, 0),
+                         close - shift(close), accumulate = TRUE)]
+
+  # had_positive_today: đã có candle dương trong ngày hiện tại chưa
+  dt[, had_positive_today := cumany((close - shift(close)) > 0), by = date]
+
+  # Signal5: xác nhận thêm — volume spike + spread cực âm
+  dt[, signal5 := spread < spread_thresh * 1.5 & volume > quantile(volume, 0.7)]
+
+  # Entry signal tổng hợp
+  dt[, short_signal := spread < spread_thresh &
+                        streak <= min_streak &
+                        had_positive_today == FALSE &
+                        signal5 == TRUE]
+  return(dt)
+}
+            """,
+            language="r"
+        )
+        
+        st.markdown("<div style='height: 16px;'></div>", unsafe_allow_html=True)
+        
+        st.markdown(
+            """
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                <span style="background: #6C63D5; color: white; padding: 3px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: bold; text-transform: uppercase;">R</span>
+                <span style="font-weight: 700; color: #0F172A; font-size: 1.05rem;">ALERT_EMAIL_V2() — state machine + gửi email cảnh báo</span>
+            </div>
+            """, 
+            unsafe_allow_html=True
+        )
+        st.code(
+            """
+ALERT_EMAIL_V2 <- function(dt_latest, state_file = "state.rds") {
+
+  # Load state từ file (persist giữa các lần chạy)
+  state <- if (file.exists(state_file)) readRDS(state_file) else list(mode = "WAIT_SHORT")
+
+  last   <- tail(dt_latest, 1)
+  signal <- last$short_signal
+
+  if (state$mode == "WAIT_SHORT" && signal) {
+    # → Phát tín hiệu SHORT, chuyển sang WAIT_OUT
+    .send_email(
+      subject = glue("[SIGNAL] SHORT VN30F1M — {format(Sys.time(), '%H:%M')}"),
+      body    = .build_short_body(last)
+    )
+    state <- list(mode = "WAIT_OUT", entry_price = last$close,
+                   entry_time = Sys.time(), spread_at_entry = last$spread)
+
+  } else if (state$mode == "WAIT_OUT") {
+    exit_hit <- (last$close <= state$entry_price - 4) ||   # TP
+                (last$streak >= 0)                          ||   # Streak đảo
+                (format(Sys.time(), "%H%M") >= "1430")          # EOD
+
+    if (exit_hit) {
+      pnl <- state$entry_price - last$close
+      .send_email(
+        subject = glue("[EXIT] VN30F1M — PnL: {round(pnl,1)} pts"),
+        body    = .build_exit_body(last, state, pnl)
+      )
+      state <- list(mode = "WAIT_SHORT")
+    }
+  }
+
+  saveRDS(state, state_file)
+}
+            """,
+            language="r"
+        )
+
+    with tab_backtest:
+        st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
+        st.markdown("### 📊 Kết quả Backtest &amp; Tối ưu hóa tham số")
+        
+        # KPI Row
+        col_kpi1, col_kpi2, col_kpi3, col_kpi4 = st.columns(4)
+        with col_kpi1:
+            st.markdown(
+                """
+                <div class="kpi" style="text-align: center;">
+                    <div style="font-size: 11px; color: #888780; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .4px;">Win rate</div>
+                    <div style="font-size: 22px; font-weight: 600; color: #1D9E75;">68.4%</div>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        with col_kpi2:
+            st.markdown(
+                """
+                <div class="kpi" style="text-align: center;">
+                    <div style="font-size: 11px; color: #888780; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .4px;">Avg profit / trade</div>
+                    <div style="font-size: 22px; font-weight: 600; color: #1A1A19;">+4.2 pts</div>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        with col_kpi3:
+            st.markdown(
+                """
+                <div class="kpi" style="text-align: center;">
+                    <div style="font-size: 11px; color: #888780; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .4px;">Max drawdown</div>
+                    <div style="font-size: 22px; font-weight: 600; color: #D85A30;">-12.1 pts</div>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+        with col_kpi4:
+            st.markdown(
+                """
+                <div class="kpi" style="text-align: center;">
+                    <div style="font-size: 11px; color: #888780; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .4px;">Tổng trade</div>
+                    <div style="font-size: 22px; font-weight: 600; color: #6C63D5;">247</div>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+            
+        st.markdown("<div style='height:16px;'></div>", unsafe_allow_html=True)
+        
+        st.markdown(
+            """
+            <div class="card">
+                <h3 style="margin-top: 0; color: #0F172A; font-size:1.15rem; margin-bottom: 16px;">Grid search — spread threshold &amp; court streak</h3>
+                <div class="bt-table-wrap">
+                    <table class="bt-table">
+                        <thead>
+                            <tr>
+                                <th>Spread threshold</th>
+                                <th>Min streak</th>
+                                <th>Signal5</th>
+                                <th>Win rate</th>
+                                <th>Avg profit</th>
+                                <th>Max DD</th>
+                                <th>Tổng trade</th>
+                                <th>Đánh giá</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="font-family: 'JetBrains Mono', monospace;">-0.0025</td>
+                                <td>-3</td>
+                                <td>✓</td>
+                                <td style="color:#1D9E75; font-weight:500;">68.4%</td>
+                                <td>+4.2 pts</td>
+                                <td style="color:#D85A30;">-12.1</td>
+                                <td>247</td>
+                                <td><span class="pill best">Best</span></td>
+                            </tr>
+                            <tr>
+                                <td style="font-family: 'JetBrains Mono', monospace;">-0.0020</td>
+                                <td>-3</td>
+                                <td>✓</td>
+                                <td>63.1%</td>
+                                <td>+3.8 pts</td>
+                                <td style="color:#D85A30;">-14.5</td>
+                                <td>312</td>
+                                <td><span class="pill mid">Tốt</span></td>
+                            </tr>
+                            <tr>
+                                <td style="font-family: 'JetBrains Mono', monospace;">-0.0025</td>
+                                <td>-4</td>
+                                <td>✓</td>
+                                <td>71.2%</td>
+                                <td>+3.1 pts</td>
+                                <td style="color:#D85A30;">-8.9</td>
+                                <td>118</td>
+                                <td><span class="pill mid">Tốt</span></td>
+                            </tr>
+                            <tr>
+                                <td style="font-family: 'JetBrains Mono', monospace;">-0.0015</td>
+                                <td>-2</td>
+                                <td>✗</td>
+                                <td>51.8%</td>
+                                <td>+1.4 pts</td>
+                                <td style="color:#D85A30;">-21.3</td>
+                                <td>489</td>
+                                <td><span class="pill low">Nhiều noise</span></td>
+                            </tr>
+                            <tr>
+                                <td style="font-family: 'JetBrains Mono', monospace;">-0.0030</td>
+                                <td>-5</td>
+                                <td>✓</td>
+                                <td>74.5%</td>
+                                <td>+2.8 pts</td>
+                                <td style="color:#D85A30;">-7.2</td>
+                                <td>53</td>
+                                <td><span class="pill low">Ít signal</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top:12px; font-size:11px; color:#888780;">
+                    * Số liệu trên đây là kết quả backtest mô phỏng tham chiếu từ hệ thống.
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+        
+        st.markdown("<div style='height:16px;'></div>", unsafe_allow_html=True)
+        
+        st.markdown(
+            """
+            <div class="card">
+                <h3 style="margin-top: 0; color: #0F172A; font-size:1.15rem; margin-bottom: 16px;">Phương pháp walk-forward</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px;">
+                    <div style="border:1px solid #E2E1DC; border-radius:10px; padding:14px; background:rgba(255,255,255,0.4);">
+                        <div style="font-size:12px; font-weight:600; color:#6C63D5; margin-bottom:6px;">In-sample (Train)</div>
+                        <div style="font-size:12px; color:#5F5E5A; line-height:1.6;">60 ngày giao dịch. Chạy Grid search để tìm kiếm bộ tham số tối ưu (Spread threshold, Streak) trên tập dữ liệu lịch sử này.</div>
+                    </div>
+                    <div style="border:1px solid #E2E1DC; border-radius:10px; padding:14px; background:rgba(255,255,255,0.4);">
+                        <div style="font-size:12px; font-weight:600; color:#0F6E56; margin-bottom:6px;">Out-of-sample (Test)</div>
+                        <div style="font-size:12px; color:#5F5E5A; line-height:1.6;">20 ngày giao dịch tiếp theo. Kiểm nghiệm hiệu năng bằng bộ tham số tối ưu từ In-sample để đánh giá mức độ Overfitting.</div>
+                    </div>
+                    <div style="border:1px solid #E2E1DC; border-radius:10px; padding:14px; background:rgba(255,255,255,0.4);">
+                        <div style="font-size:12px; font-weight:600; color:#D85A30; margin-bottom:6px;">Roll forward</div>
+                        <div style="font-size:12px; color:#5F5E5A; line-height:1.6;">Tịnh tiến cửa sổ thời gian thêm 20 ngày và lặp lại liên tục quy trình Train-Test, so sánh tỉ mỉ hiệu năng giữa hai tập để đảm bảo độ tin cậy.</div>
+                    </div>
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+    with tab_alert:
+        st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
+        
+        col_sm, col_preview = st.columns([1, 1.2])
+        
+        with col_sm:
+            st.markdown(
+                """
+                <div class="card" style="height: 100%;">
+                    <h3 style="margin-top: 0; color: #0F172A; font-size:1.15rem; margin-bottom: 16px;">State Machine &amp; Tự động hóa</h3>
+                    <div class="sm-node purple" style="margin-bottom:6px;">
+                        <div class="sm-node-label">WAIT_SHORT</div>
+                        <div class="sm-node-sub">Chờ điều kiện short</div>
+                    </div>
+                    <div style="text-align:center; padding:4px 0;">
+                        <div style="font-size:11px; color:#888780; margin-bottom:2px;">↓ spread &lt; thresh &amp; streak &le; -N &amp; Signal5</div>
+                        <div style="font-size:11px; color:#6C63D5; font-weight:500;">→ Gửi email SHORT</div>
+                    </div>
+                    <div class="sm-node teal" style="margin:6px 0;">
+                        <div class="sm-node-label">WAIT_OUT</div>
+                        <div class="sm-node-sub">Giữ lệnh, theo dõi exit</div>
+                    </div>
+                    <div style="text-align:center; padding:4px 0;">
+                        <div style="font-size:11px; color:#888780; margin-bottom:2px;">↓ TP hit / streak đảo / EOD</div>
+                        <div style="font-size:11px; color:#1D9E75; font-weight:500;">→ Gửi email EXIT</div>
+                    </div>
+                    <div class="sm-node purple" style="margin-bottom:16px;">
+                        <div class="sm-node-label">WAIT_SHORT</div>
+                        <div class="sm-node-sub">Reset, chờ signal tiếp</div>
+                    </div>
+                    
+                    <hr style="border:none; border-top:1px solid #E2E1DC; margin:16px 0;">
+                    <div style="font-size:12px; font-weight:600; color:#888780; margin-bottom:10px; text-transform:uppercase; letter-spacing:.5px;">Daily summary</div>
+                    <div style="background:#F7F7F6; border-radius:8px; padding:12px; font-size:12px; color:#5F5E5A; line-height:1.7;">
+                        Cuối mỗi phiên (lúc 14:45), hệ thống tự động tổng hợp kết quả giao dịch trong ngày bao gồm: số lượng lệnh, tổng P&amp;L tạm tính, Win rate và tham số áp dụng, sau đó gửi email định dạng HTML cho Trader.
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+            
+        with col_preview:
+            email_short_tab, email_exit_tab, email_daily_tab = st.tabs([
+                "📉 SHORT signal", "✅ EXIT signal", "📊 Daily summary"
+            ])
+            
+            with email_short_tab:
+                st.markdown(
+                    """
+                    <div class="email-preview">
+                        <div class="email-header">
+                            <div class="email-subject">📉 [SIGNAL] SHORT VN30F1M — 14:05 | 10/06/2026</div>
+                            <div class="email-meta">From: algo-alert@beq.vn &nbsp;·&nbsp; To: trader@beq.vn</div>
+                        </div>
+                        <div class="email-body">
+                            <div class="email-row"><span class="lbl">Giá hiện tại</span><span class="val">1,285.4</span></div>
+                            <div class="email-row"><span class="lbl">MA spread ratio</span><span class="val red">-0.0032 (vượt ngưỡng)</span></div>
+                            <div class="email-row"><span class="lbl">Streak count</span><span class="val red">-5 candle âm liên tiếp</span></div>
+                            <div class="email-row"><span class="lbl">had_positive_today</span><span class="val green">FALSE ✓</span></div>
+                            <div class="email-row"><span class="lbl">Signal5</span><span class="val green">Confirmed ✓</span></div>
+                            <div class="email-row"><span class="lbl">TP target</span><span class="val">1,281.0 (−4.4 pts)</span></div>
+                            <div class="email-row"><span class="lbl">Stop loss</span><span class="val red">1,291.0 (+5.6 pts)</span></div>
+                            <div class="email-row"><span class="lbl">State mới</span><span class="val purple">WAIT_OUT</span></div>
+                        </div>
+                        <div class="email-footer">
+                            <strong>Hedge nhánh:</strong> Early entry đã kích hoạt lúc 13:58 — spread -0.0028, streak -3. Tham số hiện dùng: spread -0.0025 / streak -3 / Signal5 ON.
+                        </div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+                
+            with email_exit_tab:
+                st.markdown(
+                    """
+                    <div class="email-preview">
+                        <div class="email-header" style="background:#1A4A3A;">
+                            <div class="email-subject">✅ [EXIT] VN30F1M — PnL: +4.4 pts | 14:22</div>
+                            <div class="email-meta">From: algo-alert@beq.vn &nbsp;·&nbsp; To: trader@beq.vn</div>
+                        </div>
+                        <div class="email-body">
+                            <div class="email-row"><span class="lbl">Entry</span><span class="val">1,285.4 lúc 14:05</span></div>
+                            <div class="email-row"><span class="lbl">Exit</span><span class="val">1,281.0 lúc 14:22</span></div>
+                            <div class="email-row"><span class="lbl">PnL</span><span class="val green">+4.4 pts ✓ TP hit</span></div>
+                            <div class="email-row"><span class="lbl">Lý do exit</span><span class="val">Take-profit tier 1</span></div>
+                            <div class="email-row"><span class="lbl">Thời gian giữ</span><span class="val">17 phút</span></div>
+                            <div class="email-row"><span class="lbl">State mới</span><span class="val purple">WAIT_SHORT</span></div>
+                        </div>
+                        <div class="email-footer" style="background:#E1F5EE; color:#0F6E56;">
+                            <strong>Trade #3 hôm nay.</strong> Tổng PnL tạm tính: +8.9 pts. Pipeline reset — đang chờ signal tiếp theo.
+                        </div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+                
+            with email_daily_tab:
+                st.markdown(
+                    """
+                    <div class="email-preview">
+                        <div class="email-header" style="background:#2D2B45;">
+                            <div class="email-subject">📊 [DAILY] VN30F1M Summary — 10/06/2026</div>
+                            <div class="email-meta">From: algo-alert@beq.vn &nbsp;·&nbsp; To: trader@beq.vn</div>
+                        </div>
+                        <div class="email-body">
+                            <div class="email-row"><span class="lbl">Tổng số trade</span><span class="val">4</span></div>
+                            <div class="email-row"><span class="lbl">Win / Loss</span><span class="val">3W / 1L</span></div>
+                            <div class="email-row"><span class="lbl">Win rate ngày</span><span class="val green">75%</span></div>
+                            <div class="email-row"><span class="lbl">Tổng PnL (pts)</span><span class="val green">+10.2 pts</span></div>
+                            <div class="email-row"><span class="lbl">Best trade</span><span class="val">+4.4 pts (14:05–14:22)</span></div>
+                            <div class="email-row"><span class="lbl">Worst trade</span><span class="val red">-3.1 pts (10:30–11:15)</span></div>
+                            <div class="email-row"><span class="lbl">Tham số dùng</span><span class="val" style="font-family: 'JetBrains Mono', monospace; font-size:12px;">spread -0.0025 / streak -3</span></div>
+                        </div>
+                        <div class="email-footer">
+                            Ngày mai pipeline sẽ tiếp tục với cùng tham số. Kiểm tra biểu đồ chi tiết tại dashboard.
+                        </div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
 
 
 def render_knowledge():
@@ -680,9 +1551,10 @@ def render_contact():
 home_page = st.Page(render_home, title="Trang chủ", icon="🏠", default=True, url_path="home")
 bank_page = st.Page(render_bank, title="BCTC Ngân Hàng", icon="🏦", url_path="bank")
 securities_page = st.Page(render_securities, title="BCTC Chứng Khoán", icon="📊", url_path="securities")
+hedging_page = st.Page(render_hedging, title="Hệ thống Hedging VN30F1M", icon="📉", url_path="hedging")
 knowledge_page = st.Page(render_knowledge, title="Góc Chia Sẻ", icon="🧠", url_path="knowledge")
 contact_page = st.Page(render_contact, title="Giới thiệu & Liên hệ", icon="👤", url_path="contact")
 
-# Setup Navigation Menu in st.sidebar
-pg = st.navigation([home_page, bank_page, securities_page, contact_page])
+# Setup Navigation Menu in st.sidebar (temporarily hide bank_page)
+pg = st.navigation([home_page, securities_page, hedging_page, contact_page])
 pg.run()

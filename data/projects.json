@@ -53,5 +53,31 @@
     "cover": "assets/previews/securities_vn.png",
     "page_path": "pages/4_Project_Securities_VN.py",
     "powerbi_url": "https://app.powerbi.com/view?r=eyJrIjoiNTAxZjNhMDAtOTY2ZS00YWJiLTljOTktM2VjMzhjNDMxN2Y3IiwidCI6IjI4ZmZjMDE1LWFlOWEtNDEzNC1hOGQ2LWU3MTI4MTEzMDc2OSIsImMiOjEwfQ%3D%3D"
+  },
+  {
+    "id": "hedging_vn30f1m",
+    "title": "Hệ thống Hedging VN30F1M",
+    "status": "DONE",
+    "tagline": "",
+    "stack": ["Data Processing", "Automated Scripting", "Interactive Charts", "SSI FastConnect", "Logic Implementation", "Backtesting"],
+    "highlights": [
+      "ETL OHLCV 1-min từ SSI FastConnect, chuẩn hóa bằng R data.table",
+      "Tính toán tín hiệu short dựa trên MA spread ratio, streak count, Signal5 confirmation",
+      "State machine WAIT_SHORT ↔ WAIT_OUT + email alert realtime"
+    ],
+    "what_i_did": [
+      "Tự động lấy dữ liệu OHLCV 1-min intraday từ SSI API, chuẩn hóa và lưu trữ RDS",
+      "Thiết kế signal engine phát hiện tín hiệu Short bằng MA spread ratio, negative streak và confirmation filter",
+      "Xây dựng backtest engine mô phỏng giao dịch, walk-forward validation và tối ưu hóa tham số",
+      "Phát triển bộ cảnh báo email realtime qua state machine (WAIT_SHORT, WAIT_OUT) và gửi báo cáo cuối ngày"
+    ],
+    "process": [
+      "Data acquisition: tự động lấy dữ liệu 1-min từ SSI API và lưu trữ RDS",
+      "Signal processing: lập trình bộ tính toán tín hiệu dựa trên mean-reversion và streak count",
+      "Backtesting: chạy mô phỏng giao dịch, walk-forward validation để tối ưu tham số",
+      "Output & alerting: tích hợp state machine và email alert tự động realtime"
+    ],
+    "cover": "assets/previews/hedging_vn30f1m.png",
+    "page_path": ""
   }
 ]
