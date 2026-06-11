@@ -227,7 +227,7 @@ def render_bank():
     )
     
     # 4 Sub-tabs navigation
-    tab_summary, tab_pipeline, tab_code, tab_pbi = st.tabs(["Tổng quan", "Quy trình", "Code mẫu", "Power BI"])
+    tab_summary, tab_pipeline, tab_code, tab_pbi = st.tabs(["Tổng quan", "Quy trình", "Source Code & Data Model", "Power BI"])
     
     with tab_summary:
         st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
@@ -350,7 +350,7 @@ def render_securities():
     )
     
     # 4 Sub-tabs navigation
-    tab_summary, tab_pipeline, tab_code, tab_pbi = st.tabs(["Tổng quan", "Quy trình", "Code mẫu", "Power BI"])
+    tab_summary, tab_pipeline, tab_code, tab_pbi = st.tabs(["Tổng quan", "Quy trình", "Source Code & Data Model", "Power BI"])
     
     with tab_summary:
         st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
@@ -481,12 +481,12 @@ def render_securities():
                   <h4 class="workflow-title">Data Ingestion — Thu thập dữ liệu tự động</h4>
                 </div>
                 <p class="workflow-desc">
-                  Quy trình bắt đầu bằng việc xây dựng hệ thống kết nối tự động tới cổng API SSI FastConnect và các nguồn dữ liệu tài chính uy tín nhằm tải về thông tin giao dịch trực tiếp cùng báo cáo tài chính thô của các công ty chứng khoán. Việc tự động hóa khâu thu thập dữ liệu bằng mã Python (scripts) giúp loại bỏ hoàn toàn các thao tác thủ công vốn tiềm ẩn nhiều sai sót và tốn thời gian. Dữ liệu được trích xuất dưới định dạng JSON/CSV thô (Raw Data) và lưu trữ tạm thời trong phân vùng staging. Quy trình này hoạt động bền bỉ, được lập lịch chạy định kỳ ngoài giờ giao dịch và có cơ chế ghi log chi tiết cùng tự động thử lại (retry) khi gặp sự cố kết nối, đảm bảo tính liên tục và độ tin cậy tuyệt đối của nguồn dữ liệu đầu vào.
+                  Hệ thống tự động hóa việc truy xuất dữ liệu từ SSI iBoard cho toàn bộ các mã cổ phiếu ngành chứng khoán. Quy trình thực hiện quét dữ liệu theo từng kỳ báo cáo (năm, quý, 6 tháng, 9 tháng), tự động tải các bảng CĐKT, KQKD, LCTT về máy và phân loại vào cấu trúc thư mục logic. Điều này giúp loại bỏ hoàn toàn các thao tác thủ công và đảm bảo tính nhất quán của dữ liệu đầu vào.
                 </p>
                 <div class="workflow-callout">
-                  <div class="workflow-callout-header">🛠️ <b>Giải pháp Kỹ thuật & Công cụ sử dụng:</b></div>
+                  <div class="workflow-callout-header">🛠️ <b>Công cụ sử dụng:</b></div>
                   <div style="margin-top: 6px;">
-                    Sử dụng ngôn ngữ <b>Python</b> kết hợp các thư viện chuyên dụng như <code>requests</code> để tương tác API, <code>pandas</code> để xử lý dữ liệu cấu trúc ban đầu. Cơ chế tải dữ liệu được thiết kế bất đồng bộ giúp tối ưu hóa thời gian phản hồi và lưu trữ file thô dưới dạng nén để tiết kiệm băng thông.
+                    Python, Selenium, Requests, OS,..
                   </div>
                 </div>
               </div>
@@ -498,12 +498,16 @@ def render_securities():
                   <h4 class="workflow-title">Transformation &amp; Modeling — Xử lý &amp; Mô hình hóa dữ liệu tài chính</h4>
                 </div>
                 <p class="workflow-desc">
-                  Sau khi thu thập, dữ liệu thô thường ở dạng phi cấu trúc và chứa nhiều thông tin không đồng nhất giữa các doanh nghiệp hoặc bị khuyết thiếu các chỉ tiêu do thay đổi thông tư kế toán. Tại bước này, các đoạn mã Python thực hiện việc tiền xử lý chuyên sâu: làm sạch dữ liệu, lọc bỏ các dòng trùng lặp, xử lý các giá trị null bằng thuật toán nội suy và chuẩn hóa định dạng dữ liệu số/ngày tháng. Tiếp theo, dữ liệu được chuyển đổi cấu trúc phức tạp từ dạng phẳng sang mô hình dữ liệu quan hệ <b>Star Schema</b> (Sơ đồ hình sao) tối ưu. Bằng việc phân tách rõ ràng thành các bảng chiều (Dimension Tables như Dim_Company, Dim_Time) và bảng sự kiện (Fact Tables như Fact_BalanceSheet, Fact_IncomeStatement), mô hình này giúp loại bỏ hoàn toàn sự dư thừa dữ liệu và chuẩn bị một cấu trúc tối ưu cho việc truy vấn phân tích đa chiều.
+                  Dữ liệu báo cáo tài chính thô thường không đồng nhất do sự khác biệt trong cách ghi nhận của các doanh nghiệp hoặc do thay đổi thông tư kế toán qua các năm. Bước này đóng vai trò làm sạch và tổ chức lại toàn bộ dữ liệu thành một hệ thống chuẩn chỉnh.<br/><br/>
+                  <b>Các bước xử lý chính:</b><br/>
+                  • <b>Data Cleaning:</b> Gộp hàng loạt file Excel rời rạc thành bảng thống nhất. Xử lý triệt để các thay đổi về chỉ tiêu kế toán (ví dụ: gộp các khoản mục bị đổi tên qua các năm) để đảm bảo chuỗi dữ liệu tài chính xuyên suốt, không bị đứt gãy.<br/>
+                  • <b>Unpivot:</b> Chuyển đổi cấu trúc dữ liệu từ dạng báo cáo ngang truyền thống sang định dạng dọc chuẩn, phục vụ trực tiếp cho việc vẽ biểu đồ và phân tích đa chiều.<br/>
+                  • <b>Data Modeling:</b> Xây dựng mô hình dữ liệu Star Schema. Phân tách dữ liệu thành các bảng Danh mục (Công ty, Thời gian) và bảng Số liệu sự kiện (CĐKT, KQKD), giúp loại bỏ dữ liệu thừa và tối ưu hóa tốc độ tính toán cho các báo cáo sau này.
                 </p>
                 <div class="workflow-callout">
-                  <div class="workflow-callout-header">🧠 <b>Thiết kế Mô hình & Xử lý Dữ liệu:</b></div>
+                  <div class="workflow-callout-header">🧠 <b>Công cụ sử dụng:</b></div>
                   <div style="margin-top: 6px;">
-                    Sử dụng thư viện <b>pandas</b> để thực hiện các thao tác xoay trục (Unpivot) dữ liệu tài chính phức tạp, chuẩn hóa mã định danh doanh nghiệp. Thiết kế mô hình Star Schema giúp tối ưu hóa hiệu năng truy vấn SQL và đơn giản hóa các phép tính lũy kế, so sánh cùng kỳ trong các bước phân tích sau.
+                    Python, thư viện Pandas.
                   </div>
                 </div>
               </div>
@@ -512,32 +516,59 @@ def render_securities():
               <div class="workflow-section">
                 <div class="workflow-header">
                   <span class="workflow-num">03</span>
-                  <h4 class="workflow-title">Data Storage &amp; Management — Lưu trữ &amp; Quản trị dữ liệu</h4>
+                  <h4 class="workflow-title">Data Extraction &amp; Quality Assurance — Trích xuất &amp; Kiểm tra dữ liệu</h4>
                 </div>
                 <p class="workflow-desc">
-                  Để đảm bảo tính nhất quán và khả năng truy cập nhanh chóng, toàn bộ Fact và Dimension tables sau khi xử lý sẽ được lưu trữ tập trung vào hệ quản trị cơ sở dữ liệu quan hệ <b>PostgreSQL</b>. PostgreSQL đóng vai trò là "Single Source of Truth" (Nguồn dữ liệu tin cậy duy nhất) cho toàn bộ hệ thống phân tích. Việc lưu trữ trong cơ sở dữ liệu quan hệ giúp duy trì tính toàn vẹn dữ liệu thông qua ràng buộc khóa chính/khóa ngoại (Primary/Foreign Keys) chặt chẽ. Đồng thời, việc tối ưu hóa hiệu năng được thực hiện bằng cách tạo các chỉ mục (Indexes) trên các trường thường xuyên dùng để lọc hoặc kết hợp bảng (Join), giúp tăng tốc độ truy xuất dữ liệu từ hàng triệu bản ghi xuống chỉ còn vài miligiây, sẵn sàng phục vụ cho các báo cáo trực quan hoặc các thuật toán phân tích nâng cao.
+                  <b>Quy trình:</b> Lọc và xử lý dữ liệu từ Báo cáo tài chính để đảm bảo số liệu về danh mục đầu tư (FVTPL, AFS) luôn chính xác trước khi sử dụng cho báo cáo.<br/><br/>
+                  <b>Quy trình thực hiện:</b><br/>
+                  • <b>Thu thập:</b> Tự động tải BCTC theo năm và quý của các công ty chứng khoán niêm yết.<br/>
+                  • <b>Trích xuất:</b> Dùng Python (OCR) để đọc dữ liệu từ báo cáo.<br/>
+                  • <b>Kiểm tra:</b> Tôi chạy một đoạn script nhỏ để cộng lại các khoản mục, nếu tổng không khớp với số tổng trên báo cáo, hệ thống sẽ đánh dấu các công ty đó. Với những công ty bị đánh dấu lỗi, tôi sử dụng NotebookLM hoặc ChatGPT để hỗ trợ trích xuất lại thủ công, đảm bảo không bỏ sót số liệu.<br/>
+                  • <b>Kết quả:</b> Có được tập dữ liệu sạch, đảm bảo tính khớp đúng để phục vụ phân tích.
                 </p>
                 <div class="workflow-callout">
-                  <div class="workflow-callout-header">🗄️ <b>Quản trị Cơ sở Dữ liệu & Tối ưu hóa:</b></div>
+                  <div class="workflow-callout-header">⚙️ <b>Công cụ sử dụng:</b></div>
                   <div style="margin-top: 6px;">
-                    Triển khai trên <b>PostgreSQL Database</b>. Thiết lập các chỉ mục tối ưu (B-Tree Indexes) trên các trường khóa ngoại, thiết kế các Stored Procedures và Views để chuẩn bị sẵn các tập dữ liệu tổng hợp, giảm thiểu tải xử lý cho công cụ hiển thị Power BI.
+                    Python, Pandas, NotebookLM, ChatGPT.
                   </div>
                 </div>
               </div>
-              
+
               <!-- STEP 4 -->
               <div class="workflow-section">
                 <div class="workflow-header">
                   <span class="workflow-num">04</span>
-                  <h4 class="workflow-title">Visualization &amp; Operation — Trực quan hóa &amp; Tự động hóa vận hành</h4>
+                  <h4 class="workflow-title">Data Storage &amp; Management — Lưu trữ &amp; Quản trị dữ liệu</h4>
                 </div>
                 <p class="workflow-desc">
-                  Ở lớp ứng dụng cuối cùng, **Power BI** được kết nối trực tiếp vào cơ sở dữ liệu PostgreSQL để phục vụ việc trực quan hóa dữ liệu. Giao diện báo cáo được thiết kế theo phương pháp mô-đun hóa, giúp người dùng dễ dàng chuyển đổi giữa các góc nhìn khác nhau và đi sâu vào phân tích chi tiết cơ cấu tự doanh (FVTPL, AFS, HTM) của từng doanh nghiệp. Để toàn bộ hệ thống vận hành trơn tru và tự động hoàn toàn, một quy trình điều phối (Orchestration) được thiết lập. Công cụ lập lịch sẽ kích hoạt pipeline ETL chạy định kỳ ngoài giờ giao dịch hằng ngày, tự động kéo dữ liệu mới, chạy script xử lý, cập nhật PostgreSQL và tự động đẩy dữ liệu (refresh) lên Power BI. Người xem luôn được tiếp cận với các thông tin phân tích mới nhất mà không cần bất kỳ sự can thiệp thủ công nào.
+                  Thay vì quản lý bằng các file rời rạc và load thủ công, toàn bộ dữ liệu sau khi được làm sạch bằng Python sẽ được đẩy vào PostgreSQL. Việc chuyển đổi từ lưu trữ tệp sang Database giúp quản lý tập trung toàn bộ khối lượng dữ liệu tài chính, tạo nền tảng ổn định cho báo cáo.<br/><br/>
+                  <b>Quản trị &amp; Triển khai:</b><br/>
+                  • <b>Lưu trữ tập trung:</b> Nạp dữ liệu vào PostgreSQL, tổ chức phân lớp rõ ràng theo mô hình Star Schema (gồm các bảng Fact và Dimension) đã thiết kế ở bước trước.<br/>
+                  • <b>Đảm bảo tính toàn vẹn:</b> Thiết lập các ràng buộc dữ liệu cơ bản (Khóa chính - Primary Key, Khóa ngoại - Foreign Key) để đảm bảo không bị mâu thuẫn số liệu giữa các bảng.
                 </p>
                 <div class="workflow-callout">
-                  <div class="workflow-callout-header">⚡ <b>Vận hành Tự động & Trực quan hóa tương tác:</b></div>
+                  <div class="workflow-callout-header">🗄️ <b>Công cụ sử dụng:</b></div>
                   <div style="margin-top: 6px;">
-                    Xây dựng báo cáo trên <b>Power BI Desktop & Service</b> sử dụng ngôn ngữ <b>DAX</b> để tính toán các chỉ số tài chính động. Tích hợp <b>Windows Task Scheduler</b> (hoặc Cron jobs) để tự động hóa toàn bộ chu kỳ ETL hằng ngày, giúp hệ thống vận hành liên tục và ổn định.
+                    PostgreSQL, SQL, Python.
+                  </div>
+                </div>
+              </div>
+              
+              <!-- STEP 5 -->
+              <div class="workflow-section">
+                <div class="workflow-header">
+                  <span class="workflow-num">05</span>
+                  <h4 class="workflow-title">Visualization Power BI — Trực quan hóa dữ liệu</h4>
+                </div>
+                <p class="workflow-desc">
+                  Ở bước cuối cùng, Power BI được kết nối trực tiếp vào Database PostgreSQL để kéo dữ liệu sạch lên và xây dựng các báo cáo tương tác.<br/><br/>
+                  • <b>Giao diện đa nhiệm:</b> Tích hợp đầy đủ 3 bảng báo cáo (CĐKT, KQKD, LCTT) giúp người dùng dễ dàng chuyển đổi góc nhìn.<br/>
+                  • <b>Tương tác linh hoạt:</b> Sử dụng tính năng Drill-down (xem chi tiết đa cấp độ) và các bộ lọc (Slicer) động theo mã công ty, kỳ báo cáo giúp việc truy xuất số liệu trở nên trực quan và nhanh chóng.
+                </p>
+                <div class="workflow-callout">
+                  <div class="workflow-callout-header">📊 <b>Công cụ sử dụng:</b></div>
+                  <div style="margin-top: 6px;">
+                    Power BI Desktop &amp; Service, DAX.
                   </div>
                 </div>
               </div>
@@ -549,101 +580,31 @@ def render_securities():
             
     with tab_code:
         st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
-        st.markdown("### 💻 Mã Nguồn Kỹ Thuật Tiêu Biểu")
+        st.markdown("### 💻 Source Code & Data Model")
         
-        # Python Code block
+        # Phần 1: Repository Navigation
         st.markdown(
-            """
-            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px; margin-top: 12px;">
-                <span style="background: #10B981; color: white; padding: 3px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: bold; text-transform: uppercase;">Python</span>
-                <span style="font-weight: 700; color: #0F172A; font-size: 1.05rem;">Chuẩn hóa & xoay trục (Unpivot) Fact table tài chính</span>
-            </div>
-            """, 
-            unsafe_allow_html=True
+            "Toàn bộ mã nguồn, cấu trúc luồng xử lý dữ liệu (ETL) và kịch bản tự động hóa của dự án "
+            "được quản lý tập trung và phân module chi tiết trên GitHub."
         )
-        st.code(
-            """
-import pandas as pd
-import requests
-
-def clean_and_normalize_financials(raw_data_list):
-    # Khởi tạo dataframe từ dữ liệu thô
-    df = pd.DataFrame(raw_data_list)
-    
-    # 1. Điền giá trị trống & chuẩn hóa kiểu dữ liệu
-    df['value'] = pd.to_numeric(df['value'], errors='coerce').fillna(0)
-    df['item_code'] = df['item_code'].str.strip().str.upper()
-    df['company_code'] = df['company_code'].str.strip().str.upper()
-    
-    # 2. Unpivot dữ liệu để tạo Fact Table chuẩn tinh gọn
-    fact_df = df.melt(
-        id_vars=['company_code', 'fiscal_year', 'fiscal_quarter', 'item_code'],
-        value_vars=['value'],
-        var_name='metric_type',
-        value_name='amount'
-    )
-    
-    # 3. Tạo khoá phụ cho bảng Calendar
-    fact_df['date_key'] = fact_df['fiscal_year'].astype(str) + "Q" + fact_df['fiscal_quarter'].astype(str)
-    
-    return fact_df
-            """,
-            language="python"
-        )
+        st.link_button("💻 Xem chi tiết Repository trên GitHub", "#", use_container_width=False)
         
-        st.markdown("<div style='height: 16px;'></div>", unsafe_allow_html=True)
+        # Phân cách
+        st.divider()
         
-        # SQL Code block
-        st.markdown(
-            """
-            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                <span style="background: #2563EB; color: white; padding: 3px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: bold; text-transform: uppercase;">SQL</span>
-                <span style="font-weight: 700; color: #0F172A; font-size: 1.05rem;">Xoay trục dữ liệu quan hệ & Tính chỉ số tài chính sinh lời</span>
-            </div>
-            """, 
-            unsafe_allow_html=True
-        )
-        st.code(
-            """
-WITH raw_financials AS (
-    SELECT 
-        company_code,
-        fiscal_year,
-        fiscal_quarter,
-        item_code,
-        value
-    FROM staging_sec_financials
-),
-pivoted_items AS (
-    SELECT 
-        company_code,
-        fiscal_year,
-        fiscal_quarter,
-        MAX(CASE WHEN item_code = 'FVTPL_REV' THEN value END) as fvtpl_revenue,
-        MAX(CASE WHEN item_code = 'TOTAL_REV' THEN value END) as total_revenue,
-        MAX(CASE WHEN item_code = 'NET_PROFIT' THEN value END) as net_profit,
-        MAX(CASE WHEN item_code = 'TOTAL_ASSETS' THEN value END) as total_assets,
-        MAX(CASE WHEN item_code = 'OWNER_EQUITY' THEN value END) as owner_equity
-    FROM raw_financials
-    GROUP BY company_code, fiscal_year, fiscal_quarter
-)
-SELECT 
-    company_code,
-    fiscal_year,
-    fiscal_quarter,
-    total_revenue,
-    net_profit,
-    -- Ratios
-    ROUND((net_profit::numeric / NULLIF(total_revenue, 0)) * 100, 2) as net_profit_margin,
-    ROUND((net_profit::numeric / NULLIF(total_assets, 0)) * 100, 2) as roa,
-    ROUND((net_profit::numeric / NULLIF(owner_equity, 0)) * 100, 2) as roe,
-    -- Tỷ trọng đóng góp tự doanh
-    ROUND((fvtpl_revenue::numeric / NULLIF(total_revenue, 0)) * 100, 2) as fvtpl_rev_ratio
-FROM pivoted_items
-ORDER BY company_code, fiscal_year DESC, fiscal_quarter DESC;
-            """,
-            language="sql"
-        )
+        # Phần 2: Data Model
+        st.markdown("### 🏗️ Kiến trúc Dữ liệu (Star Schema)")
+        
+        # Option 1: Dùng st.image() để hiển thị file ảnh (Ví dụ: ERD_PostgreSQL.svg)
+        img_path = Path("assets/previews/ERD_PostgreSQL.svg")
+        if img_path.exists():
+            st.image(str(img_path), caption="Sơ đồ cơ sở dữ liệu quan hệ (Star Schema)", use_container_width=True)
+        else:
+            st.info("💡 Lưu ý: Hãy đặt sơ đồ cơ sở dữ liệu tại `assets/previews/ERD_PostgreSQL.svg` để hiển thị.")
+            
+        # Option 2: Dùng st.components.v1.html để nhúng mã Iframe từ dbdiagram.io (Mặc định được ẩn, hãy bỏ comment để sử dụng)
+        # dbdiagram_iframe = '<iframe src="https://dbdiagram.io/embed/YOUR_EMBED_ID" width="100%" height="600" frameborder="0"></iframe>'
+        # components.html(dbdiagram_iframe, height=600)
         
     with tab_pbi:
         st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
@@ -807,8 +768,14 @@ def render_hedging():
                 """
                 <div class="card" style="height: 100%; min-height: 250px;">
                     <h3 style="margin-top: 0; color: #5B21B6; font-size:1.3rem;">🎯 Bối cảnh &amp; Nhiệm vụ</h3>
-                    <p><b>Situation (Bối cảnh):</b> Giao dịch intraday VN30F1M đòi hỏi phản ứng tức thì khi tín hiệu hình thành — không thể theo dõi màn hình liên tục suốt phiên 9:00–14:30.</p>
-                    <p><b>Task (Nhiệm vụ):</b> Xây dựng pipeline khép kín: tự động lấy dữ liệu OHLCV, tính toán tín hiệu theo bộ rules mean-reversion, backtest và tối ưu tham số, phát cảnh báo email realtime khi điều kiện thỏa mãn.</p>
+                    <p><b>Situation:</b> Thị trường Phái sinh VN30F1M đòi hỏi khả năng phản ứng tức thì với biến động giá trong phiên (9:00–14:30). Việc theo dõi màn hình thủ công liên tục không khả thi và dễ dẫn đến sai sót tâm lý.</p>
+                    <p><b>Task:</b> Xây dựng End-to-end Automated Trading Pipeline với các mục tiêu:
+                        <ul>
+                            <li><b>Tự động hóa toàn trình:</b> Xây dựng luồng dữ liệu (pipeline) thu thập OHLCV, tính toán tín hiệu (Entry/Stoploss/Take Profit) dựa trên bộ quy tắc cá nhân.</li>
+                            <li><b>Kiểm định &amp; Tối ưu:</b> Thực hiện Backtest và tối ưu tham số để đánh giá hiệu quả chiến lược.</li>
+                            <li><b>Thực thi:</b> Phát cảnh báo qua email và tích hợp SSI FastConnect API để tự động hóa việc đặt lệnh theo thời gian thực.</li>
+                        </ul>
+                    </p>
                 </div>
                 """,
                 unsafe_allow_html=True
@@ -818,15 +785,12 @@ def render_hedging():
                 """
                 <div class="card" style="height: 100%; min-height: 250px;">
                     <h3 style="margin-top: 0; color: #2563EB; font-size:1.3rem;">⚡ Hành động &amp; Kết quả</h3>
-                    <p><b>Action &amp; Result (Hành động &amp; Kết quả):</b>
-                        <ul>
-                            <li>ETL OHLCV 1-min từ SSI FastConnect, chuẩn hóa bằng R <code>data.table</code></li>
-                            <li>Thiết kế <code>calc_signals</code> với MA spread ratio, streak count, Signal5 filter, hedge nhánh</li>
-                            <li>Candlestick chart (<code>echarts4r</code>) tích hợp scatter signal + TP annotation</li>
-                            <li>State machine <code>WAIT_SHORT ↔ WAIT_OUT</code> + email alert realtime</li>
-                            <li>Grid search spread/streak → tối ưu tham số, walk-forward backtest</li>
-                        </ul>
-                    </p>
+                    <ul>
+                        <li><b>Data Handling:</b> Tự động lấy dữ liệu OHLCV 1-phút từ các nguồn (SSI, DNSE) và chuẩn hóa dữ liệu bằng R để thuận tiện cho việc xử lý.</li>
+                        <li><b>Logic Implementation:</b> Xây dựng các hàm (functions) tính toán chỉ báo và tín hiệu dựa trên các quy tắc cá nhân (như MA, spread, streak spread).</li>
+                        <li><b>Visualization:</b> Sử dụng biểu đồ nến (Candlestick chart) có tích hợp tín hiệu để theo dõi trạng thái chiến lược trực tiếp trong phiên.</li>
+                        <li><b>Testing &amp; Tuning:</b> Kiểm tra chiến lược bằng cách thử nghiệm nhiều mức tham số khác nhau (Grid Search) và chạy thử cuốn chiếu trên dữ liệu quá khứ (Walk-forward) để tìm bộ thông số ổn định nhất.</li>
+                    </ul>
                 </div>
                 """,
                 unsafe_allow_html=True
