@@ -4,7 +4,7 @@ import html as _html
 from pathlib import Path
 import streamlit as st
 import streamlit.components.v1 as components
-from shared import apply_style, cover_block
+from shared import apply_style, cover_block, render_svg
 
 # ---------------------------------------------------------
 # 1. PAGE LAYOUT CONFIGURATION
@@ -19,7 +19,6 @@ st.set_page_config(
 apply_style()
 
 
-@st.cache_data
 def get_projects_data():
     try:
         with open("data/projects.json", "r", encoding="utf-8") as f:
@@ -64,13 +63,13 @@ def render_home():
               <h1 style="margin:0; font-size: 2.4rem;">👋 Võ Phước Nhật</h1>
               <p class="muted" style="font-size:1.02rem; margin-top:14px; line-height: 1.6;">
                 Phát triển giải pháp dữ liệu và báo cáo tự động cho lĩnh vực <b>Tài chính & Chứng khoán</b>. 
-                Tập trung vào <b>Data Engineering</b>, <b>Financial Modeling</b> và tối ưu quy trình xử lý dữ liệu.
+                Tập trung vào <b>Financial Data Engineering</b>, <b>Algo Trading</b> và tự động hóa pipeline dữ liệu cho thị trường chứng khoán Việt Nam.
               </p>
               <div style="margin-top:16px;">
                 <span class="badge">Data Analytics</span>
                 <span class="badge">Financial Analysis</span>
                 <span class="badge">Automation Pipeline</span>
-                <span class="badge">Python & SQL</span>
+                <span class="badge">R & Python</span>
                 <span class="badge">Power BI & DAX</span>
               </div>
             </div>
@@ -92,7 +91,7 @@ def render_home():
             """
             <div style="border-left: 3px solid #5B21B6; padding-left: 16px; margin-bottom: 20px; margin-top: 8px;">
                 <p style="font-size: 0.95rem; line-height: 1.65; margin: 0; color: #475569; font-style: italic;">
-                "Tôi đam mê kết hợp phân tích tài chính với kỹ thuật dữ liệu hiện đại. Với tư duy giải quyết vấn đề bằng code (Python/SQL) và công cụ trực quan (Power BI), tôi tập trung vào việc tự động hóa các luồng dữ liệu thô thành các báo cáo trực quan và mô hình phân tích hiệu quả. Mục tiêu của tôi là hỗ trợ quy trình vận hành và ra quyết định tài chính trở nên nhanh chóng, chính xác hơn."
+                "Xuất phát từ nền tảng tài chính, tôi chuyển hướng sang kỹ thuật dữ liệu vì nhận ra rằng dữ liệu tốt mới tạo ra quyết định tốt. Tôi thích giải quyết những bài toán thực tế — lấy dữ liệu lộn xộn, làm sạch, mô hình hóa và biến nó thành thứ người dùng có thể đọc và hiểu ngay."
                 </p>
             </div>
             """,
@@ -117,24 +116,24 @@ def render_home():
             <div style="display: flex; gap: 14px; align-items: stretch; justify-content: space-between; margin-top: 8px;">
                 <div class="kpi" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 16px 14px;">
                     <div>
-                        <div style="font-size: 1.5rem; margin-bottom: 8px;">📊</div>
-                        <b style="font-size: 0.88rem; color: #0F172A; display: block; line-height: 1.3;">Data & BI Solutions</b>
+                        <div style="font-size: 1.5rem; margin-bottom: 1px;">📊</div>
+                        <div class="kpi-title">Data & BI Solutions</div>
                     </div>
-                    <div class="muted" style="font-size: 0.78rem; margin-top: 6px; line-height: 1.35;">Dashboard phân tích BCTC và thị trường trực quan.</div>
+                    <div class="muted" style="font-size: 0.78rem; margin-top: 6px; line-height: 1.35;">Dashboard BCTC & danh mục tự doanh trực quan.</div>
                 </div>
                 <div class="kpi" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 16px 14px;">
                     <div>
-                        <div style="font-size: 1.5rem; margin-bottom: 8px;">🧠</div>
-                        <b style="font-size: 0.88rem; color: #0F172A; display: block; line-height: 1.3;">Financial & Data Modeling</b>
+                        <div style="font-size: 1.5rem; margin-bottom: 1px;">🧠</div>
+                        <div class="kpi-title">Data Modeling</div>
                     </div>
-                    <div class="muted" style="font-size: 0.78rem; margin-top: 6px; line-height: 1.35;">Star Schema tối ưu & hệ measures DAX hiệu năng cao.</div>
+                    <div class="muted" style="font-size: 0.78rem; margin-top: 6px; line-height: 1.35;">Star Schema & DAX measures cho chỉ số tài chính.</div>
                 </div>
                 <div class="kpi" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 16px 14px;">
                     <div>
-                        <div style="font-size: 1.5rem; margin-bottom: 8px;">⚙️</div>
-                        <b style="font-size: 0.88rem; color: #0F172A; display: block; line-height: 1.3;">Automation & Pipeline</b>
+                        <div style="font-size: 1.5rem; margin-bottom: 1px;">⚙️</div>
+                        <div class="kpi-title">Automation & Pipeline</div>
                     </div>
-                    <div class="muted" style="font-size: 0.78rem; margin-top: 6px; line-height: 1.35;">Tự động hóa luồng dữ liệu ETL từ nguồn về báo cáo.</div>
+                    <div class="muted" style="font-size: 0.78rem; margin-top: 6px; line-height: 1.35;">ETL tự động: SSI/PDF → PostgreSQL → Power BI.</div>
                 </div>
             </div>
             """,
@@ -146,7 +145,7 @@ def render_home():
     # Flagship Projects section
     st.markdown("<div class='section-title'>Dự án Tiêu Biểu</div>", unsafe_allow_html=True)
     st.markdown(
-        "<p class='muted' style='margin-bottom:20px;'>Các dự án phân tích dữ liệu tài chính chính — bấm vào để mở rộng chi tiết.</p>",
+        "<p class='muted' style='margin-bottom:20px;'>Các dự án phân tích dữ liệu tài chính — bấm vào 'Chi tiết dự án'.</p>",
         unsafe_allow_html=True,
     )
     
@@ -619,12 +618,12 @@ def render_securities():
         # Phần 2: Data Model
         st.markdown("### 🏗️ Kiến trúc Dữ liệu (Star Schema)")
         
-        # Option 1: Dùng st.image() để hiển thị file ảnh (Ví dụ: ERD_PostgreSQL.svg)
-        img_path = Path("assets/previews/ERD_PostgreSQL.svg")
+        # Option 1: Dùng st.image() để hiển thị sơ đồ (ERD_PostgreSQL.png)
+        img_path = Path("assets/previews/ERD_PostgreSQL.png")
         if img_path.exists():
             st.image(str(img_path), caption="Sơ đồ cơ sở dữ liệu quan hệ (Star Schema)", use_container_width=True)
         else:
-            st.info("💡 Lưu ý: Hãy đặt sơ đồ cơ sở dữ liệu tại `assets/previews/ERD_PostgreSQL.svg` để hiển thị.")
+            st.info("💡 Lưu ý: Hãy đặt sơ đồ cơ sở dữ liệu tại `assets/previews/ERD_PostgreSQL.png` để hiển thị.")
             
         # Option 2: Dùng st.components.v1.html để nhúng mã Iframe từ dbdiagram.io (Mặc định được ẩn, hãy bỏ comment để sử dụng)
         # dbdiagram_iframe = '<iframe src="https://dbdiagram.io/embed/YOUR_EMBED_ID" width="100%" height="600" frameborder="0"></iframe>'
@@ -811,7 +810,7 @@ def render_hedging():
                     <h3 style="margin-top: 0; color: #2563EB; font-size:1.3rem;">⚡ Hành động &amp; Kết quả</h3>
                     <ul>
                         <li><b>Data Handling:</b> Tự động lấy dữ liệu OHLCV 1-phút từ các nguồn (SSI, DNSE) và chuẩn hóa dữ liệu bằng R để thuận tiện cho việc xử lý.</li>
-                        <li><b>Logic Implementation:</b> Xây dựng các hàm (functions) tính toán chỉ báo và tín hiệu dựa trên các quy tắc cá nhân (như MA, spread, streak spread).</li>
+                        <li><b>Entry/Exit Logic:</b> Xây dựng các hàm (functions) tính toán chỉ báo và tín hiệu dựa trên các quy tắc cá nhân (như MA, spread, streak spread).</li>
                         <li><b>Visualization:</b> Sử dụng biểu đồ nến (Candlestick chart) có tích hợp tín hiệu để theo dõi trạng thái chiến lược trực tiếp trong phiên.</li>
                         <li><b>Testing &amp; Tuning:</b> Kiểm tra chiến lược bằng cách thử nghiệm nhiều mức tham số khác nhau (Grid Search) và chạy thử cuốn chiếu trên dữ liệu quá khứ (Walk-forward) để tìm bộ thông số ổn định nhất.</li>
                     </ul>
@@ -871,7 +870,7 @@ def render_hedging():
                 <span class="tech-tag purple">Interactive Charts</span>
                 <span class="tech-tag teal">SSI FastConnect</span>
                 <span class="tech-tag teal">VN30F1M Futures</span>
-                <span class="tech-tag">Logic Implementation</span>
+                <span class="tech-tag">Entry/Exit Logic</span>
                 <span class="tech-tag">Backtesting</span>
                 <span class="tech-tag">Walk-forward</span>
                 <span class="tech-tag">Grid Search</span>
@@ -1032,12 +1031,12 @@ def render_hedging():
         # Phần 2: Data Model
         st.markdown("### 🏗️ Kiến trúc Dữ liệu (Star Schema)")
         
-        # Option 1: Dùng st.image() để hiển thị file ảnh (Ví dụ: ERD_PostgreSQL.svg)
-        img_path = Path("assets/previews/ERD_PostgreSQL.svg")
+        # Option 1: Dùng st.image() để hiển thị sơ đồ (ERD_PostgreSQL.png)
+        img_path = Path("assets/previews/ERD_PostgreSQL.png")
         if img_path.exists():
             st.image(str(img_path), caption="Sơ đồ cơ sở dữ liệu quan hệ (Star Schema)", use_container_width=True)
         else:
-            st.info("💡 Lưu ý: Hãy đặt sơ đồ cơ sở dữ liệu tại `assets/previews/ERD_PostgreSQL.svg` để hiển thị.")
+            st.info("💡 Lưu ý: Hãy đặt sơ đồ cơ sở dữ liệu tại `assets/previews/ERD_PostgreSQL.png` để hiển thị.")
         
         st.markdown("<div style='height: 16px;'></div>", unsafe_allow_html=True)
 

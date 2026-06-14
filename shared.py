@@ -95,6 +95,15 @@ p {
 }
 
 .kpi { padding: 18px 20px !important; }
+.kpi p { margin: 0 !important; padding: 0 !important; }
+.kpi br { display: none !important; }
+.kpi-title {
+  font-size: 0.88rem;
+  color: #0F172A;
+  display: block;
+  line-height: 1.35;
+  font-weight: 700;
+}
 .card { padding: 24px !important; }
 .surface { padding: 24px !important; }
 
@@ -462,3 +471,21 @@ def cover_block(path, height=160):
         """,
         unsafe_allow_html=True,
     )
+
+
+def render_svg(path: str, caption: str = ""):
+    p = Path(path)
+    if not p.exists():
+        st.info(f"💡 Lưu ý: Hãy đặt sơ đồ tại `{path}` để hiển thị.")
+        return
+    b64 = get_image_base64(str(p))
+    if b64:
+        st.markdown(
+            f"""
+            <div style="text-align: center; margin-top: 12px; margin-bottom: 12px;">
+                <img src="data:image/svg+xml;base64,{b64}" style="width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); border: 1px solid rgba(226,232,240,0.8);" />
+                {f'<p class="muted" style="font-size: 0.85rem; margin-top: 8px;">{caption}</p>' if caption else ''}
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
