@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VN30F1M Intraday Hedging System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --purple-50: #EEEDFE; --purple-200: #AFA9EC; --purple-500: #6C63D5;
+    --purple-600: #534AB7; --purple-700: #3C3489; --purple-900: #26215C;
+    --teal-50: #E1F5EE; --teal-500: #1D9E75; --teal-700: #0F6E56;
+    --coral-50: #FAECE7; --coral-400: #D85A30; --coral-600: #993C1D;
+    --amber-50: #FAEEDA; --amber-400: #BA7517; --amber-600: #854F0B;
+    --gray-50: #F7F7F6; --gray-100: #EFEFED; --gray-200: #DCDBD7;
+    --gray-400: #888780; --gray-600: #5F5E5A; --gray-900: #1A1A19;
+    --text-primary: #1A1A19; --text-secondary: #5F5E5A; --text-muted: #888780;
+    --bg: #F7F7F6; --surface: #FFFFFF; --border: #E2E1DC;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: 40px 24px 80px;
+  }
+
+  .container { max-width: 900px; margin: 0 auto; }
+
+  /* Header */
+  .project-header { margin-bottom: 28px; }
+  .project-title {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 26px; font-weight: 600; letter-spacing: -0.4px;
+    color: var(--text-primary); margin-bottom: 10px;
+  }
+  .title-badge {
+    background: var(--purple-50); color: var(--purple-600);
+    font-size: 11px; font-weight: 500; padding: 3px 10px;
+    border-radius: 20px; border: 1px solid var(--purple-200);
+    letter-spacing: .3px; text-transform: uppercase;
+    align-self: center;
+  }
+  .project-desc {
+    font-size: 14px; color: var(--text-secondary); line-height: 1.7;
+    max-width: 760px;
+  }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 0; border-bottom: 1.5px solid var(--border); margin-bottom: 32px; }
+  .tab {
+    padding: 10px 20px; font-size: 14px; color: var(--text-muted);
+    cursor: pointer; border-bottom: 2px solid transparent;
+    margin-bottom: -1.5px; transition: color .15s;
+    user-select: none; white-space: nowrap;
+  }
+  .tab:hover { color: var(--text-primary); }
+  .tab.active { color: var(--purple-600); border-bottom-color: var(--purple-600); font-weight: 500; }
+
+  /* Tab panes */
+  .pane { display: none; }
+  .pane.active { display: block; }
+
+  /* Cards */
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 24px;
+  }
+  .card-title {
+    font-size: 13px; font-weight: 600; letter-spacing: .6px;
+    text-transform: uppercase; color: var(--text-muted); margin-bottom: 14px;
+  }
+
+  /* Grid */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+
+  /* === TAB 1: TỔNG QUAN === */
+  .star-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+
+  .star-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px;
+  }
+  .star-card-head {
+    font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .star-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.75; margin-bottom: 10px; }
+  .star-card p:last-child { margin-bottom: 0; }
+  .star-card p strong { color: var(--text-primary); font-weight: 600; }
+  .star-card ul { font-size: 13px; color: var(--text-secondary); padding-left: 18px; line-height: 1.9; }
+  .star-card ul li { margin-bottom: 2px; }
+
+  .tech-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+  .tech-tag {
+    background: var(--gray-100); color: var(--gray-600); font-size: 12px;
+    font-weight: 500; padding: 5px 12px; border-radius: 20px; font-family: var(--mono);
+  }
+  .tech-tag.purple { background: var(--purple-50); color: var(--purple-600); }
+  .tech-tag.teal { background: var(--teal-50); color: var(--teal-700); }
+
+  /* === TAB 2: QUY TRÌNH === */
+  .pipeline-row {
+    display: flex; align-items: stretch; gap: 0; margin-bottom: 32px;
+    position: relative;
+  }
+  .pipeline-step {
+    flex: 1; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 18px 16px; position: relative;
+  }
+  .pipeline-step + .pipeline-step { margin-left: 28px; }
+  .pipeline-step + .pipeline-step::before {
+    content: '→'; position: absolute; left: -20px; top: 50%; transform: translateY(-50%);
+    font-size: 16px; color: var(--text-muted); font-weight: 500;
+  }
+  .step-num {
+    font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+    color: var(--purple-500); margin-bottom: 6px; font-family: var(--mono);
+  }
+  .step-title { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
+  .step-items { list-style: none; padding: 0; }
+  .step-items li {
+    font-size: 12px; color: var(--text-secondary); padding: 3px 0;
+    border-bottom: 1px solid var(--gray-100); line-height: 1.5;
+  }
+  .step-items li:last-child { border-bottom: none; }
+  .step-items li::before { content: '·  '; color: var(--purple-500); }
+
+  .state-machine-wrap { margin-top: 8px; }
+  .state-row { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+  .state-box {
+    flex: 1; border-radius: 10px; padding: 12px 16px;
+    font-size: 13px; font-weight: 600;
+  }
+  .state-box.wait-short { background: var(--purple-50); color: var(--purple-700); border: 1px solid var(--purple-200); }
+  .state-box.wait-out { background: var(--teal-50); color: var(--teal-700); border: 1px solid #9FE1CB; }
+  .state-box-sub { font-size: 11px; font-weight: 400; margin-top: 3px; opacity: .8; }
+  .state-arrow { font-size: 11px; color: var(--text-muted); max-width: 180px; text-align: center; line-height: 1.4; }
+
+  /* === TAB 3: CODE MẪU === */
+  .code-section { margin-bottom: 24px; }
+  .code-label {
+    display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .5px;
+    padding: 3px 10px; border-radius: 20px; margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+  .code-label.r { background: #E1F5EE; color: #085041; }
+  .code-label.python { background: var(--amber-50); color: var(--amber-600); }
+  .code-label.desc { font-size: 13px; color: var(--text-secondary); margin-bottom: 10px; display: block; }
+
+  .code-block {
+    background: #16161A; border-radius: 12px; padding: 20px;
+    font-family: var(--mono); font-size: 12px; line-height: 1.8;
+    overflow-x: auto; color: #CDD6F4;
+  }
+  .kw { color: #CBA6F7; } /* keywords */
+  .fn { color: #89B4FA; } /* functions */
+  .str { color: #A6E3A1; } /* strings */
+  .num { color: #FAB387; } /* numbers */
+  .cmt { color: #6C7086; font-style: italic; } /* comments */
+  .var { color: #F38BA8; } /* variables */
+
+  /* === TAB 4: BACKTEST === */
+  .metric-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 20px; }
+  .metric-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px; text-align: center;
+  }
+  .metric-label { font-size: 11px; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: .4px; }
+  .metric-val { font-size: 22px; font-weight: 600; }
+  .metric-val.green { color: var(--teal-500); }
+  .metric-val.red { color: var(--coral-400); }
+  .metric-val.purple { color: var(--purple-600); }
+  .metric-val.gray { color: var(--text-primary); }
+
+  .bt-table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th {
+    background: var(--gray-50); padding: 10px 14px; text-align: left;
+    font-size: 11px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase;
+    color: var(--text-muted); border-bottom: 1px solid var(--border);
+  }
+  tbody td { padding: 10px 14px; border-bottom: 1px solid var(--gray-100); color: var(--text-secondary); }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: var(--gray-50); }
+  .pill {
+    display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 11px; font-weight: 600;
+  }
+  .pill.best { background: var(--teal-50); color: var(--teal-700); }
+  .pill.mid { background: var(--purple-50); color: var(--purple-700); }
+  .pill.low { background: var(--coral-50); color: var(--coral-600); }
+
+  /* === TAB 5: ALERT EMAIL === */
+  .alert-layout { display: grid; grid-template-columns: 1fr 1.1fr; gap: 20px; align-items: start; }
+  .sm-title { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 14px; }
+
+  .sm-node {
+    border-radius: 10px; padding: 12px 16px;
+  }
+  .sm-node.purple { background: var(--purple-50); border: 1.5px solid var(--purple-200); }
+  .sm-node.teal { background: var(--teal-50); border: 1.5px solid #9FE1CB; }
+  .sm-node-label { font-size: 13px; font-weight: 600; color: var(--purple-700); }
+  .sm-node.teal .sm-node-label { color: var(--teal-700); }
+  .sm-node-sub { font-size: 11px; color: var(--purple-600); margin-top: 3px; }
+  .sm-node.teal .sm-node-sub { color: var(--teal-500); }
+
+  .sm-arrow {
+    display: flex; align-items: center; gap: 8px; padding: 6px 0;
+  }
+  .sm-arrow-line { flex: 1; height: 1px; background: var(--border); }
+  .sm-arrow-cond {
+    font-size: 11px; color: var(--text-muted); background: var(--gray-50);
+    padding: 3px 10px; border-radius: 20px; border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  /* Email preview */
+  .email-preview {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
+  }
+  .email-header {
+    background: #2D2B55; padding: 14px 18px;
+  }
+  .email-subject { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+  .email-meta { font-size: 11px; color: rgba(255,255,255,.55); }
+  .email-body { padding: 18px; }
+  .email-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--gray-100); font-size: 13px; }
+  .email-row:last-child { border-bottom: none; }
+  .email-row .lbl { color: var(--text-muted); }
+  .email-row .val { font-weight: 500; color: var(--text-primary); }
+  .val.red { color: var(--coral-400); }
+  .val.green { color: var(--teal-500); }
+  .val.purple { color: var(--purple-600); }
+
+  .email-footer {
+    margin: 12px 18px 18px; background: var(--purple-50); border-radius: 8px;
+    padding: 10px 14px; font-size: 12px; color: var(--purple-700); line-height: 1.6;
+  }
+  .email-footer strong { font-weight: 600; }
+
+  /* Tabs for email types */
+  .sub-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+  .sub-tab {
+    font-size: 12px; padding: 5px 14px; border-radius: 20px; cursor: pointer;
+    border: 1px solid var(--border); color: var(--text-muted);
+    transition: all .15s; user-select: none;
+  }
+  .sub-tab.active { background: var(--purple-600); color: #fff; border-color: var(--purple-600); }
+  .sub-tab:hover:not(.active) { border-color: var(--purple-200); color: var(--purple-600); }
+
+  .email-pane { display: none; }
+  .email-pane.active { display: block; }
+
+  hr.section-divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+  .section-label {
+    font-size: 11px; font-weight: 600; letter-spacing: .7px; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 14px; margin-top: 24px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="project-header">
+    <div class="project-title">
+      📉 VN30F1M Intraday Hedging System
+      <span class="title-badge">R · Algo Trading</span>
+    </div>
+    <p class="project-desc">
+      Hệ thống giao dịch phái sinh tự động hóa toàn diện cho hợp đồng tương lai VN30F1M — từ ETL dữ liệu OHLCV intraday, phát hiện tín hiệu short dựa trên MA spread ratio &amp; streak count, đến backtest walk-forward và gửi cảnh báo email theo state machine thời gian thực.
+    </p>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab active" data-tab="overview">Tổng quan</div>
+    <div class="tab" data-tab="pipeline">Quy trình</div>
+    <div class="tab" data-tab="code">Code mẫu</div>
+    <div class="tab" data-tab="backtest">Backtest</div>
+    <div class="tab" data-tab="alert">Alert Email</div>
+  </div>
+
+  <!-- =================== TAB 1: TỔNG QUAN =================== -->
+  <div class="pane active" id="tab-overview">
+    <div class="star-grid">
+      <div class="star-card">
+        <div class="star-card-head">🎯 Bối cảnh &amp; Nhiệm vụ</div>
+        <p><strong>Situation:</strong> Giao dịch intraday VN30F1M đòi hỏi phản ứng tức thì khi tín hiệu hình thành — không thể theo dõi màn hình liên tục suốt phiên 9:00–14:30.</p>
+        <p><strong>Task:</strong> Xây dựng pipeline khép kín: tự động lấy dữ liệu OHLCV, tính toán tín hiệu theo bộ rules mean-reversion, backtest và tối ưu tham số, phát cảnh báo email realtime khi điều kiện thỏa mãn.</p>
+      </div>
+      <div class="star-card">
+        <div class="star-card-head">⚡ Hành động &amp; Kết quả</div>
+        <ul>
+          <li>ETL OHLCV 1-min từ SSI FastConnect, chuẩn hóa bằng R <code style="font-family:var(--mono);font-size:11px;background:var(--gray-100);padding:1px 5px;border-radius:4px;">data.table</code></li>
+          <li>Thiết kế <code style="font-family:var(--mono);font-size:11px;background:var(--gray-100);padding:1px 5px;border-radius:4px;">calc_signals</code> với MA spread ratio, streak count, Signal5 filter, hedge nhánh</li>
+          <li>Candlestick chart (<code style="font-family:var(--mono);font-size:11px;background:var(--gray-100);padding:1px 5px;border-radius:4px;">echarts4r</code>) tích hợp scatter signal + TP annotation</li>
+          <li>State machine <code style="font-family:var(--mono);font-size:11px;background:var(--gray-100);padding:1px 5px;border-radius:4px;">WAIT_SHORT ↔ WAIT_OUT</code> + email alert realtime</li>
+          <li>Grid search spread/streak → tối ưu tham số, walk-forward backtest</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Tính năng cốt lõi</div>
+      <div class="grid-3" style="gap:12px;">
+        <div style="border:1px solid var(--border);border-radius:10px;padding:16px;">
+          <div style="font-size:20px;margin-bottom:8px;">📡</div>
+          <div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:6px;">ETL Intraday</div>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.6;">Tự động lấy OHLCV từ SSI API, chuẩn hóa theo khung thời gian 1-min / 5-min, lưu trữ RDS.</div>
+        </div>
+        <div style="border:1px solid var(--border);border-radius:10px;padding:16px;">
+          <div style="font-size:20px;margin-bottom:8px;">🧮</div>
+          <div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:6px;">Signal Engine</div>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.6;">MA spread ratio, negative streak, had_positive_today flag, Signal5 confirmation, hedge nhánh early entry.</div>
+        </div>
+        <div style="border:1px solid var(--border);border-radius:10px;padding:16px;">
+          <div style="font-size:20px;margin-bottom:8px;">📊</div>
+          <div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:6px;">Backtest Engine</div>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.6;">Grid search tham số, walk-forward validation, candlestick chart tích hợp trade annotation.</div>
+        </div>
+        <div style="border:1px solid var(--border);border-radius:10px;padding:16px;">
+          <div style="font-size:20px;margin-bottom:8px;">📧</div>
+          <div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:6px;">Alert Email</div>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.6;">State machine persist qua file, 3 loại email: SHORT signal, EXIT signal, Daily summary.</div>
+        </div>
+        <div style="border:1px solid var(--border);border-radius:10px;padding:16px;">
+          <div style="font-size:20px;margin-bottom:8px;">🔁</div>
+          <div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:6px;">Auto Refresh</div>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.6;">HTML chart tự động refresh mỗi 5 phút trong phiên, xuất báo cáo cuối ngày.</div>
+        </div>
+        <div style="border:1px solid var(--border);border-radius:10px;padding:16px;">
+          <div style="font-size:20px;margin-bottom:8px;">🎯</div>
+          <div style="font-size:13px;font-weight:600;color:var(--text-primary);margin-bottom:6px;">TP Tiers</div>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.6;">Take-profit nhiều mức, streak-based exit, stop-loss tự động. Logic exit tích hợp trong <code style="font-family:var(--mono);font-size:11px;">get_trade_log</code>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tech-tags" style="margin-top:20px;">
+      <span class="tech-tag purple">R</span>
+      <span class="tech-tag purple">data.table</span>
+      <span class="tech-tag purple">echarts4r</span>
+      <span class="tech-tag teal">SSI FastConnect</span>
+      <span class="tech-tag teal">VN30F1M Futures</span>
+      <span class="tech-tag">Mean Reversion</span>
+      <span class="tech-tag">State Machine</span>
+      <span class="tech-tag">Walk-forward</span>
+      <span class="tech-tag">Grid Search</span>
+    </div>
+  </div>
+
+  <!-- =================== TAB 2: QUY TRÌNH =================== -->
+  <div class="pane" id="tab-pipeline">
+
+    <div class="section-label">Luồng dữ liệu tổng thể</div>
+    <div class="pipeline-row">
+      <div class="pipeline-step">
+        <div class="step-num">01 / Extract</div>
+        <div class="step-title">Data Ingestion</div>
+        <ul class="step-items">
+          <li>SSI FastConnect API</li>
+          <li>OHLCV 1-min intraday</li>
+          <li>VN30F1M tick data</li>
+          <li>Lịch phiên, trading hours</li>
+        </ul>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-num">02 / Transform</div>
+        <div class="step-title">Signal Processing</div>
+        <ul class="step-items">
+          <li>Chuẩn hóa OHLCV (data.table)</li>
+          <li>Tính MA & spread ratio</li>
+          <li>Đếm streak âm liên tiếp</li>
+          <li>Signal5 + hedge nhánh flag</li>
+        </ul>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-num">03 / Validate</div>
+        <div class="step-title">Backtest Engine</div>
+        <ul class="step-items">
+          <li>get_trade_log() simulation</li>
+          <li>TP tiers + streak exit</li>
+          <li>Grid search tham số</li>
+          <li>Walk-forward validation</li>
+        </ul>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-num">04 / Alert</div>
+        <div class="step-title">Output Layer</div>
+        <ul class="step-items">
+          <li>State machine persist file</li>
+          <li>Email alert realtime</li>
+          <li>HTML chart auto-refresh</li>
+          <li>Daily P&amp;L summary</li>
+        </ul>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <div class="grid-2" style="align-items:start;">
+      <div class="card">
+        <div class="card-title">State machine — ALERT_EMAIL_V2</div>
+        <div class="state-machine-wrap">
+          <div class="sm-node purple">
+            <div class="sm-node-label">WAIT_SHORT</div>
+            <div class="sm-node-sub">Chờ tín hiệu short đủ điều kiện</div>
+          </div>
+          <div class="sm-arrow">
+            <div class="sm-arrow-line"></div>
+            <div class="sm-arrow-cond">spread &lt; threshold &amp; streak ≤ -N &amp; Signal5 ✓</div>
+            <div class="sm-arrow-line"></div>
+          </div>
+          <div style="text-align:center;font-size:13px;margin-bottom:6px;">↓ Gửi email SHORT signal</div>
+          <div class="sm-node teal">
+            <div class="sm-node-label">WAIT_OUT</div>
+            <div class="sm-node-sub">Đang giữ lệnh — chờ điều kiện exit</div>
+          </div>
+          <div class="sm-arrow">
+            <div class="sm-arrow-line"></div>
+            <div class="sm-arrow-cond">TP hit / streak đảo chiều / EOD</div>
+            <div class="sm-arrow-line"></div>
+          </div>
+          <div style="text-align:center;font-size:13px;margin-bottom:6px;">↓ Gửi email EXIT signal</div>
+          <div class="sm-node purple">
+            <div class="sm-node-label">WAIT_SHORT</div>
+            <div class="sm-node-sub">Reset — chờ tín hiệu tiếp theo</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Entry &amp; exit rules</div>
+        <div style="margin-bottom:16px;">
+          <div style="font-size:12px;font-weight:600;color:var(--teal-700);margin-bottom:8px;">✅ Điều kiện SHORT</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div style="background:var(--teal-50);border-radius:8px;padding:9px 12px;font-size:12px;color:var(--teal-700);">MA spread ratio &lt; ngưỡng âm (grid search)</div>
+            <div style="background:var(--teal-50);border-radius:8px;padding:9px 12px;font-size:12px;color:var(--teal-700);">Streak âm liên tiếp ≤ -N candle</div>
+            <div style="background:var(--teal-50);border-radius:8px;padding:9px 12px;font-size:12px;color:var(--teal-700);">had_positive_today = FALSE</div>
+            <div style="background:var(--teal-50);border-radius:8px;padding:9px 12px;font-size:12px;color:var(--teal-700);">Signal5 xác nhận</div>
+            <div style="background:var(--purple-50);border-radius:8px;padding:9px 12px;font-size:12px;color:var(--purple-700);">Hedge nhánh: early entry khi thỏa điều kiện phụ</div>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:600;color:var(--coral-400);margin-bottom:8px;">❌ Điều kiện EXIT</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div style="background:var(--coral-50);border-radius:8px;padding:9px 12px;font-size:12px;color:var(--coral-600);">Take-profit tier 1: +X pts</div>
+            <div style="background:var(--coral-50);border-radius:8px;padding:9px 12px;font-size:12px;color:var(--coral-600);">Streak đảo chiều về dương</div>
+            <div style="background:var(--coral-50);border-radius:8px;padding:9px 12px;font-size:12px;color:var(--coral-600);">Stop-loss: -Y pts</div>
+            <div style="background:var(--coral-50);border-radius:8px;padding:9px 12px;font-size:12px;color:var(--coral-600);">End of day (14:30)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =================== TAB 3: CODE MẪU =================== -->
+  <div class="pane" id="tab-code">
+
+    <div class="code-section">
+      <span class="code-label r">R</span>
+      <span class="code-label desc">calc_signals() — tính toán MA spread, streak, Signal5</span>
+      <div class="code-block"><span class="fn">calc_signals</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(dt, ma_short = <span class="num">5</span>, ma_long = <span class="num">20</span>, spread_thresh = <span class="num">-0.003</span>, min_streak = <span class="num">-3</span>) {
+  dt[, ma_s  <span class="kw">:=</span> <span class="fn">frollmean</span>(close, ma_short, align = <span class="str">"right"</span>)]
+  dt[, ma_l  <span class="kw">:=</span> <span class="fn">frollmean</span>(close, ma_long,  align = <span class="str">"right"</span>)]
+
+  <span class="cmt"># MA spread ratio: (MA_short - MA_long) / MA_long</span>
+  dt[, spread <span class="kw">:=</span> (ma_s - ma_l) / ma_l]
+
+  <span class="cmt"># Streak: đếm candle âm liên tiếp (reset về 0 khi dương)</span>
+  dt[, streak <span class="kw">:=</span> <span class="fn">Reduce</span>(<span class="kw">function</span>(acc, x) <span class="fn">ifelse</span>(x &lt; <span class="num">0</span>, acc - <span class="num">1</span>, <span class="num">0</span>),
+                         close - <span class="fn">shift</span>(close), accumulate = <span class="num">TRUE</span>)]
+
+  <span class="cmt"># had_positive_today: đã có candle dương trong ngày hiện tại chưa</span>
+  dt[, had_positive_today <span class="kw">:=</span> <span class="fn">cumany</span>((close - <span class="fn">shift</span>(close)) > <span class="num">0</span>), by = date]
+
+  <span class="cmt"># Signal5: xác nhận thêm — volume spike + spread cực âm</span>
+  dt[, signal5 <span class="kw">:=</span> spread &lt; spread_thresh * <span class="num">1.5</span> &amp; volume > <span class="fn">quantile</span>(volume, <span class="num">0.7</span>)]
+
+  <span class="cmt"># Entry signal tổng hợp</span>
+  dt[, short_signal <span class="kw">:=</span> spread &lt; spread_thresh &amp;
+                        streak <span class="kw">&lt;=</span> min_streak &amp;
+                        had_positive_today <span class="kw">==</span> <span class="num">FALSE</span> &amp;
+                        signal5 <span class="kw">==</span> <span class="num">TRUE</span>]
+  <span class="kw">return</span>(dt)
+}</div>
+    </div>
+
+    <div class="code-section">
+      <span class="code-label r">R</span>
+      <span class="code-label desc">ALERT_EMAIL_V2() — state machine + gửi email cảnh báo</span>
+      <div class="code-block"><span class="fn">ALERT_EMAIL_V2</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(dt_latest, state_file = <span class="str">"state.rds"</span>) {
+
+  <span class="cmt"># Load state từ file (persist giữa các lần chạy)</span>
+  state <span class="kw">&lt;-</span> <span class="kw">if</span> (<span class="fn">file.exists</span>(state_file)) <span class="fn">readRDS</span>(state_file) <span class="kw">else</span> <span class="fn">list</span>(mode = <span class="str">"WAIT_SHORT"</span>)
+
+  last   <span class="kw">&lt;-</span> <span class="fn">tail</span>(dt_latest, <span class="num">1</span>)
+  signal <span class="kw">&lt;-</span> last$short_signal
+
+  <span class="kw">if</span> (state$mode <span class="kw">==</span> <span class="str">"WAIT_SHORT"</span> &amp;&amp; signal) {
+    <span class="cmt"># → Phát tín hiệu SHORT, chuyển sang WAIT_OUT</span>
+    <span class="fn">.send_email</span>(
+      subject = <span class="fn">glue</span>(<span class="str">"[SIGNAL] SHORT VN30F1M — {format(Sys.time(), '%H:%M')}"</span>),
+      body    = <span class="fn">.build_short_body</span>(last)
+    )
+    state <span class="kw">&lt;-</span> <span class="fn">list</span>(mode = <span class="str">"WAIT_OUT"</span>, entry_price = last$close,
+                   entry_time = <span class="fn">Sys.time</span>(), spread_at_entry = last$spread)
+
+  } <span class="kw">else if</span> (state$mode <span class="kw">==</span> <span class="str">"WAIT_OUT"</span>) {
+    exit_hit <span class="kw">&lt;-</span> (last$close &lt;= state$entry_price - <span class="num">4</span>) ||   <span class="cmt"># TP</span>
+                (last$streak >= <span class="num">0</span>)                          ||   <span class="cmt"># Streak đảo</span>
+                (<span class="fn">format</span>(<span class="fn">Sys.time</span>(), <span class="str">"%H%M"</span>) >= <span class="str">"1430"</span>)          <span class="cmt"># EOD</span>
+
+    <span class="kw">if</span> (exit_hit) {
+      pnl <span class="kw">&lt;-</span> state$entry_price - last$close
+      <span class="fn">.send_email</span>(
+        subject = <span class="fn">glue</span>(<span class="str">"[EXIT] VN30F1M — PnL: {round(pnl,1)} pts"</span>),
+        body    = <span class="fn">.build_exit_body</span>(last, state, pnl)
+      )
+      state <span class="kw">&lt;-</span> <span class="fn">list</span>(mode = <span class="str">"WAIT_SHORT"</span>)
+    }
+  }
+
+  <span class="fn">saveRDS</span>(state, state_file)
+}</div>
+    </div>
+  </div>
+
+  <!-- =================== TAB 4: BACKTEST =================== -->
+  <div class="pane" id="tab-backtest">
+
+    <div class="metric-grid">
+      <div class="metric-card">
+        <div class="metric-label">Win rate</div>
+        <div class="metric-val green">68.4%</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Avg profit / trade</div>
+        <div class="metric-val gray">+4.2 pts</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Max drawdown</div>
+        <div class="metric-val red">-12.1 pts</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Tổng trade</div>
+        <div class="metric-val purple">247</div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-title">Grid search — spread threshold × streak count</div>
+      <div class="bt-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Spread threshold</th>
+              <th>Min streak</th>
+              <th>Signal5</th>
+              <th>Win rate</th>
+              <th>Avg profit</th>
+              <th>Max DD</th>
+              <th>Tổng trade</th>
+              <th>Đánh giá</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-family:var(--mono)">-0.0025</td>
+              <td>-3</td>
+              <td>✓</td>
+              <td style="color:var(--teal-500);font-weight:500;">68.4%</td>
+              <td>+4.2 pts</td>
+              <td style="color:var(--coral-400);">-12.1</td>
+              <td>247</td>
+              <td><span class="pill best">Best</span></td>
+            </tr>
+            <tr>
+              <td style="font-family:var(--mono)">-0.0020</td>
+              <td>-3</td>
+              <td>✓</td>
+              <td>63.1%</td>
+              <td>+3.8 pts</td>
+              <td style="color:var(--coral-400);">-14.5</td>
+              <td>312</td>
+              <td><span class="pill mid">Tốt</span></td>
+            </tr>
+            <tr>
+              <td style="font-family:var(--mono)">-0.0025</td>
+              <td>-4</td>
+              <td>✓</td>
+              <td>71.2%</td>
+              <td>+3.1 pts</td>
+              <td style="color:var(--coral-400);">-8.9</td>
+              <td>118</td>
+              <td><span class="pill mid">Tốt</span></td>
+            </tr>
+            <tr>
+              <td style="font-family:var(--mono)">-0.0015</td>
+              <td>-2</td>
+              <td>✗</td>
+              <td>51.8%</td>
+              <td>+1.4 pts</td>
+              <td style="color:var(--coral-400);">-21.3</td>
+              <td>489</td>
+              <td><span class="pill low">Nhiều noise</span></td>
+            </tr>
+            <tr>
+              <td style="font-family:var(--mono)">-0.0030</td>
+              <td>-5</td>
+              <td>✓</td>
+              <td>74.5%</td>
+              <td>+2.8 pts</td>
+              <td style="color:var(--coral-400);">-7.2</td>
+              <td>53</td>
+              <td><span class="pill low">Ít signal</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:12px;font-size:12px;color:var(--text-muted);">
+        * Số liệu placeholder — thay bằng kết quả grid search thực tế của bạn.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Phương pháp walk-forward</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+        <div style="border:1px solid var(--border);border-radius:10px;padding:14px;">
+          <div style="font-size:12px;font-weight:600;color:var(--purple-600);margin-bottom:6px;">In-sample</div>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.6;">60 ngày giao dịch. Grid search tìm tham số tối ưu trên tập train.</div>
+        </div>
+        <div style="border:1px solid var(--border);border-radius:10px;padding:14px;">
+          <div style="font-size:12px;font-weight:600;color:var(--teal-700);margin-bottom:6px;">Out-of-sample</div>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.6;">20 ngày tiếp theo. Chạy backtest với tham số từ in-sample để kiểm tra overfitting.</div>
+        </div>
+        <div style="border:1px solid var(--border);border-radius:10px;padding:14px;">
+          <div style="font-size:12px;font-weight:600;color:var(--coral-400);margin-bottom:6px;">Roll forward</div>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.6;">Trượt cửa sổ 20 ngày, lặp lại. So sánh IS vs OOS performance qua từng fold.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =================== TAB 5: ALERT EMAIL =================== -->
+  <div class="pane" id="tab-alert">
+    <div class="alert-layout">
+
+      <!-- State machine -->
+      <div class="card">
+        <div class="card-title">State machine</div>
+        <div class="sm-node purple" style="margin-bottom:6px;">
+          <div class="sm-node-label">WAIT_SHORT</div>
+          <div class="sm-node-sub">Chờ điều kiện short</div>
+        </div>
+        <div style="text-align:center;padding:4px 0;">
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:2px;">↓ spread &lt; thresh &amp; streak ≤ -N &amp; Signal5</div>
+          <div style="font-size:11px;color:var(--purple-500);font-weight:500;">→ Gửi email SHORT</div>
+        </div>
+        <div class="sm-node teal" style="margin:6px 0;">
+          <div class="sm-node-label">WAIT_OUT</div>
+          <div class="sm-node-sub">Giữ lệnh, theo dõi exit</div>
+        </div>
+        <div style="text-align:center;padding:4px 0;">
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:2px;">↓ TP hit / streak đảo / EOD</div>
+          <div style="font-size:11px;color:var(--teal-500);font-weight:500;">→ Gửi email EXIT</div>
+        </div>
+        <div class="sm-node purple" style="margin-bottom:16px;">
+          <div class="sm-node-label">WAIT_SHORT</div>
+          <div class="sm-node-sub">Reset, chờ signal tiếp</div>
+        </div>
+
+        <hr style="border:none;border-top:1px solid var(--border);margin-bottom:14px;">
+        <div style="font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px;">Daily summary</div>
+        <div style="background:var(--gray-50);border-radius:8px;padding:12px;font-size:12px;color:var(--text-secondary);line-height:1.7;">
+          Cuối phiên 14:45, pipeline tự động tổng hợp: số trade trong ngày, tổng PnL, win rate, tham số đã dùng — gửi về mail dưới dạng bảng HTML.
+        </div>
+      </div>
+
+      <!-- Email preview -->
+      <div>
+        <div class="sub-tabs">
+          <div class="sub-tab active" data-ep="short">📉 SHORT signal</div>
+          <div class="sub-tab" data-ep="exit">✅ EXIT signal</div>
+          <div class="sub-tab" data-ep="daily">📊 Daily summary</div>
+        </div>
+
+        <!-- SHORT email -->
+        <div class="email-preview email-pane active" id="ep-short">
+          <div class="email-header">
+            <div class="email-subject">📉 [SIGNAL] SHORT VN30F1M — 14:05 | 10/06/2026</div>
+            <div class="email-meta">From: algo-alert@beq.vn &nbsp;·&nbsp; To: trader@beq.vn</div>
+          </div>
+          <div class="email-body">
+            <div class="email-row"><span class="lbl">Giá hiện tại</span><span class="val">1,285.4</span></div>
+            <div class="email-row"><span class="lbl">MA spread ratio</span><span class="val red">-0.0032 (vượt ngưỡng)</span></div>
+            <div class="email-row"><span class="lbl">Streak count</span><span class="val red">-5 candle âm liên tiếp</span></div>
+            <div class="email-row"><span class="lbl">had_positive_today</span><span class="val green">FALSE ✓</span></div>
+            <div class="email-row"><span class="lbl">Signal5</span><span class="val green">Confirmed ✓</span></div>
+            <div class="email-row"><span class="lbl">TP target</span><span class="val">1,281.0 (−4.4 pts)</span></div>
+            <div class="email-row"><span class="lbl">Stop loss</span><span class="val red">1,291.0 (+5.6 pts)</span></div>
+            <div class="email-row"><span class="lbl">State mới</span><span class="val purple">WAIT_OUT</span></div>
+          </div>
+          <div class="email-footer">
+            <strong>Hedge nhánh:</strong> Early entry đã kích hoạt lúc 13:58 — spread -0.0028, streak -3. Tham số hiện dùng: spread -0.0025 / streak -3 / Signal5 ON.
+          </div>
+        </div>
+
+        <!-- EXIT email -->
+        <div class="email-preview email-pane" id="ep-exit">
+          <div class="email-header" style="background:#1A4A3A;">
+            <div class="email-subject">✅ [EXIT] VN30F1M — PnL: +4.4 pts | 14:22</div>
+            <div class="email-meta">From: algo-alert@beq.vn &nbsp;·&nbsp; To: trader@beq.vn</div>
+          </div>
+          <div class="email-body">
+            <div class="email-row"><span class="lbl">Entry</span><span class="val">1,285.4 lúc 14:05</span></div>
+            <div class="email-row"><span class="lbl">Exit</span><span class="val">1,281.0 lúc 14:22</span></div>
+            <div class="email-row"><span class="lbl">PnL</span><span class="val green">+4.4 pts ✓ TP hit</span></div>
+            <div class="email-row"><span class="lbl">Lý do exit</span><span class="val">Take-profit tier 1</span></div>
+            <div class="email-row"><span class="lbl">Thời gian giữ</span><span class="val">17 phút</span></div>
+            <div class="email-row"><span class="lbl">State mới</span><span class="val purple">WAIT_SHORT</span></div>
+          </div>
+          <div class="email-footer" style="background:var(--teal-50);color:var(--teal-700);">
+            <strong>Trade #3 hôm nay.</strong> Tổng PnL tạm tính: +8.9 pts. Pipeline reset — đang chờ signal tiếp theo.
+          </div>
+        </div>
+
+        <!-- DAILY email -->
+        <div class="email-preview email-pane" id="ep-daily">
+          <div class="email-header" style="background:#2D2B45;">
+            <div class="email-subject">📊 [DAILY] VN30F1M Summary — 10/06/2026</div>
+            <div class="email-meta">From: algo-alert@beq.vn &nbsp;·&nbsp; To: trader@beq.vn</div>
+          </div>
+          <div class="email-body">
+            <div class="email-row"><span class="lbl">Tổng số trade</span><span class="val">4</span></div>
+            <div class="email-row"><span class="lbl">Win / Loss</span><span class="val">3W / 1L</span></div>
+            <div class="email-row"><span class="lbl">Win rate ngày</span><span class="val green">75%</span></div>
+            <div class="email-row"><span class="lbl">Tổng PnL (pts)</span><span class="val green">+10.2 pts</span></div>
+            <div class="email-row"><span class="lbl">Best trade</span><span class="val">+4.4 pts (14:05–14:22)</span></div>
+            <div class="email-row"><span class="lbl">Worst trade</span><span class="val red">-3.1 pts (10:30–11:15)</span></div>
+            <div class="email-row"><span class="lbl">Tham số dùng</span><span class="val" style="font-family:var(--mono);font-size:12px;">spread -0.0025 / streak -3</span></div>
+          </div>
+          <div class="email-footer">
+            Ngày mai pipeline sẽ tiếp tục với cùng tham số. Kiểm tra biểu đồ chi tiết tại dashboard.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<script>
+  // Main tabs
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+    });
+  });
+
+  // Email sub-tabs
+  document.querySelectorAll('.sub-tab').forEach(st => {
+    st.addEventListener('click', () => {
+      document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.email-pane').forEach(p => p.classList.remove('active'));
+      st.classList.add('active');
+      document.getElementById('ep-' + st.dataset.ep).classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

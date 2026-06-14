@@ -1,0 +1,83 @@
+[
+  {
+    "id": "bank_bctc",
+    "title": "Phân tích BCTC Ngân hàng VN",
+    "status": "DOING",
+    "tagline": "",
+    "stack": ["R/Python","Power BI", "DAX",  "Data Modeling", "Financial Analysis", "AI-assisted Extraction"],
+    "highlights": [
+      "Tự động crawl BCTC ngành chứng khoán từ SSI và chuẩn hoá dữ liệu theo kỳ/công ty/chỉ tiêu",
+      "Thiết kế mô hình Dim/Fact bằng R & Python để tối ưu phân tích đa chiều và so sánh theo công ty/toàn ngành"
+    ],
+    "what_i_did": [
+      "Crawl và chuẩn hoá dữ liệu BCTC ngành chứng khoán từ SSI bằng Python (pipeline thu thập + làm sạch)",
+      "Thiết kế schema Dim/Fact (Company/Date/Item → Fact values) để hỗ trợ phân tích theo nhiều lát cắt",
+      "Xây dựng hệ measures DAX (giá trị, tăng trưởng, hiệu suất, so sánh) và tối ưu tính tái sử dụng",
+      "Xây dựng Power BI report theo module (menu tiles), hỗ trợ cross-filter và drill nhanh insight"
+    ],
+    "process": [
+      "Data acquisition: crawl BCTC từ SSI, chuẩn hoá định dạng và kiểm soát chất lượng dữ liệu",
+      "Data modeling: xây dựng Dim/Fact bằng Python (kỳ, công ty, chỉ tiêu) để tối ưu truy vấn và phân tích",
+      "DAX layer: phát triển measures (value, YoY/QoQ, hiệu suất, so sánh) và chuẩn hoá measure table",
+      "Reporting: thiết kế UX theo module, hoàn thiện report và chuẩn bị publish/embed"
+    ],
+    "cover": "assets/previews/bank_bctc.png",
+    "page_path": "pages/3_Project_Bank_BCTC.py",
+    "powerbi_url": "PASTE_YOUR_PUBLISH_TO_WEB_URL"
+  },
+  {
+    "id": "securities_vn",
+    "title": "Phân tích BCTC Chứng khoán VN",
+    "status": "DONE",
+    "tagline": "",
+    "stack": ["Power BI", "DAX", "Python/R", "Data Modeling", "Financial Analysis", "AI-assisted Extraction"],
+    "highlights": [
+      "Tự động crawl BCTC ngành chứng khoán từ SSI và chuẩn hoá dữ liệu theo kỳ/công ty/chỉ tiêu",
+      "Thiết kế mô hình Dim/Fact bằng Python để tối ưu phân tích đa chiều và so sánh theo công ty/toàn ngành",
+      "Drill-down vào thuyết minh FVTPL & AFS (khoản mục trọng yếu của CTCK) bằng pipeline Python + AI"
+    ],
+    "what_i_did": [
+      "Crawl và chuẩn hoá dữ liệu BCTC ngành chứng khoán từ SSI bằng Python (pipeline thu thập + làm sạch)",
+      "Thiết kế schema Dim/Fact (Company/Date/Item → Fact values) để hỗ trợ phân tích theo nhiều lát cắt",
+      "Xây dựng hệ measures DAX (giá trị, tăng trưởng, hiệu suất, so sánh) và tối ưu tính tái sử dụng",
+      "Crawl & cấu trúc thuyết minh FVTPL và AFS bằng Python kết hợp AI để bổ sung lớp phân tích trọng yếu",
+      "Xây dựng Power BI report theo module (menu tiles), hỗ trợ cross-filter và drill nhanh insight"
+    ],
+    "process": [
+      "Data acquisition: crawl BCTC từ SSI, chuẩn hoá định dạng và kiểm soát chất lượng dữ liệu",
+      "Data modeling: xây dựng Dim/Fact bằng Python (kỳ, công ty, chỉ tiêu) để tối ưu truy vấn và phân tích",
+      "DAX layer: phát triển measures (value, YoY/QoQ, hiệu suất, so sánh) và chuẩn hoá measure table",
+      "Deep-dive notes: trích xuất & cấu trúc thuyết minh FVTPL/AFS bằng Python + AI",
+      "Reporting: thiết kế UX theo module, hoàn thiện report và chuẩn bị publish/embed"
+    ],
+    "cover": "assets/previews/securities_vn.png",
+    "page_path": "pages/4_Project_Securities_VN.py",
+    "powerbi_url": "https://app.powerbi.com/view?r=eyJrIjoiNTAxZjNhMDAtOTY2ZS00YWJiLTljOTktM2VjMzhjNDMxN2Y3IiwidCI6IjI4ZmZjMDE1LWFlOWEtNDEzNC1hOGQ2LWU3MTI4MTEzMDc2OSIsImMiOjEwfQ%3D%3D"
+  },
+  {
+    "id": "hedging_vn30f1m",
+    "title": "Hệ thống Hedging VN30F1M",
+    "status": "DONE",
+    "tagline": "",
+    "stack": ["Data Processing", "Automated Scripting", "Interactive Charts", "SSI FastConnect", "Logic Implementation", "Backtesting"],
+    "highlights": [
+      "ETL OHLCV 1-min từ SSI FastConnect, chuẩn hóa bằng R data.table",
+      "Tính toán tín hiệu short dựa trên MA spread ratio, streak count, Signal5 confirmation",
+      "State machine WAIT_SHORT ↔ WAIT_OUT + email alert realtime"
+    ],
+    "what_i_did": [
+      "Tự động lấy dữ liệu OHLCV 1-min intraday từ SSI API, chuẩn hóa và lưu trữ RDS",
+      "Thiết kế signal engine phát hiện tín hiệu Short bằng MA spread ratio, negative streak và confirmation filter",
+      "Xây dựng backtest engine mô phỏng giao dịch, walk-forward validation và tối ưu hóa tham số",
+      "Phát triển bộ cảnh báo email realtime qua state machine (WAIT_SHORT, WAIT_OUT) và gửi báo cáo cuối ngày"
+    ],
+    "process": [
+      "Data acquisition: tự động lấy dữ liệu 1-min từ SSI API và lưu trữ RDS",
+      "Signal processing: lập trình bộ tính toán tín hiệu dựa trên mean-reversion và streak count",
+      "Backtesting: chạy mô phỏng giao dịch, walk-forward validation để tối ưu tham số",
+      "Output & alerting: tích hợp state machine và email alert tự động realtime"
+    ],
+    "cover": "assets/previews/hedging_vn30f1m.png",
+    "page_path": ""
+  }
+]
