@@ -210,13 +210,13 @@ def render_home():
                 # Actions/CTAs
                 if pid == "securities_vn":
                     if st.button("Chi tiết dự án", type="primary", use_container_width=True, key=f"cta_{pid}"):
-                        st.session_state.current_page = "📊 BCTC Chứng Khoán"
+                        st.session_state.current_page = "📊 BCTC Chứng Khoán VN"
                         st.rerun()
                 elif pid == "bank_bctc":
                     st.button("📊 Tạm ẩn", type="secondary", disabled=True, use_container_width=True, key=f"cta_{pid}")
                 elif pid == "hedging_vn30f1m":
                     if st.button("Chi tiết dự án", type="primary", use_container_width=True, key=f"cta_{pid}"):
-                        st.session_state.current_page = "📈 Hệ thống Hedging VN30F1M"
+                        st.session_state.current_page = "📈 Hedging VN30F1M"
                         st.rerun()
                 else:
                     st.button("🔧 Hệ thống Backend (Không demo)", type="secondary", disabled=True, use_container_width=True, key=f"cta_{pid}")
@@ -434,12 +434,12 @@ def render_securities():
             <style>
               .workflow-container {
                 max-width: 100%;
-                margin: 32px 0 0 0;
+                margin: 20px 0 0 0;
                 padding: 0 10px;
               }
               .workflow-section {
-                margin-bottom: 56px;
-                padding-bottom: 40px;
+                margin-bottom: 32px;
+                padding-bottom: 24px;
                 border-bottom: 1px dashed rgba(226, 232, 240, 0.8);
               }
               .workflow-section:last-child {
@@ -451,7 +451,7 @@ def render_securities():
                 display: flex;
                 align-items: baseline;
                 gap: 16px;
-                margin-bottom: 20px;
+                margin-bottom: 10px;
               }
               .workflow-num {
                 font-size: 2.2rem;
@@ -471,24 +471,24 @@ def render_securities():
                 font-size: 1.05rem;
                 line-height: 1.8;
                 color: #334155;
-                margin-bottom: 20px;
+                margin-bottom: 12px;
                 text-align: justify;
               }
               .workflow-callout {
                 background: rgba(91, 33, 182, 0.03);
                 border-left: 5px solid #5B21B6;
                 border-radius: 8px;
-                padding: 18px 24px;
+                padding: 12px 18px;
                 font-size: 0.95rem;
                 color: #334155;
                 line-height: 1.6;
-                margin-top: 18px;
+                margin-top: 10px;
                 box-shadow: 0 1px 3px rgba(0,0,0,0.01);
               }
               .workflow-callout-header {
                 font-weight: 700;
                 color: #1E1B4B;
-                margin-bottom: 6px;
+                margin-bottom: 4px;
               }
             </style>
             
@@ -1470,8 +1470,8 @@ import streamlit_antd_components as sac
 menu_map = {
     '🏠 Home': 0,
     '📁 Projects': 1,
-    '📊 BCTC Chứng Khoán': 2,
-    '📈 Hệ thống Hedging VN30F1M': 3,
+    '📊 BCTC Chứng Khoán VN': 2,
+    '📈 Hedging VN30F1M': 3,
     '👤 Contact': 4
 }
 
@@ -1488,19 +1488,19 @@ with st.sidebar:
     selected = sac.menu([
         sac.MenuItem('🏠 Home'),
         sac.MenuItem('📁 Projects', children=[
-            sac.MenuItem('📊 BCTC Chứng Khoán'),
-            sac.MenuItem('📈 Hệ thống Hedging VN30F1M'),
+            sac.MenuItem('📊 BCTC Chứng Khoán VN'),
+            sac.MenuItem('📈 Hedging VN30F1M'),
         ]),
         sac.MenuItem('👤 Contact'),
-    ], index=current_index, format_func='title', key="sidebar_menu")
+    ], index=current_index, key="sidebar_menu")
 
 # Update session state with the selected page
 st.session_state.current_page = selected
 
 # Handle parent menu click redirect to first child
 if selected == '📁 Projects':
-    selected = '📊 BCTC Chứng Khoán'
-    st.session_state.current_page = '📊 BCTC Chứng Khoán'
+    selected = '📊 BCTC Chứng Khoán VN'
+    st.session_state.current_page = '📊 BCTC Chứng Khoán VN'
 
 # Scroll to top if page changed (run before page rendering to prevent lag)
 if st.session_state.last_page != st.session_state.current_page:
@@ -1550,9 +1550,9 @@ if st.session_state.last_page != st.session_state.current_page:
 # Render corresponding pages based on selection
 if selected == '🏠 Home':
     render_home()
-elif selected == '📊 BCTC Chứng Khoán':
+elif selected == '📊 BCTC Chứng Khoán VN':
     render_securities()
-elif selected == '📈 Hệ thống Hedging VN30F1M':
+elif selected == '📈 Hedging VN30F1M':
     render_hedging()
 elif selected == '👤 Contact':
     render_contact()
