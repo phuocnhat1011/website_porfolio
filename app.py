@@ -3,7 +3,8 @@ import base64
 import html as _html
 from pathlib import Path
 import streamlit as st
-from shared import apply_style, cover_block
+import streamlit.components.v1 as components
+from shared import apply_style, cover_block, render_svg
 
 # ---------------------------------------------------------
 # 1. PAGE LAYOUT CONFIGURATION
@@ -18,24 +19,34 @@ st.set_page_config(
 apply_style()
 
 
+def get_projects_data():
+    try:
+        with open("data/projects.json", "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return []
+
+@st.cache_data
+def get_avatar_b64():
+    try:
+        avatar_bytes = Path("assets/avatar.jpg").read_bytes()
+        return base64.b64encode(avatar_bytes).decode("utf-8")
+    except Exception:
+        return ""
+
+
 # ---------------------------------------------------------
 # 2. TAB RENDER FUNCTIONS
 # ---------------------------------------------------------
 
 def render_home():
-    # Load projects data
-    with open("data/projects.json", "r", encoding="utf-8") as f:
-        projects = json.load(f)
+    # Load projects data from cache
+    projects = get_projects_data()
     # Filter out BCTC Banking project (bank_bctc) as requested
     projects = [p for p in projects if p.get("id") != "bank_bctc"]
     
-    # Load avatar base64 string
-    avatar_b64 = ""
-    try:
-        avatar_bytes = Path("assets/avatar.jpg").read_bytes()
-        avatar_b64 = base64.b64encode(avatar_bytes).decode("utf-8")
-    except Exception:
-        avatar_b64 = ""
+    # Load avatar base64 string from cache
+    avatar_b64 = get_avatar_b64()
         
     hero_avatar_html = (
         f"<div class='avatar-ring'><img class='avatar-img' src='data:image/jpeg;base64,{avatar_b64}'/></div>"
@@ -52,13 +63,13 @@ def render_home():
               <h1 style="margin:0; font-size: 2.4rem;">👋 Võ Phước Nhật</h1>
               <p class="muted" style="font-size:1.02rem; margin-top:14px; line-height: 1.6;">
                 Phát triển giải pháp dữ liệu và báo cáo tự động cho lĩnh vực <b>Tài chính & Chứng khoán</b>. 
-                Tập trung vào <b>Data Engineering</b>, <b>Financial Modeling</b> và tối ưu quy trình xử lý dữ liệu.
+                Tập trung vào <b>Financial Data Engineering</b>, <b>Algo Trading</b> và tự động hóa pipeline dữ liệu cho thị trường chứng khoán Việt Nam.
               </p>
               <div style="margin-top:16px;">
                 <span class="badge">Data Analytics</span>
                 <span class="badge">Financial Analysis</span>
                 <span class="badge">Automation Pipeline</span>
-                <span class="badge">Python & SQL</span>
+                <span class="badge">R & Python</span>
                 <span class="badge">Power BI & DAX</span>
               </div>
             </div>
@@ -80,7 +91,7 @@ def render_home():
             """
             <div style="border-left: 3px solid #5B21B6; padding-left: 16px; margin-bottom: 20px; margin-top: 8px;">
                 <p style="font-size: 0.95rem; line-height: 1.65; margin: 0; color: #475569; font-style: italic;">
-                "Tôi đam mê kết hợp phân tích tài chính với kỹ thuật dữ liệu hiện đại. Với tư duy giải quyết vấn đề bằng code (Python/SQL) và công cụ trực quan (Power BI), tôi tập trung vào việc tự động hóa các luồng dữ liệu thô thành các báo cáo trực quan và mô hình phân tích hiệu quả. Mục tiêu của tôi là hỗ trợ quy trình vận hành và ra quyết định tài chính trở nên nhanh chóng, chính xác hơn."
+                "Xuất phát từ nền tảng tài chính, tôi chuyển hướng sang kỹ thuật dữ liệu vì nhận ra rằng dữ liệu tốt mới tạo ra quyết định tốt. Tôi thích giải quyết những bài toán thực tế — lấy dữ liệu lộn xộn, làm sạch, mô hình hóa và biến nó thành thứ người dùng có thể đọc và hiểu ngay."
                 </p>
             </div>
             """,
@@ -105,24 +116,24 @@ def render_home():
             <div style="display: flex; gap: 14px; align-items: stretch; justify-content: space-between; margin-top: 8px;">
                 <div class="kpi" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 16px 14px;">
                     <div>
-                        <div style="font-size: 1.5rem; margin-bottom: 8px;">📊</div>
-                        <b style="font-size: 0.88rem; color: #0F172A; display: block; line-height: 1.3;">Data & BI Solutions</b>
+                        <div style="font-size: 1.5rem; margin-bottom: 1px;">📊</div>
+                        <div class="kpi-title">Data & BI Solutions</div>
                     </div>
-                    <div class="muted" style="font-size: 0.78rem; margin-top: 6px; line-height: 1.35;">Dashboard phân tích BCTC và thị trường trực quan.</div>
+                    <div class="muted" style="font-size: 0.78rem; margin-top: 6px; line-height: 1.35;">Dashboard BCTC & danh mục tự doanh trực quan.</div>
                 </div>
                 <div class="kpi" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 16px 14px;">
                     <div>
-                        <div style="font-size: 1.5rem; margin-bottom: 8px;">🧠</div>
-                        <b style="font-size: 0.88rem; color: #0F172A; display: block; line-height: 1.3;">Financial & Data Modeling</b>
+                        <div style="font-size: 1.5rem; margin-bottom: 1px;">🧠</div>
+                        <div class="kpi-title">Data Modeling</div>
                     </div>
-                    <div class="muted" style="font-size: 0.78rem; margin-top: 6px; line-height: 1.35;">Star Schema tối ưu & hệ measures DAX hiệu năng cao.</div>
+                    <div class="muted" style="font-size: 0.78rem; margin-top: 6px; line-height: 1.35;">Star Schema & DAX measures cho chỉ số tài chính.</div>
                 </div>
                 <div class="kpi" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 16px 14px;">
                     <div>
-                        <div style="font-size: 1.5rem; margin-bottom: 8px;">⚙️</div>
-                        <b style="font-size: 0.88rem; color: #0F172A; display: block; line-height: 1.3;">Automation & Pipeline</b>
+                        <div style="font-size: 1.5rem; margin-bottom: 1px;">⚙️</div>
+                        <div class="kpi-title">Automation & Pipeline</div>
                     </div>
-                    <div class="muted" style="font-size: 0.78rem; margin-top: 6px; line-height: 1.35;">Tự động hóa luồng dữ liệu ETL từ nguồn về báo cáo.</div>
+                    <div class="muted" style="font-size: 0.78rem; margin-top: 6px; line-height: 1.35;">ETL tự động: SSI/PDF → PostgreSQL → Power BI.</div>
                 </div>
             </div>
             """,
@@ -134,7 +145,7 @@ def render_home():
     # Flagship Projects section
     st.markdown("<div class='section-title'>Dự án Tiêu Biểu</div>", unsafe_allow_html=True)
     st.markdown(
-        "<p class='muted' style='margin-bottom:20px;'>Các dự án phân tích dữ liệu tài chính chính — bấm vào để mở rộng chi tiết.</p>",
+        "<p class='muted' style='margin-bottom:20px;'>Các dự án phân tích dữ liệu tài chính — bấm vào 'Chi tiết dự án'.</p>",
         unsafe_allow_html=True,
     )
     
@@ -199,12 +210,14 @@ def render_home():
                 # Actions/CTAs
                 if pid == "securities_vn":
                     if st.button("Chi tiết dự án", type="primary", use_container_width=True, key=f"cta_{pid}"):
-                        st.switch_page(securities_page)
+                        st.session_state.current_page = "📊 BCTC Chứng Khoán VN"
+                        st.rerun()
                 elif pid == "bank_bctc":
                     st.button("📊 Tạm ẩn", type="secondary", disabled=True, use_container_width=True, key=f"cta_{pid}")
                 elif pid == "hedging_vn30f1m":
                     if st.button("Chi tiết dự án", type="primary", use_container_width=True, key=f"cta_{pid}"):
-                        st.switch_page(hedging_page)
+                        st.session_state.current_page = "📈 Hedging VN30F1M"
+                        st.rerun()
                 else:
                     st.button("🔧 Hệ thống Backend (Không demo)", type="secondary", disabled=True, use_container_width=True, key=f"cta_{pid}")
                 
@@ -226,10 +239,15 @@ def render_bank():
         unsafe_allow_html=True
     )
     
-    # 4 Sub-tabs navigation
-    tab_summary, tab_pipeline, tab_code, tab_pbi = st.tabs(["Tổng quan", "Quy trình", "Source Code & Data Model", "Power BI"])
+    # 4 Sub-tabs navigation using sac.tabs for lazy loading
+    active_tab = sac.tabs([
+        sac.TabsItem(label="Tổng quan", icon="info-circle"),
+        sac.TabsItem(label="Quy trình", icon="diagram-3"),
+        sac.TabsItem(label="Source Code & Data Model", icon="code-slash"),
+        sac.TabsItem(label="Power BI", icon="bar-chart-line")
+    ], align="start", size="sm", key="bank_tab_selector")
     
-    with tab_summary:
+    if active_tab == "Tổng quan":
         st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
         col1, col2 = st.columns(2)
         with col1:
@@ -268,7 +286,7 @@ def render_bank():
                 unsafe_allow_html=True
             )
             
-    with tab_pipeline:
+    elif active_tab == "Quy trình":
         st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
         st.markdown("### 🔄 Quy trình ETL & Kiến trúc Dữ liệu Ngân hàng")
         st.markdown(
@@ -282,7 +300,7 @@ def render_bank():
         else:
             st.info("💡 Lưu ý: Hãy đặt sơ đồ kiến trúc tại `assets/previews/etl_pipeline.png` để hiển thị sơ đồ.")
             
-    with tab_code:
+    elif active_tab == "Source Code & Data Model":
         st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
         st.markdown("### 💻 Mã nguồn Kỹ thuật Tiêu biểu (Ngân hàng)")
         
@@ -305,15 +323,14 @@ def clean_and_normalize_banking_financials(raw_data_list):
             language="python"
         )
         
-    with tab_pbi:
+    elif active_tab == "Power BI":
         st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
         
         # Read bank powerbi_url from projects.json dynamically
         bank_url = ""
         try:
-            with open("data/projects.json", "r", encoding="utf-8") as f:
-                projs = json.load(f)
-                bank_url = next((p["powerbi_url"] for p in projs if p["id"] == "bank_bctc"), "")
+            projs = get_projects_data()
+            bank_url = next((p["powerbi_url"] for p in projs if p["id"] == "bank_bctc"), "")
         except Exception:
             bank_url = ""
             
@@ -322,16 +339,17 @@ def clean_and_normalize_banking_financials(raw_data_list):
         else:
             st.markdown(
                 f"""
-                <div style="width:100%; height:820px; margin-top: 10px;">
+                <div class="shimmer-loader" style="width:100%; height:820px; margin-top: 10px; position:relative; border-radius:16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                    <div class="spinner-pbi"></div>
                     <iframe 
                         src="{bank_url}" 
-                        style="width:100%; height:100%; border:1px solid rgba(226, 232, 240, 0.8); border-radius:16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);"
+                        style="position:absolute; top:0; left:0; width:100%; height:100%; border:1px solid rgba(226, 232, 240, 0.8); border-radius:16px; background:transparent;"
                         allowfullscreen="true">
                     </iframe>
-                  </div>
-                  """,
-                  unsafe_allow_html=True
-              )
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
 
 
 def render_securities():
@@ -349,10 +367,15 @@ def render_securities():
         unsafe_allow_html=True
     )
     
-    # 4 Sub-tabs navigation
-    tab_summary, tab_pipeline, tab_code, tab_pbi = st.tabs(["Tổng quan", "Quy trình", "Source Code & Data Model", "Power BI"])
+    # 4 Sub-tabs navigation using sac.tabs for lazy loading
+    active_tab = sac.tabs([
+        sac.TabsItem(label="Tổng quan", icon="info-circle"),
+        sac.TabsItem(label="Quy trình", icon="diagram-3"),
+        sac.TabsItem(label="Source Code & Data Model", icon="code-slash"),
+        sac.TabsItem(label="Power BI", icon="bar-chart-line")
+    ], align="start", size="sm", key="securities_tab_selector")
     
-    with tab_summary:
+    if active_tab == "Tổng quan":
         st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
         col1, col2 = st.columns(2)
         with col1:
@@ -391,7 +414,7 @@ def render_securities():
                 unsafe_allow_html=True
             )
             
-    with tab_pipeline:
+    elif active_tab == "Quy trình":
         st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
         st.markdown("### 🔄 Quy trình ETL & Kiến trúc Dữ liệu")
         st.markdown(
@@ -411,12 +434,12 @@ def render_securities():
             <style>
               .workflow-container {
                 max-width: 100%;
-                margin: 32px 0 0 0;
+                margin: 20px 0 0 0;
                 padding: 0 10px;
               }
               .workflow-section {
-                margin-bottom: 56px;
-                padding-bottom: 40px;
+                margin-bottom: 32px;
+                padding-bottom: 24px;
                 border-bottom: 1px dashed rgba(226, 232, 240, 0.8);
               }
               .workflow-section:last-child {
@@ -428,7 +451,7 @@ def render_securities():
                 display: flex;
                 align-items: baseline;
                 gap: 16px;
-                margin-bottom: 20px;
+                margin-bottom: 10px;
               }
               .workflow-num {
                 font-size: 2.2rem;
@@ -448,24 +471,24 @@ def render_securities():
                 font-size: 1.05rem;
                 line-height: 1.8;
                 color: #334155;
-                margin-bottom: 20px;
+                margin-bottom: 12px;
                 text-align: justify;
               }
               .workflow-callout {
                 background: rgba(91, 33, 182, 0.03);
                 border-left: 5px solid #5B21B6;
                 border-radius: 8px;
-                padding: 18px 24px;
+                padding: 12px 18px;
                 font-size: 0.95rem;
                 color: #334155;
                 line-height: 1.6;
-                margin-top: 18px;
+                margin-top: 10px;
                 box-shadow: 0 1px 3px rgba(0,0,0,0.01);
               }
               .workflow-callout-header {
                 font-weight: 700;
                 color: #1E1B4B;
-                margin-bottom: 6px;
+                margin-bottom: 4px;
               }
             </style>
             
@@ -578,7 +601,7 @@ def render_securities():
             unsafe_allow_html=True
         )
             
-    with tab_code:
+    elif active_tab == "Source Code & Data Model":
         st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
         st.markdown("### 💻 Source Code & Data Model")
         
@@ -595,26 +618,27 @@ def render_securities():
         # Phần 2: Data Model
         st.markdown("### 🏗️ Kiến trúc Dữ liệu (Star Schema)")
         
-        # Option 1: Dùng st.image() để hiển thị file ảnh (Ví dụ: ERD_PostgreSQL.svg)
-        img_path = Path("assets/previews/ERD_PostgreSQL.svg")
+        # Option 1: Dùng st.image() để hiển thị sơ đồ (ERD_PostgreSQL.png)
+        img_path = Path("assets/previews/ERD_PostgreSQL.png")
         if img_path.exists():
             st.image(str(img_path), caption="Sơ đồ cơ sở dữ liệu quan hệ (Star Schema)", use_container_width=True)
         else:
-            st.info("💡 Lưu ý: Hãy đặt sơ đồ cơ sở dữ liệu tại `assets/previews/ERD_PostgreSQL.svg` để hiển thị.")
+            st.info("💡 Lưu ý: Hãy đặt sơ đồ cơ sở dữ liệu tại `assets/previews/ERD_PostgreSQL.png` để hiển thị.")
             
         # Option 2: Dùng st.components.v1.html để nhúng mã Iframe từ dbdiagram.io (Mặc định được ẩn, hãy bỏ comment để sử dụng)
         # dbdiagram_iframe = '<iframe src="https://dbdiagram.io/embed/YOUR_EMBED_ID" width="100%" height="600" frameborder="0"></iframe>'
         # components.html(dbdiagram_iframe, height=600)
         
-    with tab_pbi:
+    elif active_tab == "Power BI":
         st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
         POWER_BI_URL = "https://app.powerbi.com/view?r=eyJrIjoiNTAxZjNhMDAtOTY2ZS00YWJiLTljOTktM2VjMzhjNDMxN2Y3IiwidCI6IjI4ZmZjMDE1LWFlOWEtNDEzNC1hOGQ2LWU3MTI4MTEzMDc2OSIsImMiOjEwfQ%3D%3D"
         st.markdown(
             f"""
-            <div style="width:100%; height:820px; margin-top: 10px;">
+            <div class="shimmer-loader" style="width:100%; height:820px; margin-top: 10px; position:relative; border-radius:16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                <div class="spinner-pbi"></div>
                 <iframe 
                     src="{POWER_BI_URL}" 
-                    style="width:100%; height:100%; border:1px solid rgba(226, 232, 240, 0.8); border-radius:16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);"
+                    style="position:absolute; top:0; left:0; width:100%; height:100%; border:1px solid rgba(226, 232, 240, 0.8); border-radius:16px; background:transparent;"
                     allowfullscreen="true">
                 </iframe>
             </div>
@@ -740,27 +764,26 @@ def render_hedging():
         unsafe_allow_html=True
     )
     
+    st.header("📉 VN30F1M Intraday Hedging System")
     st.markdown(
         """
-        <div class="project-header" style="margin-bottom: 20px;">
-            <div style="font-size: 26px; font-weight: 600; color: #0F172A; display: flex; align-items: center; flex-wrap: wrap;">
-                📉 VN30F1M Intraday Hedging System
-                <span class="title-badge">R · Algo Trading</span>
-            </div>
-            <p class="muted" style="font-size: 1.05rem; margin-top: 10px; line-height: 1.7;">
-                Hệ thống giao dịch phái sinh tự động hóa toàn diện cho hợp đồng tương lai VN30F1M — từ ETL dữ liệu OHLCV intraday, 
-                phát hiện tín hiệu short dựa trên MA spread ratio &amp; streak count, đến backtest walk-forward và gửi cảnh báo email theo state machine thời gian thực.
-            </p>
-        </div>
+        <p class='muted' style='font-size: 1.05rem; margin-bottom: 24px;'>
+        Hệ thống giao dịch phái sinh tự động hóa toàn diện cho hợp đồng tương lai VN30F1M — từ ETL dữ liệu OHLCV intraday, 
+        phát hiện tín hiệu short dựa trên MA spread ratio &amp; streak count, đến backtest walk-forward và gửi cảnh báo email theo state machine thời gian thực.
+        </p>
         """,
         unsafe_allow_html=True
     )
 
-    tab_overview, tab_pipeline, tab_code, tab_backtest, tab_alert = st.tabs([
-        "Tổng quan", "Quy trình", "Code mẫu", "Backtest", "Alert Email"
-    ])
+    active_tab = sac.tabs([
+        sac.TabsItem(label="Tổng quan", icon="info-circle"),
+        sac.TabsItem(label="Quy trình", icon="diagram-3"),
+        sac.TabsItem(label="Source code", icon="code-slash"),
+        sac.TabsItem(label="Backtest", icon="play-circle"),
+        sac.TabsItem(label="Alert Email", icon="envelope-at")
+    ], align="start", size="sm", key="hedging_tab_selector")
     
-    with tab_overview:
+    if active_tab == "Tổng quan":
         st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
         col1, col2 = st.columns(2)
         with col1:
@@ -787,7 +810,7 @@ def render_hedging():
                     <h3 style="margin-top: 0; color: #2563EB; font-size:1.3rem;">⚡ Hành động &amp; Kết quả</h3>
                     <ul>
                         <li><b>Data Handling:</b> Tự động lấy dữ liệu OHLCV 1-phút từ các nguồn (SSI, DNSE) và chuẩn hóa dữ liệu bằng R để thuận tiện cho việc xử lý.</li>
-                        <li><b>Logic Implementation:</b> Xây dựng các hàm (functions) tính toán chỉ báo và tín hiệu dựa trên các quy tắc cá nhân (như MA, spread, streak spread).</li>
+                        <li><b>Entry/Exit Logic:</b> Xây dựng các hàm (functions) tính toán chỉ báo và tín hiệu dựa trên các quy tắc cá nhân (như MA, spread, streak spread).</li>
                         <li><b>Visualization:</b> Sử dụng biểu đồ nến (Candlestick chart) có tích hợp tín hiệu để theo dõi trạng thái chiến lược trực tiếp trong phiên.</li>
                         <li><b>Testing &amp; Tuning:</b> Kiểm tra chiến lược bằng cách thử nghiệm nhiều mức tham số khác nhau (Grid Search) và chạy thử cuốn chiếu trên dữ liệu quá khứ (Walk-forward) để tìm bộ thông số ổn định nhất.</li>
                     </ul>
@@ -847,7 +870,7 @@ def render_hedging():
                 <span class="tech-tag purple">Interactive Charts</span>
                 <span class="tech-tag teal">SSI FastConnect</span>
                 <span class="tech-tag teal">VN30F1M Futures</span>
-                <span class="tech-tag">Logic Implementation</span>
+                <span class="tech-tag">Entry/Exit Logic</span>
                 <span class="tech-tag">Backtesting</span>
                 <span class="tech-tag">Walk-forward</span>
                 <span class="tech-tag">Grid Search</span>
@@ -856,7 +879,7 @@ def render_hedging():
             unsafe_allow_html=True
         )
 
-    with tab_pipeline:
+    elif active_tab == "Quy trình":
         st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
         st.markdown("### 🔄 Quy trình ETL &amp; Kiến trúc Dữ liệu")
         
@@ -868,10 +891,8 @@ def render_hedging():
                     <div class="step-num">01 / Extract</div>
                     <div class="step-title">Data Ingestion</div>
                     <ul class="step-items">
-                        <li>SSI FastConnect API</li>
-                        <li>OHLCV 1-min intraday</li>
-                        <li>VN30F1M tick data</li>
-                        <li>Lịch phiên, trading hours</li>
+                        <li>Kết nối SSI FastConnect API và DNSE API</li>
+                        <li>Thu thập dữ liệu OHLCV theo khung 1 phút (intraday)</li>
                     </ul>
                 </div>
                 """,
@@ -884,10 +905,9 @@ def render_hedging():
                     <div class="step-num">02 / Transform</div>
                     <div class="step-title">Signal Processing</div>
                     <ul class="step-items">
-                        <li>Chuẩn hóa OHLCV (data.table)</li>
-                        <li>Tính MA &amp; spread ratio</li>
-                        <li>Đếm streak âm liên tiếp</li>
-                        <li>Signal5 + hedge nhánh flag</li>
+                        <li>Chuẩn hóa dữ liệu OHLCV, xử lý timestamp</li>
+                        <li>Tính MA ngắn/dài hạn và spread ratio</li>
+                        <li>Xây dựng các điều kiện tín hiệu vào/ra lệnh</li>
                     </ul>
                 </div>
                 """,
@@ -898,12 +918,12 @@ def render_hedging():
                 """
                 <div class="pipeline-step">
                     <div class="step-num">03 / Validate</div>
-                    <div class="step-title">Backtest Engine</div>
+                    <div class="step-title">Backtest &amp; Optimization</div>
                     <ul class="step-items">
-                        <li>get_trade_log() simulation</li>
-                        <li>TP tiers + streak exit</li>
-                        <li>Grid search tham số</li>
-                        <li>Walk-forward validation</li>
+                        <li>Mô phỏng chiến lược trên dữ liệu lịch sử (1 trade/ngày)</li>
+                        <li>Cơ chế thoát lệnh: TP cố định + streak exit 2 tầng</li>
+                        <li>Grid search ~300+ tổ hợp tham số (spread, streak, nb_except)</li>
+                        <li>Đánh giá theo win rate, avg P&amp;L, total P&amp;L</li>
                     </ul>
                 </div>
                 """,
@@ -914,12 +934,12 @@ def render_hedging():
                 """
                 <div class="pipeline-step">
                     <div class="step-num">04 / Alert</div>
-                    <div class="step-title">Output Layer</div>
+                    <div class="step-title">Output &amp; Monitoring</div>
                     <ul class="step-items">
-                        <li>State machine persist file</li>
-                        <li>Email alert realtime</li>
-                        <li>HTML chart auto-refresh</li>
-                        <li>Daily P&amp;L summary</li>
+                        <li>State machine 2 trạng thái (WAIT_SHORT / WAIT_OUT) — lưu trạng thái ra file .rds theo ngày, chống gửi tín hiệu trùng</li>
+                        <li>Gửi email cảnh báo theo thời gian thực (EARLY WARNING &rarr; SHORT &rarr; OUT)</li>
+                        <li>Biểu đồ HTML tự động cập nhật</li>
+                        <li>Tổng kết P&amp;L hàng ngày</li>
                     </ul>
                 </div>
                 """,
@@ -994,101 +1014,33 @@ def render_hedging():
                 unsafe_allow_html=True
             )
 
-    with tab_code:
+    elif active_tab == "Source code":
         st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
-        st.markdown("### 💻 Mã nguồn Kỹ thuật Tiêu biểu (R)")
+        st.markdown("### 💻 Source Code & Data Model")
         
+        # Phần 1: Repository Navigation
         st.markdown(
-            """
-            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px; margin-top: 12px;">
-                <span style="background: #6C63D5; color: white; padding: 3px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: bold; text-transform: uppercase;">R</span>
-                <span style="font-weight: 700; color: #0F172A; font-size: 1.05rem;">calc_signals() — tính toán MA spread, streak, Signal5</span>
-            </div>
-            """, 
-            unsafe_allow_html=True
+            "Toàn bộ mã nguồn, cấu trúc luồng xử lý dữ liệu (ETL) và kịch bản tự động hóa của dự án "
+            "được quản lý tập trung và phân module chi tiết trên GitHub."
         )
-        st.code(
-            """
-calc_signals <- function(dt, ma_short = 5, ma_long = 20, spread_thresh = -0.003, min_streak = -3) {
-  dt[, ma_s  := frollmean(close, ma_short, align = "right")]
-  dt[, ma_l  := frollmean(close, ma_long,  align = "right")]
-
-  # MA spread ratio: (MA_short - MA_long) / MA_long
-  dt[, spread := (ma_s - ma_l) / ma_l]
-
-  # Streak: đếm candle âm liên tiếp (reset về 0 khi dương)
-  dt[, streak := Reduce(function(acc, x) ifelse(x < 0, acc - 1, 0),
-                         close - shift(close), accumulate = TRUE)]
-
-  # had_positive_today: đã có candle dương trong ngày hiện tại chưa
-  dt[, had_positive_today := cumany((close - shift(close)) > 0), by = date]
-
-  # Signal5: xác nhận thêm — volume spike + spread cực âm
-  dt[, signal5 := spread < spread_thresh * 1.5 & volume > quantile(volume, 0.7)]
-
-  # Entry signal tổng hợp
-  dt[, short_signal := spread < spread_thresh &
-                        streak <= min_streak &
-                        had_positive_today == FALSE &
-                        signal5 == TRUE]
-  return(dt)
-}
-            """,
-            language="r"
-        )
+        st.link_button("💻 Xem chi tiết Repository trên GitHub", "#", use_container_width=False)
+        
+        # Phân cách
+        st.divider()
+        
+        # Phần 2: Data Model
+        st.markdown("### 🏗️ Kiến trúc Dữ liệu (Star Schema)")
+        
+        # Option 1: Dùng st.image() để hiển thị sơ đồ (ERD_PostgreSQL.png)
+        img_path = Path("assets/previews/ERD_PostgreSQL.png")
+        if img_path.exists():
+            st.image(str(img_path), caption="Sơ đồ cơ sở dữ liệu quan hệ (Star Schema)", use_container_width=True)
+        else:
+            st.info("💡 Lưu ý: Hãy đặt sơ đồ cơ sở dữ liệu tại `assets/previews/ERD_PostgreSQL.png` để hiển thị.")
         
         st.markdown("<div style='height: 16px;'></div>", unsafe_allow_html=True)
-        
-        st.markdown(
-            """
-            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                <span style="background: #6C63D5; color: white; padding: 3px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: bold; text-transform: uppercase;">R</span>
-                <span style="font-weight: 700; color: #0F172A; font-size: 1.05rem;">ALERT_EMAIL_V2() — state machine + gửi email cảnh báo</span>
-            </div>
-            """, 
-            unsafe_allow_html=True
-        )
-        st.code(
-            """
-ALERT_EMAIL_V2 <- function(dt_latest, state_file = "state.rds") {
 
-  # Load state từ file (persist giữa các lần chạy)
-  state <- if (file.exists(state_file)) readRDS(state_file) else list(mode = "WAIT_SHORT")
-
-  last   <- tail(dt_latest, 1)
-  signal <- last$short_signal
-
-  if (state$mode == "WAIT_SHORT" && signal) {
-    # → Phát tín hiệu SHORT, chuyển sang WAIT_OUT
-    .send_email(
-      subject = glue("[SIGNAL] SHORT VN30F1M — {format(Sys.time(), '%H:%M')}"),
-      body    = .build_short_body(last)
-    )
-    state <- list(mode = "WAIT_OUT", entry_price = last$close,
-                   entry_time = Sys.time(), spread_at_entry = last$spread)
-
-  } else if (state$mode == "WAIT_OUT") {
-    exit_hit <- (last$close <= state$entry_price - 4) ||   # TP
-                (last$streak >= 0)                          ||   # Streak đảo
-                (format(Sys.time(), "%H%M") >= "1430")          # EOD
-
-    if (exit_hit) {
-      pnl <- state$entry_price - last$close
-      .send_email(
-        subject = glue("[EXIT] VN30F1M — PnL: {round(pnl,1)} pts"),
-        body    = .build_exit_body(last, state, pnl)
-      )
-      state <- list(mode = "WAIT_SHORT")
-    }
-  }
-
-  saveRDS(state, state_file)
-}
-            """,
-            language="r"
-        )
-
-    with tab_backtest:
+    elif active_tab == "Backtest":
         st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
         st.markdown("### 📊 Kết quả Backtest &amp; Tối ưu hóa tham số")
         
@@ -1242,7 +1194,7 @@ ALERT_EMAIL_V2 <- function(dt_latest, state_file = "state.rds") {
             unsafe_allow_html=True
         )
 
-    with tab_alert:
+    elif active_tab == "Alert Email":
         st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
         
         col_sm, col_preview = st.columns([1, 1.2])
@@ -1284,11 +1236,13 @@ ALERT_EMAIL_V2 <- function(dt_latest, state_file = "state.rds") {
             )
             
         with col_preview:
-            email_short_tab, email_exit_tab, email_daily_tab = st.tabs([
-                "📉 SHORT signal", "✅ EXIT signal", "📊 Daily summary"
-            ])
+            email_active_tab = sac.tabs([
+                sac.TabsItem(label="📉 SHORT signal"),
+                sac.TabsItem(label="✅ EXIT signal"),
+                sac.TabsItem(label="📊 Daily summary")
+            ], align="start", size="sm", key="hedging_email_tab_selector")
             
-            with email_short_tab:
+            if email_active_tab == "📉 SHORT signal":
                 st.markdown(
                     """
                     <div class="email-preview">
@@ -1314,7 +1268,7 @@ ALERT_EMAIL_V2 <- function(dt_latest, state_file = "state.rds") {
                     unsafe_allow_html=True
                 )
                 
-            with email_exit_tab:
+            elif email_active_tab == "✅ EXIT signal":
                 st.markdown(
                     """
                     <div class="email-preview">
@@ -1338,7 +1292,7 @@ ALERT_EMAIL_V2 <- function(dt_latest, state_file = "state.rds") {
                     unsafe_allow_html=True
                 )
                 
-            with email_daily_tab:
+            elif email_active_tab == "📊 Daily summary":
                 st.markdown(
                     """
                     <div class="email-preview">
@@ -1508,17 +1462,197 @@ def render_contact():
 
 
 # ---------------------------------------------------------
-# 3. MODERN MULTIPAGE SYSTEM CONFIGURATION
+# 3. SIDEBAR NAVIGATION USING STREAMLIT-ANTD-COMPONENTS
 # ---------------------------------------------------------
+import streamlit_antd_components as sac
 
-# Declare Pages mapped to respective render functions
-home_page = st.Page(render_home, title="Trang chủ", icon="🏠", default=True, url_path="home")
-bank_page = st.Page(render_bank, title="BCTC Ngân Hàng", icon="🏦", url_path="bank")
-securities_page = st.Page(render_securities, title="BCTC Chứng Khoán", icon="📊", url_path="securities")
-hedging_page = st.Page(render_hedging, title="Hệ thống Hedging VN30F1M", icon="📉", url_path="hedging")
-knowledge_page = st.Page(render_knowledge, title="Góc Chia Sẻ", icon="🧠", url_path="knowledge")
-contact_page = st.Page(render_contact, title="Giới thiệu & Liên hệ", icon="👤", url_path="contact")
+# Map page names to their indices in sac.menu
+menu_map = {
+    '🏠 Home': 0,
+    '📁 Projects': 1,
+    '📊 BCTC Chứng Khoán VN': 2,
+    '📈 Hedging VN30F1M': 3,
+    '👤 Contact': 4
+}
 
-# Setup Navigation Menu in st.sidebar (temporarily hide bank_page)
-pg = st.navigation([home_page, securities_page, hedging_page, contact_page])
-pg.run()
+# Initialize session state for active selection if not present
+if "current_page" not in st.session_state:
+    st.session_state.current_page = "🏠 Home"
+if "last_page" not in st.session_state:
+    st.session_state.last_page = st.session_state.current_page
+
+# Get the index of the current page
+current_index = menu_map.get(st.session_state.current_page, 0)
+
+with st.sidebar:
+    selected = sac.menu([
+        sac.MenuItem('🏠 Home'),
+        sac.MenuItem('📁 Projects', children=[
+            sac.MenuItem('📊 BCTC Chứng Khoán VN'),
+            sac.MenuItem('📈 Hedging VN30F1M'),
+        ]),
+        sac.MenuItem('👤 Contact'),
+    ], index=current_index, key="sidebar_menu")
+
+# Update session state with the selected page
+st.session_state.current_page = selected
+
+# Handle parent menu click redirect to first child
+if selected == '📁 Projects':
+    selected = '📊 BCTC Chứng Khoán VN'
+    st.session_state.current_page = '📊 BCTC Chứng Khoán VN'
+
+# Scroll to top if page changed (run before page rendering to prevent lag)
+if st.session_state.last_page != st.session_state.current_page:
+    if "scroll_counter" not in st.session_state:
+        st.session_state.scroll_counter = 0
+    st.session_state.scroll_counter += 1
+    
+    components.html(
+        f"""
+        <!-- scroll_id: {st.session_state.scroll_counter} -->
+        <script>
+            const scrollToTop = () => {{
+                try {{
+                    window.parent.scrollTo(0, 0);
+                    if (window.parent.document.documentElement) {{
+                        window.parent.document.documentElement.scrollTop = 0;
+                    }}
+                    if (window.parent.document.body) {{
+                        window.parent.document.body.scrollTop = 0;
+                    }}
+                    const main = window.parent.document.querySelector('.main');
+                    if (main) {{
+                        main.scrollTop = 0;
+                        main.scrollTo(0, 0);
+                    }}
+                    const app = window.parent.document.querySelector('.stApp');
+                    if (app) {{
+                        app.scrollTop = 0;
+                        app.scrollTo(0, 0);
+                    }}
+                }} catch (e) {{
+                    console.error("Scroll to top error:", e);
+                }}
+            }};
+            
+            // Run at key intervals to beat Streamlit's rendering & scroll restoration without lag
+            scrollToTop();
+            setTimeout(scrollToTop, 50);
+            setTimeout(scrollToTop, 200);
+        </script>
+        """,
+        height=0,
+        width=0
+    )
+    st.session_state.last_page = st.session_state.current_page
+
+# Render corresponding pages based on selection
+if selected == '🏠 Home':
+    render_home()
+elif selected == '📊 BCTC Chứng Khoán VN':
+    render_securities()
+elif selected == '📈 Hedging VN30F1M':
+    render_hedging()
+elif selected == '👤 Contact':
+    render_contact()
+
+# Inject custom JS to style the Ant Design menu inside its iframe (forcing Plus Jakarta Sans font)
+components.html(
+    """
+    <script>
+    const styleIframe = (doc) => {
+        if (doc.getElementById('custom-font-style')) return;
+        const style = doc.createElement('style');
+        style.id = 'custom-font-style';
+        style.textContent = `
+            @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+            * {
+                font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
+                font-size: 14px !important;
+            }
+            
+            /* Force all top-level items (Home, Projects, Contact) to be bold and purple */
+            .ant-menu-root > .ant-menu-item,
+            .ant-menu-root > .ant-menu-submenu > .ant-menu-submenu-title {
+                color: #5B21B6 !important;
+                font-weight: 600 !important;
+            }
+            .ant-menu-root > .ant-menu-item .ant-menu-title-content,
+            .ant-menu-root > .ant-menu-submenu > .ant-menu-submenu-title .ant-menu-title-content {
+                color: #5B21B6 !important;
+            }
+            
+            /* Sub-menu items (children) should be normal weight and slate color */
+            .ant-menu-sub .ant-menu-item {
+                color: #475569 !important;
+                font-weight: 450 !important;
+            }
+            .ant-menu-sub .ant-menu-item .ant-menu-title-content {
+                color: #475569 !important;
+            }
+            .ant-menu-sub .ant-menu-item:hover,
+            .ant-menu-sub .ant-menu-item:hover .ant-menu-title-content {
+                color: #5B21B6 !important;
+            }
+            
+            /* Custom styling for Ant Design active/selected items */
+            .ant-menu-item-selected {
+                background-color: rgba(91, 33, 182, 0.08) !important;
+                color: #5B21B6 !important;
+                font-weight: 600 !important;
+            }
+            .ant-menu-item-selected .ant-menu-title-content {
+                color: #5B21B6 !important;
+            }
+
+            /* Disable expand/collapse transition animations for submenu to show all items instantly */
+            .ant-menu-sub.ant-motion-collapse {
+                animation: none !important;
+                transition: none !important;
+            }
+            .ant-menu-sub.ant-motion-collapse-appear,
+            .ant-menu-sub.ant-motion-collapse-enter {
+                opacity: 1 !important;
+                height: auto !important;
+                animation: none !important;
+                transition: none !important;
+            }
+            .ant-motion-collapse-appear-active,
+            .ant-motion-collapse-enter-active {
+                animation: none !important;
+                transition: none !important;
+            }
+            .ant-menu-item {
+                transition: none !important;
+            }
+            .ant-menu-submenu-arrow {
+                transition: none !important;
+            }
+        `;
+        doc.head.appendChild(style);
+    };
+
+    const tryAllIframes = () => {
+        const iframes = parent.document.getElementsByTagName('iframe');
+        for (let iframe of iframes) {
+            try {
+                const doc = iframe.contentDocument || iframe.contentWindow.document;
+                if (doc && doc.querySelector('.ant-menu')) {
+                    styleIframe(doc);
+                }
+            } catch(e) {}
+        }
+    };
+
+    // Observe parent DOM for new iframes being added
+    const observer = new MutationObserver(tryAllIframes);
+    observer.observe(parent.document.body, { childList: true, subtree: true });
+
+    // Also run immediately
+    tryAllIframes();
+    </script>
+    """,
+    height=0,
+    width=0
+)

@@ -30,7 +30,7 @@
     "title": "Phân tích BCTC Chứng khoán VN",
     "status": "DONE",
     "tagline": "",
-    "stack": ["Power BI", "DAX", "Python/R", "Data Modeling", "Financial Analysis", "AI-assisted Extraction"],
+    "stack": ["Power BI", "DAX", "Python/R", "Data Modeling", "Financial Analysis", "PDF Parsing accurate"],
     "highlights": [
       "Tự động crawl BCTC ngành chứng khoán từ SSI và chuẩn hoá dữ liệu theo kỳ/công ty/chỉ tiêu",
       "Thiết kế mô hình Dim/Fact bằng Python để tối ưu phân tích đa chiều và so sánh theo công ty/toàn ngành",
@@ -59,7 +59,7 @@
     "title": "Hệ thống Hedging VN30F1M",
     "status": "DONE",
     "tagline": "",
-    "stack": ["Data Processing", "Automated Scripting", "Interactive Charts", "SSI FastConnect", "Logic Implementation", "Backtesting"],
+    "stack": ["Data Processing", "Automated Scripting", "Interactive Charts", "SSI FastConnect", "Entry/Exit Logic", "Backtesting"],
     "highlights": [
       "ETL OHLCV 1-min từ SSI FastConnect, chuẩn hóa bằng R data.table",
       "Tính toán tín hiệu short dựa trên MA spread ratio, streak count, Signal5 confirmation",

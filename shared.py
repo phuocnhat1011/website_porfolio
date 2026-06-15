@@ -95,6 +95,15 @@ p {
 }
 
 .kpi { padding: 18px 20px !important; }
+.kpi p { margin: 0 !important; padding: 0 !important; }
+.kpi br { display: none !important; }
+.kpi-title {
+  font-size: 0.88rem;
+  color: #0F172A;
+  display: block;
+  line-height: 1.35;
+  font-weight: 700;
+}
 .card { padding: 24px !important; }
 .surface { padding: 24px !important; }
 
@@ -371,6 +380,48 @@ div.stDownloadButton > button[kind="secondary"]:hover * {
   color: #5B21B6 !important;
   transform: translateY(-2px);
 }
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+.shimmer-loader {
+    background: linear-gradient(90deg, #f8fafc 25%, #f1f5f9 50%, #f8fafc 75%) !important;
+    background-size: 200% 100% !important;
+    animation: shimmer 1.6s infinite !important;
+}
+
+/* Spinner element */
+.spinner-pbi {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border: 3.5px solid #e2e8f0;
+    border-top: 3.5px solid #5B21B6;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Page Transition Fade-In */
+.main .block-container {
+    animation: fadeInPage 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes fadeInPage {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 </style>
 """
 
@@ -385,6 +436,14 @@ def file_exists(path: str) -> bool:
 
 def embed_powerbi(url: str, height: int = 900):
     components.iframe(url, height=height + 56, scrolling=True)
+
+
+@st.cache_data
+def get_image_base64(path: str) -> str:
+    try:
+        return base64.b64encode(Path(path).read_bytes()).decode("utf-8")
+    except Exception:
+        return ""
 
 
 def cover_block(path, height=160):
@@ -402,7 +461,7 @@ def cover_block(path, height=160):
         # fallback
         mime = "image/png" if p.suffix.lower() == ".png" else "image/jpeg"
 
-    b64 = base64.b64encode(p.read_bytes()).decode("utf-8")
+    b64 = get_image_base64(str(p))
 
     st.markdown(
         f"""
@@ -412,3 +471,21 @@ def cover_block(path, height=160):
         """,
         unsafe_allow_html=True,
     )
+
+
+def render_svg(path: str, caption: str = ""):
+    p = Path(path)
+    if not p.exists():
+        st.info(f"💡 Lưu ý: Hãy đặt sơ đồ tại `{path}` để hiển thị.")
+        return
+    b64 = get_image_base64(str(p))
+    if b64:
+        st.markdown(
+            f"""
+            <div style="text-align: center; margin-top: 12px; margin-bottom: 12px;">
+                <img src="data:image/svg+xml;base64,{b64}" style="width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); border: 1px solid rgba(226,232,240,0.8);" />
+                {f'<p class="muted" style="font-size: 0.85rem; margin-top: 8px;">{caption}</p>' if caption else ''}
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
