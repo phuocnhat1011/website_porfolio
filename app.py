@@ -1224,7 +1224,6 @@ def render_hedging():
                         <div class="sm-node-label">WAIT_SHORT</div>
                         <div class="sm-node-sub">Reset, chờ signal tiếp</div>
                     </div>
-                    
                     <hr style="border:none; border-top:1px solid #E2E1DC; margin:16px 0;">
                     <div style="font-size:12px; font-weight:600; color:#888780; margin-bottom:10px; text-transform:uppercase; letter-spacing:.5px;">Daily summary</div>
                     <div style="background:#F7F7F6; border-radius:8px; padding:12px; font-size:12px; color:#5F5E5A; line-height:1.7;">
@@ -1247,21 +1246,21 @@ def render_hedging():
                     """
                     <div class="email-preview">
                         <div class="email-header">
-                            <div class="email-subject">📉 [SIGNAL] SHORT VN30F1M — 14:05 | 10/06/2026</div>
-                            <div class="email-meta">From: algo-alert@beq.vn &nbsp;·&nbsp; To: trader@beq.vn</div>
+                            <div class="email-subject">📉 [SIGNAL] SHORT VN30F1M — 10:44 | 28/05/2026</div>
+                            <div class="email-meta">From: nhat.vophuoc@gmail.com &nbsp;·&nbsp; To: nhat.vophuoc@gmail.com</div>
                         </div>
                         <div class="email-body">
-                            <div class="email-row"><span class="lbl">Giá hiện tại</span><span class="val">1,285.4</span></div>
-                            <div class="email-row"><span class="lbl">MA spread ratio</span><span class="val red">-0.0032 (vượt ngưỡng)</span></div>
-                            <div class="email-row"><span class="lbl">Streak count</span><span class="val red">-5 candle âm liên tiếp</span></div>
-                            <div class="email-row"><span class="lbl">had_positive_today</span><span class="val green">FALSE ✓</span></div>
-                            <div class="email-row"><span class="lbl">Signal5</span><span class="val green">Confirmed ✓</span></div>
-                            <div class="email-row"><span class="lbl">TP target</span><span class="val">1,281.0 (−4.4 pts)</span></div>
-                            <div class="email-row"><span class="lbl">Stop loss</span><span class="val red">1,291.0 (+5.6 pts)</span></div>
+                            <div class="email-row"><span class="lbl">Prices Current</span><span class="val">2,012.2</span></div>
+                            <div class="email-row"><span class="lbl">MA spread ratio</span><span class="val red">-0.216 (vượt ngưỡng)</span></div>
+                            <div class="email-row"><span class="lbl">Streak count</span><span class="val red">20 candle âm liên tiếp</span></div>
+                            <div class="email-row"><span class="lbl">Has positive spread</span><span class="val green">TRUE ✓</span></div>
+                            <div class="email-row"><span class="lbl">Except</span><span class="val green">5</span></div>
+                            <div class="email-row"><span class="lbl">TP target</span><span class="val">1,999 (−13.2 pts)</span></div>
+                            <div class="email-row"><span class="lbl">Stop loss</span><span class="val red">2,024 (+11.8 pts)</span></div>
                             <div class="email-row"><span class="lbl">State mới</span><span class="val purple">WAIT_OUT</span></div>
                         </div>
                         <div class="email-footer">
-                            <strong>Hedge nhánh:</strong> Early entry đã kích hoạt lúc 13:58 — spread -0.0028, streak -3. Tham số hiện dùng: spread -0.0025 / streak -3 / Signal5 ON.
+                            <strong>Hedge nhánh:</strong> Early entry đã kích hoạt lúc 10:37 — spread -0.0028, streak -3. Tham số hiện dùng: spread -0.0025 / streak -3 / Signal5 ON.
                         </div>
                     </div>
                     """,
@@ -1273,19 +1272,20 @@ def render_hedging():
                     """
                     <div class="email-preview">
                         <div class="email-header" style="background:#1A4A3A;">
-                            <div class="email-subject">✅ [EXIT] VN30F1M — PnL: +4.4 pts | 14:22</div>
-                            <div class="email-meta">From: algo-alert@beq.vn &nbsp;·&nbsp; To: trader@beq.vn</div>
+                            <div class="email-subject">✅ [EXIT] VN30F1M — PnL: +22.1 pts | 14:45</div>
+                            <div class="email-meta">From: nhat.vophuoc@gmail.com &nbsp;·&nbsp; To: nhat.vophuoc@gmail.com</div>
                         </div>
                         <div class="email-body">
-                            <div class="email-row"><span class="lbl">Entry</span><span class="val">1,285.4 lúc 14:05</span></div>
-                            <div class="email-row"><span class="lbl">Exit</span><span class="val">1,281.0 lúc 14:22</span></div>
-                            <div class="email-row"><span class="lbl">PnL</span><span class="val green">+4.4 pts ✓ TP hit</span></div>
-                            <div class="email-row"><span class="lbl">Lý do exit</span><span class="val">Take-profit tier 1</span></div>
-                            <div class="email-row"><span class="lbl">Thời gian giữ</span><span class="val">17 phút</span></div>
-                            <div class="email-row"><span class="lbl">State mới</span><span class="val purple">WAIT_SHORT</span></div>
+                            <div class="email-row"><span class="lbl">Entry</span><span class="val">2,012.2 at 10:44</span></div>
+                            <div class="email-row"><span class="lbl">Exit</span><span class="val">1,990.1 at 14:45</span></div>
+                            <div class="email-row"><span class="lbl">PnL</span><span class="val green">+22.1 pts</span></div>
+                            <div class="email-row"><span class="lbl">%PnL</span><span class="val green">~1.1%</span></div>
+                            <div class="email-row"><span class="lbl">Reason exit</span><span class="val">End of day</span></div>
+                            <div class="email-row"><span class="lbl">Hold duration</span><span class="val">241 minutes</span></div>
+                            <div class="email-row"><span class="lbl">State mới</span><span class="val purple">DONE FOR TODAY</span></div>
                         </div>
                         <div class="email-footer" style="background:#E1F5EE; color:#0F6E56;">
-                            <strong>Trade #3 hôm nay.</strong> Tổng PnL tạm tính: +8.9 pts. Pipeline reset — đang chờ signal tiếp theo.
+                            <strong>Trade #3 hôm nay.</strong> Tổng PnL tạm tính: +26.6 pts. Phiên giao dịch đã kết thúc.
                         </div>
                     </div>
                     """,
@@ -1297,15 +1297,15 @@ def render_hedging():
                     """
                     <div class="email-preview">
                         <div class="email-header" style="background:#2D2B45;">
-                            <div class="email-subject">📊 [DAILY] VN30F1M Summary — 10/06/2026</div>
-                            <div class="email-meta">From: algo-alert@beq.vn &nbsp;·&nbsp; To: trader@beq.vn</div>
+                            <div class="email-subject">📊 [DAILY] VN30F1M Summary — 28/05/2026</div>
+                            <div class="email-meta">From: nhat.vophuoc@gmail.com &nbsp;·&nbsp; To: nhat.vophuoc@gmail.com</div>
                         </div>
                         <div class="email-body">
                             <div class="email-row"><span class="lbl">Tổng số trade</span><span class="val">4</span></div>
                             <div class="email-row"><span class="lbl">Win / Loss</span><span class="val">3W / 1L</span></div>
                             <div class="email-row"><span class="lbl">Win rate ngày</span><span class="val green">75%</span></div>
                             <div class="email-row"><span class="lbl">Tổng PnL (pts)</span><span class="val green">+10.2 pts</span></div>
-                            <div class="email-row"><span class="lbl">Best trade</span><span class="val">+4.4 pts (14:05–14:22)</span></div>
+                            <div class="email-row"><span class="lbl">Best trade</span><span class="val">+4.4 pts (10:44–11:01)</span></div>
                             <div class="email-row"><span class="lbl">Worst trade</span><span class="val red">-3.1 pts (10:30–11:15)</span></div>
                             <div class="email-row"><span class="lbl">Tham số dùng</span><span class="val" style="font-family: 'JetBrains Mono', monospace; font-size:12px;">spread -0.0025 / streak -3</span></div>
                         </div>
