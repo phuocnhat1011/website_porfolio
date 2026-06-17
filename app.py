@@ -5,6 +5,7 @@ from pathlib import Path
 import streamlit as st
 import streamlit.components.v1 as components
 from shared import apply_style, cover_block, render_svg
+import pandas as pd
 
 # ---------------------------------------------------------
 # 1. PAGE LAYOUT CONFIGURATION
@@ -647,6 +648,17 @@ def render_securities():
         )
 
 
+@st.cache_data
+def load_backtest_data():
+    excel_path = "assets/data_backtesting.xlsx"
+    try:
+        df = pd.read_excel(excel_path)
+        return df
+    except Exception as e:
+        st.error(f"Lỗi khi tải dữ liệu backtest: {e}")
+        return None
+
+
 def render_hedging():
     # Page specific CSS styles
     st.markdown(
@@ -693,6 +705,7 @@ def render_hedging():
           .sm-node {
             border-radius: 10px; padding: 12px 16px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            text-align: center;
           }
           .sm-node.purple { background: #EEEDFE; border: 1.5px solid #AFA9EC; }
           .sm-node.teal { background: #E1F5EE; border: 1.5px solid #9FE1CB; }
@@ -737,12 +750,13 @@ def render_hedging():
           .email-footer strong { font-weight: 600; }
 
           /* Table styling */
-          .bt-table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid #E2E1DC; }
+          .bt-table-wrap { overflow: auto; max-height: 400px; border-radius: 12px; border: 1px solid #E2E1DC; }
           table.bt-table { width: 100%; border-collapse: collapse; font-size: 13px; }
           table.bt-table thead th {
               background: #F7F7F6; padding: 10px 14px; text-align: left;
               font-size: 11px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase;
               color: #888780; border-bottom: 1px solid #E2E1DC;
+              position: sticky; top: 0; z-index: 1;
           }
           table.bt-table tbody td { padding: 10px 14px; border-bottom: 1px solid #EFEFED; color: #5F5E5A; }
           table.bt-table tbody tr:last-child td { border-bottom: none; }
@@ -953,7 +967,7 @@ def render_hedging():
             st.markdown(
                 """
                 <div class="card" style="height: 100%;">
-                    <h3 style="margin-top: 0; color: #0F172A; font-size:1.15rem; margin-bottom: 16px;">State machine — ALERT_EMAIL_V2</h3>
+                    <h3 style="margin-top: 0; color: #0F172A; font-size:1.15rem; margin-bottom: 16px;">State machine — ALERT_EMAIL</h3>
                     <div class="state-machine-wrap">
                         <div class="sm-node purple">
                             <div class="sm-node-label">WAIT_SHORT</div>
@@ -991,22 +1005,22 @@ def render_hedging():
                 <div class="card" style="height: 100%;">
                     <h3 style="margin-top: 0; color: #0F172A; font-size:1.15rem; margin-bottom: 16px;">Entry &amp; exit rules</h3>
                     <div style="margin-bottom:16px;">
-                        <div style="font-size:13px; font-weight:600; color:#0F6E56; margin-bottom:8px;">✅ Điều kiện SHORT (Entry)</div>
+                        <div style="font-size:13px; font-weight:600; color:#0F6E56; margin-bottom:8px;">✅ Điều kiện SHORT</div>
                         <div style="display:flex; flex-direction:column; gap:6px;">
+                            <div style="background:#E1F5EE; border-radius:8px; padding:9px 12px; font-size:12px; color:#0F6E56; border-left: 3px solid #1D9E75;">No trades in the first 5 minutes after market open.</div>
                             <div style="background:#E1F5EE; border-radius:8px; padding:9px 12px; font-size:12px; color:#0F6E56; border-left: 3px solid #1D9E75;">MA spread ratio &lt; ngưỡng âm (từ grid search)</div>
-                            <div style="background:#E1F5EE; border-radius:8px; padding:9px 12px; font-size:12px; color:#0F6E56; border-left: 3px solid #1D9E75;">Streak âm liên tiếp &le; -N candle</div>
-                            <div style="background:#E1F5EE; border-radius:8px; padding:9px 12px; font-size:12px; color:#0F6E56; border-left: 3px solid #1D9E75;">had_positive_today = FALSE (chưa có candle dương trong ngày)</div>
-                            <div style="background:#E1F5EE; border-radius:8px; padding:9px 12px; font-size:12px; color:#0F6E56; border-left: 3px solid #1D9E75;">Signal5 xác nhận (Volume spike + spread cực âm)</div>
-                            <div style="background:#EEEDFE; border-radius:8px; padding:9px 12px; font-size:12px; color:#3C3489; border-left: 3px solid #6C63D5;">Hedge nhánh: early entry khi thỏa điều kiện phụ đặc biệt</div>
+                            <div style="background:#E1F5EE; border-radius:8px; padding:9px 12px; font-size:12px; color:#0F6E56; border-left: 3px solid #1D9E75;">Streak âm liên tiếp &ge; N candle</div>
+                            <div style="background:#E1F5EE; border-radius:8px; padding:9px 12px; font-size:12px; color:#0F6E56; border-left: 3px solid #1D9E75;">MA cross down today: TRUE</div>
+                            <div style="background:#E1F5EE; border-radius:8px; padding:9px 12px; font-size:12px; color:#0F6E56; border-left: 3px solid #1D9E75;">Signal_special xác nhận (Volume spike + spread cực âm)</div>
                         </div>
                     </div>
                     <div>
                         <div style="font-size:13px; font-weight:600; color:#993C1D; margin-bottom:8px;">❌ Điều kiện EXIT</div>
                         <div style="display:flex; flex-direction:column; gap:6px;">
-                            <div style="background:#FAECE7; border-radius:8px; padding:9px 12px; font-size:12px; color:#993C1D; border-left: 3px solid #D85A30;">Take-profit tier 1: đạt mốc +X pts</div>
-                            <div style="background:#FAECE7; border-radius:8px; padding:9px 12px; font-size:12px; color:#993C1D; border-left: 3px solid #D85A30;">Streak đảo chiều về dương (giá tăng trở lại)</div>
-                            <div style="background:#FAECE7; border-radius:8px; padding:9px 12px; font-size:12px; color:#993C1D; border-left: 3px solid #D85A30;">Stop-loss tự động: chạm mốc -Y pts</div>
-                            <div style="background:#FAECE7; border-radius:8px; padding:9px 12px; font-size:12px; color:#993C1D; border-left: 3px solid #D85A30;">Hết giờ giao dịch phiên intraday (14:30)</div>
+                            <div style="background:#FAECE7; border-radius:8px; padding:9px 12px; font-size:12px; color:#993C1D; border-left: 3px solid #D85A30;">Take-profit : đạt mốc +X pts</div>
+                            <div style="background:#FAECE7; border-radius:8px; padding:9px 12px; font-size:12px; color:#993C1D; border-left: 3px solid #D85A30;">Spread ratio đảo chiều về dương &gt; ngưỡng dương (từ grid search)</div>
+                            <div style="background:#FAECE7; border-radius:8px; padding:9px 12px; font-size:12px; color:#993C1D; border-left: 3px solid #D85A30;">Streak dương liên tiếp &ge; N candle</div>
+                            <div style="background:#FAECE7; border-radius:8px; padding:9px 12px; font-size:12px; color:#993C1D; border-left: 3px solid #D85A30;">Tự động đóng lệnh vào cuối ngày</div>
                         </div>
                     </div>
                 </div>
@@ -1023,20 +1037,28 @@ def render_hedging():
             "Toàn bộ mã nguồn, cấu trúc luồng xử lý dữ liệu (ETL) và kịch bản tự động hóa của dự án "
             "được quản lý tập trung và phân module chi tiết trên GitHub."
         )
-        st.link_button("💻 Xem chi tiết Repository trên GitHub", "#", use_container_width=False)
+        st.link_button("💻 Xem chi tiết Repository trên GitHub", "https://github.com/phuocnhat1011/VN30F1M_HEDGING", use_container_width=False)
         
         # Phân cách
         st.divider()
         
         # Phần 2: Data Model
-        st.markdown("### 🏗️ Kiến trúc Dữ liệu (Star Schema)")
+        st.markdown("### 🏗️ Signal Visualization")
         
-        # Option 1: Dùng st.image() để hiển thị sơ đồ (ERD_PostgreSQL.png)
-        img_path = Path("assets/previews/ERD_PostgreSQL.png")
-        if img_path.exists():
-            st.image(str(img_path), caption="Sơ đồ cơ sở dữ liệu quan hệ (Star Schema)", use_container_width=True)
+        # Nhúng file HTML tương tác echarts4r nếu có, ngược lại fallback về ảnh tĩnh
+        html_path = Path("assets/vn30f1m.html")
+        if html_path.exists():
+            try:
+                html_content = html_path.read_text(encoding="utf-8")
+                components.html(html_content, height=600, scrolling=True)
+            except Exception as e:
+                st.error(f"Lỗi khi tải sơ đồ tương tác: {e}")
         else:
-            st.info("💡 Lưu ý: Hãy đặt sơ đồ cơ sở dữ liệu tại `assets/previews/ERD_PostgreSQL.png` để hiển thị.")
+            img_path = Path("assets/previews/ERD_PostgreSQL.png")
+            if img_path.exists():
+                st.image(str(img_path), caption="Sơ đồ cơ sở dữ liệu quan hệ (Star Schema)", use_container_width=True)
+            else:
+                st.info("💡 Lưu ý: Hãy đặt sơ đồ tương tác tại `assets/vn30f1m.html` để hiển thị.")
         
         st.markdown("<div style='height: 16px;'></div>", unsafe_allow_html=True)
 
@@ -1044,137 +1066,183 @@ def render_hedging():
         st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
         st.markdown("### 📊 Kết quả Backtest &amp; Tối ưu hóa tham số")
         
-        # KPI Row
-        col_kpi1, col_kpi2, col_kpi3, col_kpi4 = st.columns(4)
-        with col_kpi1:
-            st.markdown(
-                """
-                <div class="kpi" style="text-align: center;">
-                    <div style="font-size: 11px; color: #888780; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .4px;">Win rate</div>
-                    <div style="font-size: 22px; font-weight: 600; color: #1D9E75;">68.4%</div>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-        with col_kpi2:
-            st.markdown(
-                """
-                <div class="kpi" style="text-align: center;">
-                    <div style="font-size: 11px; color: #888780; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .4px;">Avg profit / trade</div>
-                    <div style="font-size: 22px; font-weight: 600; color: #1A1A19;">+4.2 pts</div>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-        with col_kpi3:
-            st.markdown(
-                """
-                <div class="kpi" style="text-align: center;">
-                    <div style="font-size: 11px; color: #888780; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .4px;">Max drawdown</div>
-                    <div style="font-size: 22px; font-weight: 600; color: #D85A30;">-12.1 pts</div>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-        with col_kpi4:
-            st.markdown(
-                """
-                <div class="kpi" style="text-align: center;">
-                    <div style="font-size: 11px; color: #888780; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .4px;">Tổng trade</div>
-                    <div style="font-size: 22px; font-weight: 600; color: #6C63D5;">247</div>
-                </div>
-                """,
-                unsafe_allow_html=True
+        df = load_backtest_data()
+        if df is not None:
+            # 1. Tile Slicer Filter (Rank)
+            filter_type = sac.buttons(
+                items=['Good', 'Avg', 'Bad'],
+                label='Rank',
+                index=0,
+                variant='outline',
+                key='rank_slicer'
             )
             
+            # 2. Filter & Sort data based on user rules
+            if filter_type == "Good":
+                filtered_df = df[(df['Win Rate'] > 60) & (df['Total Pnl'] > 200)].sort_values(by='AVG Pnl', ascending=False)
+                status_pill = '<span class="pill best">Tốt</span>'
+            elif filter_type == "Avg":
+                filtered_df = df[(df['Win Rate'] > 50) & (df['Win Rate'] < 60) & (df['Total Pnl'] > 150) & (df['Total Pnl'] < 200)].sort_values(by='AVG Pnl', ascending=False)
+                status_pill = '<span class="pill mid">Trung bình</span>'
+            else:
+                filtered_df = df[(df['Win Rate'] < 50) & (df['Total Pnl'] < 150)].sort_values(by='Win Rate', ascending=False)
+                status_pill = '<span class="pill low">Kém</span>'
+                
+            # 3. Dynamic KPIs (Show metrics of the best parameter combination in the filtered group)
+            if not filtered_df.empty:
+                best_row = filtered_df.iloc[0]
+                kpi_win_rate = best_row['Win Rate']
+                kpi_profit = best_row['AVG Pnl']
+                kpi_total_pnl = best_row['Total Pnl']
+                kpi_trades = best_row['Nb trades']
+            else:
+                kpi_win_rate = 0.0
+                kpi_profit = 0.0
+                kpi_total_pnl = 0.0
+                kpi_trades = 0.0
+
+            # Render KPI row
+            col_kpi1, col_kpi2, col_kpi3, col_kpi4 = st.columns(4)
+            with col_kpi1:
+                st.markdown(
+                    f"""
+                    <div class="kpi" style="text-align: center;">
+                        <div style="font-size: 11px; color: #888780; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .4px;">Win rate</div>
+                        <div style="font-size: 22px; font-weight: 600; color: #1D9E75;">{kpi_win_rate:.1f}%</div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+            with col_kpi2:
+                st.markdown(
+                    f"""
+                    <div class="kpi" style="text-align: center;">
+                        <div style="font-size: 11px; color: #888780; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .4px;">Avg profit / trade</div>
+                        <div style="font-size: 22px; font-weight: 600; color: #1A1A19;">{"+" if kpi_profit >= 0 else ""}{kpi_profit:.2f} pts</div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+            with col_kpi3:
+                st.markdown(
+                    f"""
+                    <div class="kpi" style="text-align: center;">
+                        <div style="font-size: 11px; color: #888780; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .4px;">Total PnL</div>
+                        <div style="font-size: 22px; font-weight: 600; color: #D85A30;">{"+" if kpi_total_pnl >= 0 else ""}{kpi_total_pnl:.1f} pts</div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+            with col_kpi4:
+                st.markdown(
+                    f"""
+                    <div class="kpi" style="text-align: center;">
+                        <div style="font-size: 11px; color: #888780; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .4px;">Tổng trade</div>
+                        <div style="font-size: 22px; font-weight: 600; color: #6C63D5;">{int(kpi_trades)}</div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+                
+            st.markdown("<div style='height:16px;'></div>", unsafe_allow_html=True)
+            
+            # 4. Generate dynamic table HTML
+            table_rows_html = ""
+            for idx, row in filtered_df.reset_index(drop=True).iterrows():
+                spread_in = row['Spread in']
+                streak_in = int(row['Streak in'])
+                spread_out = row['Spread out']
+                streak_out = int(row['Streak out'])
+                except_val = int(row['Nb Except'])
+                tp = float(row['Take Profit'])
+                win_rate = row['Win Rate']
+                avg_pnl = row['AVG Pnl']
+                total_pnl = row['Total Pnl']
+                trades = int(row['Nb trades'])
+                
+                # Determine status pill dynamically
+                if filter_type == "Good":
+                    if idx == 0:
+                        row_status_pill = '<span class="pill best">Best</span>'
+                    else:
+                        row_status_pill = '<span class="pill mid">Tốt</span>'
+                elif filter_type == "Avg":
+                    row_status_pill = '<span class="pill mid">Trung bình</span>'
+                else: # Bad
+                    if trades < 100:
+                        row_status_pill = '<span class="pill low">Chưa tốt</span>'
+                    else:
+                        row_status_pill = '<span class="pill low">Nhiều noise</span>'
+                
+                avg_pnl_str = f"+{avg_pnl:.2f} pts" if avg_pnl >= 0 else f"{avg_pnl:.2f} pts"
+                avg_pnl_style = " style='color:#1D9E75; font-weight:500;'" if avg_pnl >= 0 else ""
+                
+                total_pnl_str = f"+{total_pnl:.1f} pts" if total_pnl >= 0 else f"{total_pnl:.1f} pts"
+                total_pnl_style = " style='color:#1D9E75; font-weight:500;'" if total_pnl >= 0 else " style='color:#D85A30;'"
+                
+                # Format TP value: if it's an integer, print as int, else as float
+                tp_str = f"{int(tp)}" if tp.is_integer() else f"{tp:.1f}"
+                
+                # Add single-line HTML row to avoid markdown rendering parser bugs
+                table_rows_html += (
+                    f"<tr>"
+                    f"<td style='font-family: \"JetBrains Mono\", monospace;'>{spread_in}</td>"
+                    f"<td>{streak_in}</td>"
+                    f"<td style='font-family: \"JetBrains Mono\", monospace;'>{spread_out}</td>"
+                    f"<td>{streak_out}</td>"
+                    f"<td>{except_val}</td>"
+                    f"<td>{tp_str}</td>"
+                    f"<td style='color:#1D9E75; font-weight:500;'>{win_rate:.1f}%</td>"
+                    f"<td{avg_pnl_style}>{avg_pnl_str}</td>"
+                    f"<td{total_pnl_style}>{total_pnl_str}</td>"
+                    f"<td>{trades}</td>"
+                    f"<td>{row_status_pill}</td>"
+                    f"</tr>"
+                )
+                
+            tbody_content = table_rows_html if table_rows_html else "<tr><td colspan='11' style='text-align:center;'>Không có dữ liệu phù hợp</td></tr>"
+            
+            table_html = (
+                f'<div class="card">'
+                f'<h3 style="margin-top: 0; color: #0F172A; font-size:1.15rem; margin-bottom: 16px;">Grid Search — Spread &amp; Streak Parameters ({len(filtered_df)} kết quả)</h3>'
+                f'<div class="bt-table-wrap">'
+                f'<table class="bt-table">'
+                f'<thead>'
+                f'<tr>'
+                f'<th>Spread In</th>'
+                f'<th>Streak In</th>'
+                f'<th>Spread Out</th>'
+                f'<th>Streak Out</th>'
+                f'<th>Except</th>'
+                f'<th>TP</th>'
+                f'<th>Win Rate</th>'
+                f'<th>Avg PnL</th>'
+                f'<th>Total PnL</th>'
+                f'<th>Tổng Trade</th>'
+                f'<th>Đánh giá</th>'
+                f'</tr>'
+                f'</thead>'
+                f'<tbody>'
+                f'{tbody_content}'
+                f'</tbody>'
+                f'</table>'
+                f'</div>'
+                f'<div style="margin-top:12px; font-size:11px; color:#888780;">'
+                f'* Số liệu trên đây là kết quả backtest thực tế từ Intraday VN30F1M từ đầu năm 2026 tới nay.'
+                f'</div>'
+                f'</div>'
+            )
+            st.markdown(table_html, unsafe_allow_html=True)
+            
+        else:
+            st.warning("⚠️ Không tìm thấy tệp dữ liệu `assets/data_backtesting.xlsx`. Vui lòng tải lên tệp dữ liệu.")
+        
         st.markdown("<div style='height:16px;'></div>", unsafe_allow_html=True)
         
         st.markdown(
             """
             <div class="card">
-                <h3 style="margin-top: 0; color: #0F172A; font-size:1.15rem; margin-bottom: 16px;">Grid search — spread threshold &amp; court streak</h3>
-                <div class="bt-table-wrap">
-                    <table class="bt-table">
-                        <thead>
-                            <tr>
-                                <th>Spread threshold</th>
-                                <th>Min streak</th>
-                                <th>Signal5</th>
-                                <th>Win rate</th>
-                                <th>Avg profit</th>
-                                <th>Max DD</th>
-                                <th>Tổng trade</th>
-                                <th>Đánh giá</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td style="font-family: 'JetBrains Mono', monospace;">-0.0025</td>
-                                <td>-3</td>
-                                <td>✓</td>
-                                <td style="color:#1D9E75; font-weight:500;">68.4%</td>
-                                <td>+4.2 pts</td>
-                                <td style="color:#D85A30;">-12.1</td>
-                                <td>247</td>
-                                <td><span class="pill best">Best</span></td>
-                            </tr>
-                            <tr>
-                                <td style="font-family: 'JetBrains Mono', monospace;">-0.0020</td>
-                                <td>-3</td>
-                                <td>✓</td>
-                                <td>63.1%</td>
-                                <td>+3.8 pts</td>
-                                <td style="color:#D85A30;">-14.5</td>
-                                <td>312</td>
-                                <td><span class="pill mid">Tốt</span></td>
-                            </tr>
-                            <tr>
-                                <td style="font-family: 'JetBrains Mono', monospace;">-0.0025</td>
-                                <td>-4</td>
-                                <td>✓</td>
-                                <td>71.2%</td>
-                                <td>+3.1 pts</td>
-                                <td style="color:#D85A30;">-8.9</td>
-                                <td>118</td>
-                                <td><span class="pill mid">Tốt</span></td>
-                            </tr>
-                            <tr>
-                                <td style="font-family: 'JetBrains Mono', monospace;">-0.0015</td>
-                                <td>-2</td>
-                                <td>✗</td>
-                                <td>51.8%</td>
-                                <td>+1.4 pts</td>
-                                <td style="color:#D85A30;">-21.3</td>
-                                <td>489</td>
-                                <td><span class="pill low">Nhiều noise</span></td>
-                            </tr>
-                            <tr>
-                                <td style="font-family: 'JetBrains Mono', monospace;">-0.0030</td>
-                                <td>-5</td>
-                                <td>✓</td>
-                                <td>74.5%</td>
-                                <td>+2.8 pts</td>
-                                <td style="color:#D85A30;">-7.2</td>
-                                <td>53</td>
-                                <td><span class="pill low">Ít signal</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div style="margin-top:12px; font-size:11px; color:#888780;">
-                    * Số liệu trên đây là kết quả backtest mô phỏng tham chiếu từ hệ thống.
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-        
-        st.markdown("<div style='height:16px;'></div>", unsafe_allow_html=True)
-        
-        st.markdown(
-            """
-            <div class="card">
-                <h3 style="margin-top: 0; color: #0F172A; font-size:1.15rem; margin-bottom: 16px;">Phương pháp walk-forward</h3>
+                <h3 style="margin-top: 0; color: #0F172A; font-size:1.15rem; margin-bottom: 16px;">Phương pháp Walk-Forward (Planned)</h3>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px;">
                     <div style="border:1px solid #E2E1DC; border-radius:10px; padding:14px; background:rgba(255,255,255,0.4);">
                         <div style="font-size:12px; font-weight:600; color:#6C63D5; margin-bottom:6px;">In-sample (Train)</div>
@@ -1258,9 +1326,6 @@ def render_hedging():
                             <div class="email-row"><span class="lbl">TP target</span><span class="val">1,999 (−13.2 pts)</span></div>
                             <div class="email-row"><span class="lbl">Stop loss</span><span class="val red">2,024 (+11.8 pts)</span></div>
                             <div class="email-row"><span class="lbl">State mới</span><span class="val purple">WAIT_OUT</span></div>
-                        </div>
-                        <div class="email-footer">
-                            <strong>Hedge nhánh:</strong> Early entry đã kích hoạt lúc 10:37 — spread -0.0028, streak -3. Tham số hiện dùng: spread -0.0025 / streak -3 / Signal5 ON.
                         </div>
                     </div>
                     """,
@@ -1471,8 +1536,7 @@ menu_map = {
     '🏠 Home': 0,
     '📁 Projects': 1,
     '📊 BCTC Chứng Khoán VN': 2,
-    '📈 Hedging VN30F1M': 3,
-    '👤 Contact': 4
+    '📈 Hedging VN30F1M': 3
 }
 
 # Initialize session state for active selection if not present
@@ -1490,8 +1554,7 @@ with st.sidebar:
         sac.MenuItem('📁 Projects', children=[
             sac.MenuItem('📊 BCTC Chứng Khoán VN'),
             sac.MenuItem('📈 Hedging VN30F1M'),
-        ]),
-        sac.MenuItem('👤 Contact'),
+        ])
     ], index=current_index, key="sidebar_menu")
 
 # Update session state with the selected page
@@ -1554,8 +1617,8 @@ elif selected == '📊 BCTC Chứng Khoán VN':
     render_securities()
 elif selected == '📈 Hedging VN30F1M':
     render_hedging()
-elif selected == '👤 Contact':
-    render_contact()
+# elif selected == '👤 Contact':
+#     render_contact()
 
 # Inject custom JS to style the Ant Design menu inside its iframe (forcing Plus Jakarta Sans font)
 components.html(
