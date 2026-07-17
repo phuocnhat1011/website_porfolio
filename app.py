@@ -340,11 +340,11 @@ def clean_and_normalize_banking_financials(raw_data_list):
         else:
             st.markdown(
                 f"""
-                <div class="shimmer-loader" style="width:100%; height:820px; margin-top: 10px; position:relative; border-radius:16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                <div class="shimmer-loader" style="width:100%; aspect-ratio: 16/9; margin-top: 10px; position:relative; border-radius:16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); overflow: hidden;">
                     <div class="spinner-pbi"></div>
                     <iframe 
                         src="{bank_url}" 
-                        style="position:absolute; top:0; left:0; width:100%; height:100%; border:1px solid rgba(226, 232, 240, 0.8); border-radius:16px; background:transparent;"
+                        style="position:absolute; top:0; left:0; width:100%; height:calc(100% + 36px); border:1px solid rgba(226, 232, 240, 0.8); border-radius:16px; background:transparent;"
                         allowfullscreen="true">
                     </iframe>
                 </div>
@@ -635,11 +635,11 @@ def render_securities():
         POWER_BI_URL = "https://app.powerbi.com/view?r=eyJrIjoiMjhmZDQzMTQtODFkNy00YjljLTlhMGEtNWM2NmM3ZjlkYjliIiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9"
         st.markdown(
             f"""
-            <div class="shimmer-loader" style="width:100%; height:820px; margin-top: 10px; position:relative; border-radius:16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+            <div class="shimmer-loader" style="width:100%; aspect-ratio: 16/9; margin-top: 10px; position:relative; border-radius:16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); overflow: hidden;">
                 <div class="spinner-pbi"></div>
                 <iframe 
                     src="{POWER_BI_URL}" 
-                    style="position:absolute; top:0; left:0; width:100%; height:100%; border:1px solid rgba(226, 232, 240, 0.8); border-radius:16px; background:transparent;"
+                    style="position:absolute; top:0; left:0; width:100%; height:calc(100% + 36px); border:1px solid rgba(226, 232, 240, 0.8); border-radius:16px; background:transparent;"
                     allowfullscreen="true">
                 </iframe>
             </div>
