@@ -632,7 +632,7 @@ def render_securities():
         
     elif active_tab == "Power BI":
         st.markdown("<div style='height:10px;'></div>", unsafe_allow_html=True)
-        POWER_BI_URL = "https://app.powerbi.com/view?r=eyJrIjoiNTAxZjNhMDAtOTY2ZS00YWJiLTljOTktM2VjMzhjNDMxN2Y3IiwidCI6IjI4ZmZjMDE1LWFlOWEtNDEzNC1hOGQ2LWU3MTI4MTEzMDc2OSIsImMiOjEwfQ%3D%3D"
+        POWER_BI_URL = "https://app.powerbi.com/view?r=eyJrIjoiMjhmZDQzMTQtODFkNy00YjljLTlhMGEtNWM2NmM3ZjlkYjliIiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9"
         st.markdown(
             f"""
             <div class="shimmer-loader" style="width:100%; height:820px; margin-top: 10px; position:relative; border-radius:16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
