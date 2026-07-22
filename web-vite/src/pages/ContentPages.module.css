@@ -1,0 +1,18 @@
+.header { margin-bottom: 24px; }
+.header p { margin-bottom: 0; color: #64748b; }
+.knowledgeGrid, .contactGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.knowledgeGrid > *, .contactGrid > *, .contentCard { min-width: 0; }
+.columnHeading { padding-bottom: 8px; border-bottom: 2px solid #5b21b6; font-size: 1.3rem; }
+.columnHeading.blue { border-color: #2563eb; }
+.contentCard + .contentCard { margin-top: 14px; }
+.contentCard h3 { font-size: 1rem; }
+.meta { color: #64748b; font-size: 0.82rem; }
+.contactHeading { padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; font-size: 1.3rem; }
+.contactList { margin: 0; padding: 0; list-style: none; }
+.contactList li + li { margin-top: 12px; }
+.contactCard { margin-bottom: 20px; }
+.downloadBlock h3 { font-size: 1rem; }
+.skillCard + .skillCard { margin-top: 12px; }
+.skillCard h3 { margin-bottom: 10px; font-size: 1rem; }
+.skillList { display: flex; flex-wrap: wrap; }
+@media (max-width: 760px) { .knowledgeGrid, .contactGrid { grid-template-columns: 1fr; } }

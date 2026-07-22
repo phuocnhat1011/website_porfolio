@@ -1,0 +1,107 @@
+.overviewCards { align-items: stretch; }
+.overviewCards > article { height: 100%; min-height: 300px; }
+.purpleTitle { color: #5b21b6; }
+.blueTitle { color: #2563eb; }
+.cardTitle { margin-bottom: 12px; font-size: 1.25rem; }
+.cardList { margin-bottom: 0; padding-left: 1.25rem; }
+.cardList li + li { margin-top: 6px; }
+
+.diagram { display: block; width: 100%; height: auto; margin-top: 22px; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 16px; background: #fff; box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03); }
+.caption { margin: 8px 0 0; color: #64748b; font-size: 0.82rem; text-align: center; }
+.divider { margin: 28px 0; border: 0; border-top: 1px solid rgba(226, 232, 240, 0.9); }
+
+.workflowHeading { margin: 32px 0 24px; font-size: 1.6rem; }
+.workflow { padding: 0 10px; }
+.workflowStep { margin-bottom: 28px; padding-bottom: 24px; border-bottom: 1px dashed rgba(226, 232, 240, 0.9); }
+.workflowStep:last-child { margin: 0; padding-bottom: 0; border-bottom: 0; }
+.workflowHeader { display: flex; align-items: baseline; gap: 16px; margin-bottom: 10px; }
+.workflowNumber { flex: 0 0 auto; color: #5b21b6; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 2rem; font-weight: 800; line-height: 1; }
+.workflowTitle { margin: 0; font-size: 1.3rem; }
+.workflowStep p { margin: 8px 0; color: #334155; line-height: 1.8; }
+.workflowStep ul { padding-left: 1.25rem; }
+.workflowStep li + li { margin-top: 7px; }
+.toolCallout { margin-top: 12px; padding: 12px 18px; border-left: 5px solid #5b21b6; border-radius: 8px; background: rgba(91, 33, 182, 0.04); color: #334155; font-size: 0.92rem; }
+
+.sourceIntro { max-width: 850px; }
+.sourceAction { margin: 8px 0 4px; }
+.imagePanel { margin-top: 20px; }
+
+.featureGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.feature { padding: 16px; border: 1px solid rgba(226, 232, 240, 0.9); border-radius: 12px; background: rgba(255, 255, 255, 0.55); }
+.featureIcon { display: block; margin-bottom: 8px; font-size: 1.25rem; }
+.feature strong { color: #0f172a; font-size: 0.84rem; }
+.feature p { margin: 6px 0 0; color: #475569; font-size: 0.78rem; line-height: 1.6; }
+.techTags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.techTag { padding: 5px 12px; border-radius: 999px; background: #efefed; color: #5f5e5a; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 0.74rem; font-weight: 500; }
+.techTag:nth-child(-n+3) { background: #eeedfe; color: #534ab7; }
+.techTag:nth-child(4), .techTag:nth-child(5) { background: #e1f5ee; color: #0f6e56; }
+
+.pipelineGrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.pipelineStep { padding: 18px 16px; border: 1px solid #e2e1dc; border-radius: 12px; background: #fff; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+.pipelineNumber { margin-bottom: 6px; color: #6c63d5; font-family: 'JetBrains Mono', Consolas, monospace; font-size: 0.66rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+.pipelineTitle { margin-bottom: 8px; color: #1a1a19; font-size: 0.82rem; font-weight: 650; }
+.pipelineStep ul { margin: 0; padding-left: 1.1rem; }
+.pipelineStep li { padding: 3px 0; color: #5f5e5a; font-size: 0.75rem; line-height: 1.5; }
+
+.stateMachine { display: grid; gap: 6px; }
+.stateNode { padding: 12px 16px; border: 1.5px solid #afa9ec; border-radius: 10px; background: #eeedfe; text-align: center; }
+.stateNode.green { border-color: #9fe1cb; background: #e1f5ee; }
+.stateNode strong { display: block; color: #3c3489; font-size: 0.83rem; }
+.stateNode.green strong { color: #0f6e56; }
+.stateNode span { color: #534ab7; font-size: 0.7rem; }
+.stateNode.green span { color: #1d9e75; }
+.stateArrow { display: grid; justify-items: center; gap: 3px; padding: 3px 0; color: #64748b; font-size: 0.7rem; text-align: center; }
+.condition { max-width: 100%; padding: 3px 9px; border: 1px solid #e2e1dc; border-radius: 999px; background: #f7f7f6; overflow-wrap: anywhere; }
+
+.rules { display: grid; gap: 16px; }
+.rulesTitle { margin: 0 0 8px; font-size: 0.82rem; }
+.shortTitle { color: #0f6e56; }
+.exitTitle { color: #993c1d; }
+.ruleList { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.ruleList li { padding: 9px 12px; border-left: 3px solid #1d9e75; border-radius: 8px; background: #e1f5ee; color: #0f6e56; font-size: 0.75rem; }
+.ruleList.exit li { border-left-color: #d85a30; background: #faece7; color: #993c1d; }
+
+.sourceSection h3 { margin-top: 24px; }
+.plannedGrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.plannedGrid article { padding: 14px; border: 1px solid #e2e1dc; border-radius: 10px; background: rgba(255, 255, 255, 0.5); }
+.plannedGrid strong { display: block; margin-bottom: 6px; color: #6c63d5; font-size: 0.77rem; }
+.plannedGrid article:nth-child(2) strong { color: #0f6e56; }
+.plannedGrid article:nth-child(3) strong { color: #d85a30; }
+.plannedGrid p { margin: 0; color: #5f5e5a; font-size: 0.75rem; line-height: 1.6; }
+
+.emailLayout { display: grid; grid-template-columns: minmax(280px, 1fr) minmax(360px, 1.2fr); gap: 20px; align-items: start; }
+.emailSummary { height: 100%; }
+.dailySummary { margin-top: 16px; padding: 12px; border-radius: 8px; background: #f7f7f6; color: #5f5e5a; font-size: 0.76rem; line-height: 1.7; }
+.emailPreview { overflow: hidden; border: 1px solid #e2e1dc; border-radius: 14px; background: #fff; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); }
+.emailHeader { padding: 14px 18px; background: #2d2b55; }
+.emailHeader.exit { background: #1a4a3a; }
+.emailHeader.daily { background: #2d2b45; }
+.emailSubject { margin-bottom: 4px; color: #fff; font-size: 0.8rem; font-weight: 650; }
+.emailMeta { color: rgba(255, 255, 255, 0.58); font-size: 0.68rem; overflow-wrap: anywhere; }
+.emailBody { padding: 18px; }
+.emailRow { display: flex; justify-content: space-between; gap: 16px; padding: 8px 0; border-bottom: 1px solid #efefed; font-size: 0.8rem; }
+.emailRow:last-child { border-bottom: 0; }
+.emailLabel { color: #888780; }
+.emailValue { color: #1a1a19; font-weight: 550; text-align: right; }
+.red { color: #d85a30; }
+.green { color: #1d9e75; }
+.purple { color: #6c63d5; }
+.emailFooter { margin: 0 18px 18px; padding: 10px 14px; border-radius: 8px; background: #eeedfe; color: #3c3489; font-size: 0.74rem; line-height: 1.6; }
+
+@media (max-width: 900px) {
+  .featureGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pipelineGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .emailLayout { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 620px) {
+  .overviewCards > article { min-height: 0; }
+  .featureGrid, .pipelineGrid, .plannedGrid { grid-template-columns: 1fr; }
+  .workflow { padding: 0; }
+  .workflowHeader { align-items: flex-start; gap: 11px; }
+  .workflowNumber { font-size: 1.55rem; }
+  .workflowTitle { font-size: 1.05rem; }
+  .emailLayout { display: block; }
+  .emailSummary { margin-bottom: 18px; }
+  .emailRow { align-items: flex-start; font-size: 0.74rem; }
+}

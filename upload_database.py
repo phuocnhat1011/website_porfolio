@@ -1,26 +1,44 @@
 import os
 import pandas as pd
-from sqlalchemy import create_engine
+from sqlalchemy import URL, create_engine
+
+
+def required_env(name):
+    """Return a required environment variable or fail with a clear message."""
+    value = os.getenv(name)
+    if not value:
+        raise RuntimeError(
+            f"Missing required environment variable: {name}. "
+            "Copy .env.example to .env, fill in your local values, and load it "
+            "before running this script."
+        )
+    return value
 
 # ==========================================
 # 1. CẤU HÌNH THÔNG TIN KẾT NỐI POSTGRESQL
 # ==========================================
-DB_USER = "postgres"         
-DB_PASSWORD = "MatKhauMoi123" 
-DB_HOST = "localhost"        # Giữ nguyên localhost
-DB_PORT = "5432"             # Cổng mặc định
-DB_NAME = "pds_chungkhoan"         # Tên database của bạn (để mặc định hoặc tên db bạn tự tạo)
+DB_USER = required_env("POSTGRES_USER")
+DB_PASSWORD = required_env("POSTGRES_PASSWORD")
+DB_HOST = required_env("POSTGRES_HOST")
+DB_PORT = int(required_env("POSTGRES_PORT"))
+DB_NAME = required_env("POSTGRES_DB")
 
-# Tạo connection string
-connection_string = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-engine = create_engine(connection_string)
+# Tạo URL bằng SQLAlchemy để password có ký tự đặc biệt vẫn an toàn.
+connection_url = URL.create(
+    drivername="postgresql+psycopg2",
+    username=DB_USER,
+    password=DB_PASSWORD,
+    host=DB_HOST,
+    port=DB_PORT,
+    database=DB_NAME,
+)
+engine = create_engine(connection_url)
 
 # ==========================================
 # 2. ĐỊNH NGHĨA ĐƯỜNG DẪN ĐẾN THƯ MỤC
 # ==========================================
-# Dùng tiền tố r"" để tránh lỗi dấu gạch chéo ngược (\) trong Windows
-FOLDER_FACT = r"D:\Projects\Chứng khoán PDS\Fact"
-FOLDER_DIM = r"D:\Projects\Chứng khoán PDS\Dim"
+FOLDER_FACT = required_env("PDS_FACT_FOLDER")
+FOLDER_DIM = required_env("PDS_DIM_FOLDER")
 
 # ==========================================
 # 3. HÀM XỬ LÝ VÀ UPLOAD FILE

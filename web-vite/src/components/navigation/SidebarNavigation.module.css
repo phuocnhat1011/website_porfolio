@@ -1,0 +1,63 @@
+.navigation { height: 100%; padding: 24px 18px; }
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+  padding: 0 8px;
+  color: #0f172a;
+}
+
+.brandMark {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #5b21b6, #2563eb);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 800;
+  box-shadow: 0 8px 20px rgba(91, 33, 182, 0.18);
+}
+
+.brand strong, .brand small { display: block; }
+.brand strong { font-size: 0.9rem; }
+.brand small { margin-top: 2px; color: #64748b; font-size: 0.72rem; }
+
+.menu, .submenu { margin: 0; padding: 0; list-style: none; }
+.menu > li + li { margin-top: 8px; }
+
+.menuLink, .groupLabel, .submenuLink {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 10px;
+  border-radius: 12px;
+  text-decoration: none;
+}
+
+.menuLink, .groupLabel {
+  padding: 10px 12px;
+  color: #5b21b6;
+  font-size: 0.9rem;
+  font-weight: 650;
+}
+
+.menuLink:hover, .menuLink.active { background: rgba(91, 33, 182, 0.08); color: #5b21b6; }
+.groupLabel { cursor: default; }
+.submenu { margin-top: 2px; padding-left: 16px; }
+.submenu li + li { margin-top: 2px; }
+
+.submenuLink {
+  padding: 9px 10px;
+  color: #475569;
+  font-size: 0.84rem;
+  font-weight: 480;
+}
+
+.submenuLink:hover, .submenuLink.active { background: rgba(91, 33, 182, 0.08); color: #5b21b6; font-weight: 650; }
+.mobile { padding-top: 10px; }
+.mobile .brand { display: none; }
