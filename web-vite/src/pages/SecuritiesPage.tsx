@@ -1,101 +1,294 @@
 import { PowerBIEmbed } from '../components/powerbi/PowerBIEmbed'
-import { ProjectPageHeader } from '../components/projects/ProjectPageHeader'
 import { ProjectTabs } from '../components/projects/ProjectTabs'
 import { getProject } from '../data/projects'
-import { securitiesWorkflow } from '../data/securities'
-import styles from './ProjectPages.module.css'
+import {
+  architectureGroups,
+  powerBiCapabilities,
+  securitiesMetrics,
+  securitiesOverview,
+  securitiesTechnologies,
+  securitiesWorkflow,
+  verifiedQualityControls,
+} from '../data/securities'
+import styles from './SecuritiesPage.module.css'
 
-function Overview() {
+function CaseStudyHeader() {
   return (
-    <div className={`twoColumn ${styles.overviewCards}`}>
-      <article className="card">
-        <h2 className={`${styles.cardTitle} ${styles.purpleTitle}`}>🎯 Bối cảnh & Nhiệm vụ (Situation & Task)</h2>
-        <p><strong>Bối cảnh:</strong> Danh mục tự doanh (FVTPL, AFS) là “trái tim” trong hiệu quả hoạt động của các công ty chứng khoán, nhưng dữ liệu này hiện rất khó tiếp cận khi nằm rải rác trong hàng trăm trang thuyết minh BCTC dưới dạng PDF. Nhà đầu tư và chuyên viên phân tích thường mất hàng giờ để tổng hợp thủ công mà vẫn thiếu tính đồng nhất để so sánh giữa các công ty.</p>
-        <p><strong>Nhiệm vụ:</strong> Xây dựng một Hệ thống chuyên sâu về Phân tích danh mục tự doanh, tự động hóa việc bóc tách dữ liệu từ 3 báo cáo tài chính cốt lõi (CĐKT, KQKD, LCTT) và đặc biệt là chi tiết danh mục FVTPL/AFS của <strong>37+ công ty chứng khoán</strong> niêm yết trên thị trường Việt Nam.</p>
-      </article>
-      <article className="card">
-        <h2 className={`${styles.cardTitle} ${styles.blueTitle}`}>⚡ Hành động & Kết quả (Action & Result)</h2>
-        <p><strong>Hành động:</strong></p>
-        <ul className={styles.cardList}>
-          <li><strong>Targeted Extraction:</strong> Thiết lập quy trình trích xuất chuyên biệt, tập trung bóc tách các danh mục tài sản tài chính (FVTPL, AFS) từ các bảng thuyết minh PDF vốn là “điểm mù” của dữ liệu truyền thống.</li>
-          <li><strong>Data Standardization:</strong> Hợp nhất dữ liệu từ <strong>37+ công ty chứng khoán</strong> vào một cấu trúc chung, cho phép so sánh trực tiếp danh mục, tỷ trọng đầu tư và biến động tài sản giữa các đơn vị.</li>
-          <li><strong>Modeling & Metrics:</strong> Thiết kế mô hình dữ liệu quan hệ (Star Schema) để tự động hóa các chỉ số tài chính trọng yếu (NIM, ROA, ROE) kết hợp với cấu trúc danh mục đầu tư.</li>
-          <li><strong>Visual Insights:</strong> Xây dựng Dashboard Power BI theo phương pháp Menu-driven Design, cho phép người dùng chỉ cần một cú click chuột để “X-ray” toàn bộ danh mục tự doanh của bất kỳ công ty chứng khoán nào.</li>
-        </ul>
-        <p><strong>Kết quả (Value Delivered):</strong></p>
-        <ul className={styles.cardList}>
-          <li><strong>Tiết kiệm thời gian:</strong> Chuyển đổi công việc tra cứu thủ công kéo dài hàng giờ thành báo cáo chỉ trong <strong>vài giây</strong>.</li>
-          <li><strong>Độ bao phủ:</strong> Dữ liệu chuẩn hóa của <strong>37+ công ty chứng khoán</strong> niêm yết, cung cấp cái nhìn toàn cảnh về khẩu vị đầu tư của toàn ngành.</li>
-          <li><strong>Ra quyết định:</strong> Giúp nhà đầu tư nhanh chóng nhận diện các biến động lớn trong danh mục tự doanh, từ đó đưa ra quyết định dựa trên dữ liệu (Data-driven) thay vì cảm tính.</li>
-        </ul>
-      </article>
-    </div>
+    <header className={`${styles.caseHeader} surface`}>
+      <p className={styles.eyebrow}>Personal Project · Financial Data Analytics</p>
+      <h1>Phân tích BCTC ngành Chứng khoán Việt Nam</h1>
+      <p className={styles.englishTitle}>Vietnam Securities Financial Statements Analytics</p>
+      <p className={styles.description}>
+        Hệ thống tự động thu thập, chuẩn hóa và phân tích báo cáo tài chính của các công ty chứng khoán
+        Việt Nam, từ dữ liệu nguồn đến mô hình PostgreSQL và báo cáo Power BI.
+      </p>
+
+      <div className={styles.techChips} aria-label="Công nghệ sử dụng">
+        {securitiesTechnologies.map((technology) => <span key={technology}>{technology}</span>)}
+      </div>
+
+      <dl className={styles.metrics} aria-label="Quy mô dự án">
+        {securitiesMetrics.map((metric) => (
+          <div key={metric.label} className={styles.metric}>
+            <dt>
+              <strong>{metric.value}</strong>
+              <span>{metric.label}</span>
+            </dt>
+            <dd>{metric.detail}</dd>
+          </div>
+        ))}
+      </dl>
+    </header>
   )
 }
 
-function Workflow() {
+function Overview() {
   return (
-    <section>
-      <h2>🔄 Quy trình ETL & Kiến trúc Dữ liệu</h2>
-      <p>Sơ đồ quy trình dưới đây mô tả luồng di chuyển dữ liệu từ nguồn thông tin phi cấu trúc, qua pipeline xử lý và lưu trữ dữ liệu tập trung, cho đến lớp biểu diễn trực quan trên Power BI.</p>
-      <picture>
-        <source srcSet="/images/etl-pipeline.webp" type="image/webp" />
-        <img className={styles.diagram} src="/images/etl-pipeline.png" alt="Kiến trúc quy trình ETL tự động hóa dữ liệu BCTC Chứng khoán" width="3079" height="1469" loading="lazy" />
-      </picture>
-      <p className={styles.caption}>Kiến trúc quy trình ETL tự động hóa dữ liệu BCTC Chứng khoán</p>
-      <hr className={styles.divider} />
-      <h2 className={styles.workflowHeading}>🔄 PROJECT WORKFLOW</h2>
-      <div className={styles.workflow}>
-        {securitiesWorkflow.map((step) => (
-          <article key={step.number} className={styles.workflowStep}>
-            <header className={styles.workflowHeader}>
-              <span className={styles.workflowNumber}>{step.number}</span>
-              <h3 className={styles.workflowTitle}>{step.title}</h3>
-            </header>
-            {step.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-            {step.bullets && <ul>{step.bullets.map((item) => <li key={item}>{item}</li>)}</ul>}
-            <div className={styles.toolCallout}><strong>🛠️ Công cụ sử dụng:</strong> {step.tools}</div>
-          </article>
-        ))}
+    <section className={styles.caseSection} aria-labelledby="overview-heading">
+      <div className={styles.sectionHeading}>
+        <p>TỔNG QUAN DỰ ÁN</p>
+        <h2 id="overview-heading">Từ dữ liệu phân tán đến nguồn phân tích nhất quán</h2>
+      </div>
+
+      <div className={styles.problemGrid}>
+        <article className={styles.contextCard}>
+          <span className={styles.cardIndex}>01</span>
+          <h3>Bài toán</h3>
+          <p>{securitiesOverview.problem}</p>
+        </article>
+        <article className={styles.contextCard}>
+          <span className={styles.cardIndex}>02</span>
+          <h3>Mục tiêu</h3>
+          <p>{securitiesOverview.objective}</p>
+        </article>
+      </div>
+
+      <div className={styles.contentBlock}>
+        <h3>Giải pháp đã xây dựng</h3>
+        <div className={styles.builtGrid}>
+          {securitiesOverview.whatBuilt.map((item, index) => (
+            <article key={item.title} className={styles.compactCard}>
+              <span className={styles.compactNumber}>{String(index + 1).padStart(2, '0')}</span>
+              <h4>{item.title}</h4>
+              <p>{item.description}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <div className={styles.contentBlock}>
+        <h3>Giá trị phân tích</h3>
+        <div className={styles.valueGrid}>
+          {securitiesOverview.businessValue.map((item) => (
+            <article key={item.title} className={styles.valueCard}>
+              <h4>{item.title}</h4>
+              <p>{item.description}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <div className={styles.contentBlock}>
+        <h3>Luồng xử lý tổng quan</h3>
+        <ol className={styles.pipelineSummary} aria-label="Luồng xử lý dữ liệu tổng quan">
+          {securitiesOverview.pipeline.map((step) => <li key={step}>{step}</li>)}
+        </ol>
       </div>
     </section>
   )
 }
 
-function SourceAndModel() {
+function Workflow() {
   return (
-    <section className={styles.sourceSection}>
-      <h2>💻 Source Code & Data Model</h2>
-      <p className={styles.sourceIntro}>Toàn bộ mã nguồn, cấu trúc luồng xử lý dữ liệu (ETL) và kịch bản tự động hóa của dự án được quản lý tập trung và phân module chi tiết trên GitHub.</p>
-      <button type="button" className={`button buttonSecondary ${styles.sourceAction}`} disabled>💻 Repository — Coming soon</button>
-      <hr className={styles.divider} />
-      <h2>🏗️ Kiến trúc Dữ liệu (Star Schema)</h2>
-      <picture>
-        <source srcSet="/images/erd-postgresql.webp" type="image/webp" />
-        <img className={styles.diagram} src="/images/erd-postgresql.png" alt="Sơ đồ cơ sở dữ liệu quan hệ (Star Schema)" width="1317" height="1075" loading="lazy" />
-      </picture>
-      <p className={styles.caption}>Sơ đồ cơ sở dữ liệu quan hệ (Star Schema)</p>
+    <section className={styles.caseSection} aria-labelledby="workflow-heading">
+      <div className={styles.sectionHeading}>
+        <p>Data workflow</p>
+        <h2 id="workflow-heading">Quy trình dữ liệu</h2>
+        <span>
+          Dữ liệu đi theo thứ tự từ thu thập, trích xuất và kiểm soát chất lượng đến mô hình PostgreSQL
+          và lớp báo cáo Power BI.
+        </span>
+      </div>
+
+      <figure className={styles.pipelineFigure}>
+        <a href="/images/etl-pipeline.png" target="_blank" rel="noopener noreferrer" aria-label="Mở sơ đồ pipeline ở kích thước đầy đủ">
+          <picture>
+            <source srcSet="/images/etl-pipeline.webp" type="image/webp" />
+            <img
+              src="/images/etl-pipeline.png"
+              alt="Sơ đồ pipeline ETL và trực quan hóa dữ liệu BCTC công ty chứng khoán"
+              width="3079"
+              height="1469"
+              loading="lazy"
+            />
+          </picture>
+        </a>
+        <figcaption>
+          Pipeline từ báo cáo tài chính nguồn đến PostgreSQL và Power BI. Chọn ảnh để xem kích thước đầy đủ.
+        </figcaption>
+      </figure>
+
+      <div className={styles.workflowGrid}>
+        {securitiesWorkflow.map((step) => (
+          <article key={step.number} className={styles.workflowCard}>
+            <header>
+              <span>{step.number}</span>
+              <h3>{step.title}</h3>
+            </header>
+            <p>{step.description}</p>
+            <dl className={styles.ioList}>
+              <div>
+                <dt>Input</dt>
+                <dd>{step.input}</dd>
+              </div>
+              <div>
+                <dt>Output</dt>
+                <dd>{step.output}</dd>
+              </div>
+            </dl>
+            <div className={styles.toolChips} aria-label={`Công cụ cho bước ${step.number}`}>
+              {step.tools.map((tool) => <span key={tool}>{tool}</span>)}
+            </div>
+            {step.note && <p className={styles.workflowNote}>{step.note}</p>}
+          </article>
+        ))}
+      </div>
+
+      <div className={styles.qualitySection}>
+        <div>
+          <p className={styles.miniEyebrow}>CÁC KIỂM SOÁT ĐÃ ÁP DỤNG</p>
+          <h3>Kiểm soát chất lượng dữ liệu</h3>
+          <p>
+            Các kiểm soát dưới đây được giữ đúng theo quy trình đã mô tả trong source hiện tại.
+          </p>
+        </div>
+        <div className={styles.qualityGrid}>
+          {verifiedQualityControls.map((control) => (
+            <article key={control.title}>
+              <h4>{control.title}</h4>
+              <p>{control.description}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function DataModel() {
+  return (
+    <section className={styles.caseSection} aria-labelledby="model-heading">
+      <div className={styles.sectionHeading}>
+        <p>KIẾN TRÚC POSTGRESQL</p>
+        <h2 id="model-heading">Mô hình dữ liệu &amp; Kiến trúc</h2>
+        <span>
+          Mô hình dữ liệu tách dữ liệu báo cáo tài chính khỏi các dimension dùng chung, hỗ trợ phân tích
+          đa công ty, đa kỳ và tái sử dụng trên Power BI.
+        </span>
+      </div>
+
+      <div className={styles.architectureGrid}>
+        {architectureGroups.map((group) => (
+          <article key={group.title} className={styles.architectureCard}>
+            <h3>{group.title}</h3>
+            <div className={styles.tableNames}>
+              {group.tables.map((table) => <code key={table}>{table}</code>)}
+            </div>
+            <p>{group.description}</p>
+          </article>
+        ))}
+      </div>
+
+      <div className={styles.grainPanel}>
+        <div>
+          <span>GRAIN PHÂN TÍCH CỐT LÕI</span>
+          <strong>Công ty × Kỳ báo cáo × Chỉ tiêu tài chính</strong>
+        </div>
+        <div>
+          <span>GRAIN DANH MỤC ĐẦU TƯ</span>
+          <strong>Công ty × Ngày/Kỳ × Nhóm tài sản</strong>
+        </div>
+      </div>
+
+      <figure className={styles.schemaFigure}>
+        <div className={styles.schemaToolbar}>
+          <div>
+            <h3>PostgreSQL Star Schema</h3>
+            <p>Fact và Dimension dùng chung cho dữ liệu tài chính, danh mục và dữ liệu thị trường.</p>
+          </div>
+          <a className="button buttonSecondary" href="/images/erd-postgresql.png" target="_blank" rel="noopener noreferrer">
+            Xem mô hình đầy đủ
+          </a>
+        </div>
+        <a
+          className={styles.schemaViewport}
+          href="/images/erd-postgresql.png"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Mở Star Schema ở kích thước đầy đủ"
+        >
+          <picture>
+            <source srcSet="/images/erd-postgresql.webp" type="image/webp" />
+            <img
+              src="/images/erd-postgresql.png"
+              alt="Star Schema PostgreSQL gồm các bảng fact báo cáo tài chính, danh mục, thị trường và các dimension dùng chung"
+              width="1317"
+              height="1075"
+              loading="lazy"
+            />
+          </picture>
+        </a>
+        <figcaption>Trên màn hình nhỏ, cuộn ngang trong vùng ảnh hoặc mở mô hình đầy đủ để đọc chi tiết.</figcaption>
+      </figure>
+
+      <div className={styles.repositoryRow}>
+        <div>
+          <h3>Repository</h3>
+          <p>Mã nguồn dự án chưa được public.</p>
+        </div>
+        <button type="button" className="button buttonSecondary" disabled>
+          Repository — Coming soon
+        </button>
+      </div>
+    </section>
+  )
+}
+
+function PowerBISection({ embedUrl }: { embedUrl: string }) {
+  return (
+    <section className={styles.caseSection} aria-labelledby="powerbi-heading">
+      <div className={styles.powerBiIntro}>
+        <div>
+          <p className={styles.miniEyebrow}>Interactive analytics</p>
+          <h2 id="powerbi-heading">Power BI</h2>
+          <p>Báo cáo Power BI tương tác cho phân tích báo cáo tài chính theo từng công ty và so sánh đa công ty.</p>
+        </div>
+        <ul>
+          {powerBiCapabilities.map((capability) => <li key={capability}>{capability}</li>)}
+        </ul>
+      </div>
+      <div className={styles.powerBiFrame}>
+        <PowerBIEmbed title="Power BI — Phân tích BCTC Chứng khoán Việt Nam" embedUrl={embedUrl} />
+      </div>
     </section>
   )
 }
 
 export default function SecuritiesPage() {
   const project = getProject('securities_vn')
+
   return (
-    <>
-      <ProjectPageHeader
-        title="📊 Phân tích BCTC Chứng Khoán Việt Nam"
-        description="Hệ thống thu thập và phân tích tự động Báo cáo tài chính (BCTC) ngành chứng khoán Việt Nam. Dự án giải quyết bài toán đồng nhất dữ liệu tài chính đa chiều, tự động hóa luồng xử lý và trực quan hóa các chỉ số tài chính trọng yếu phục vụ hoạt động theo dõi và đánh giá danh mục tự doanh (FVTPL, AFS)."
-      />
+    <div className={styles.securitiesPage}>
+      <CaseStudyHeader />
       <ProjectTabs
         label="Chi tiết dự án BCTC Chứng khoán Việt Nam"
         tabs={[
           { id: 'overview', label: 'Tổng quan', content: <Overview /> },
-          { id: 'workflow', label: 'Quy trình', content: <Workflow /> },
-          { id: 'source', label: 'Source Code & Data Model', content: <SourceAndModel /> },
-          { id: 'powerbi', label: 'Power BI', content: <PowerBIEmbed title="Power BI — Phân tích BCTC Chứng khoán Việt Nam" embedUrl={project.powerBiUrl ?? ''} /> },
+          { id: 'workflow', label: 'Quy trình dữ liệu', content: <Workflow /> },
+          { id: 'model', label: 'Mô hình dữ liệu', content: <DataModel /> },
+          { id: 'powerbi', label: 'Power BI', content: <PowerBISection embedUrl={project.powerBiUrl ?? ''} /> },
         ]}
       />
-    </>
+    </div>
   )
 }

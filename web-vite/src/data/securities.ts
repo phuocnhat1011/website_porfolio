@@ -1,55 +1,183 @@
-export const securitiesWorkflow = [
+export const securitiesTechnologies = [
+  'Python',
+  'Pandas',
+  'PostgreSQL',
+  'SQL',
+  'Power BI',
+  'DAX',
+  'Dimensional Modeling',
+] as const
+
+export const securitiesMetrics = [
+  {
+    value: '37+',
+    label: 'Công ty chứng khoán',
+    detail: 'Phạm vi dữ liệu đa công ty',
+  },
+  {
+    value: '3 nhóm',
+    label: 'Báo cáo tài chính',
+    detail: 'CĐKT · KQKD · LCTT',
+  },
+  {
+    value: 'PDF/Excel',
+    label: '→ Power BI',
+    detail: 'Quy trình phân tích tự động',
+  },
+] as const
+
+export const securitiesOverview = {
+  problem:
+    'Dữ liệu báo cáo tài chính và danh mục tự doanh của các công ty chứng khoán nằm rải rác trong nhiều file PDF/Excel, khác nhau về cấu trúc, tên chỉ tiêu và kỳ báo cáo. Việc tổng hợp thủ công gây mất thời gian và khó so sánh giữa các công ty.',
+  objective:
+    'Xây dựng một pipeline có khả năng thu thập, chuẩn hóa và mô hình hóa dữ liệu báo cáo tài chính, tạo nguồn dữ liệu nhất quán cho phân tích đa công ty, đa kỳ và báo cáo Power BI.',
+  whatBuilt: [
+    {
+      title: 'Thu thập tự động',
+      description: 'Tự động tải báo cáo theo công ty, năm và kỳ.',
+    },
+    {
+      title: 'Chuẩn hóa dữ liệu BCTC',
+      description: 'Chuẩn hóa chỉ tiêu và cấu trúc báo cáo.',
+    },
+    {
+      title: 'Mô hình dữ liệu Dim/Fact',
+      description: 'Fact/Dimension dùng chung cho phân tích đa kỳ.',
+    },
+    {
+      title: 'Báo cáo Power BI tương tác',
+      description: 'Bộ lọc, drill-down và phân tích so sánh.',
+    },
+  ],
+  businessValue: [
+    {
+      title: 'Tra cứu nhanh hơn',
+      description: 'Rút ngắn đáng kể thời gian tổng hợp và tra cứu.',
+    },
+    {
+      title: 'So sánh nhất quán',
+      description: 'So sánh các công ty trên cùng một cấu trúc dữ liệu.',
+    },
+    {
+      title: 'Dữ liệu sẵn sàng phân tích',
+      description:
+        'Dữ liệu đã chuẩn hóa và kiểm soát chất lượng, sẵn sàng cho truy vấn SQL và báo cáo Power BI.',
+    },
+  ],
+  pipeline: ['PDF / Excel', 'Thu thập', 'Trích xuất', 'Làm sạch & QA', 'Mô hình PostgreSQL', 'Power BI'],
+} as const
+
+export interface SecuritiesWorkflowStep {
+  number: string
+  title: string
+  description: string
+  input: string
+  output: string
+  tools: readonly string[]
+  note?: string
+}
+
+export const securitiesWorkflow: readonly SecuritiesWorkflowStep[] = [
   {
     number: '01',
-    title: 'Data Ingestion — Thu thập dữ liệu tự động',
-    paragraphs: [
-      'Hệ thống tự động hóa việc truy xuất dữ liệu từ SSI iBoard cho toàn bộ các mã cổ phiếu ngành chứng khoán. Quy trình thực hiện quét dữ liệu theo từng kỳ báo cáo (năm, quý, 6 tháng, 9 tháng), tự động tải các bảng CĐKT, KQKD, LCTT về máy và phân loại vào cấu trúc thư mục logic. Điều này giúp loại bỏ hoàn toàn các thao tác thủ công và đảm bảo tính nhất quán của dữ liệu đầu vào.',
-    ],
-    tools: 'Python, Selenium, Requests, OS,..',
+    title: 'Thu thập dữ liệu',
+    description:
+      'Tự động tải CĐKT, KQKD và LCTT theo công ty, năm và kỳ báo cáo; tổ chức file theo cấu trúc thư mục nhất quán.',
+    input: 'SSI iBoard · Công ty · Kỳ báo cáo',
+    output: 'Bộ file báo cáo có cấu trúc',
+    tools: ['Python', 'Selenium', 'Requests'],
   },
   {
     number: '02',
-    title: 'Transformation & Modeling — Xử lý & Mô hình hóa dữ liệu tài chính',
-    paragraphs: [
-      'Dữ liệu báo cáo tài chính thô thường không đồng nhất do sự khác biệt trong cách ghi nhận của các doanh nghiệp hoặc do thay đổi thông tư kế toán qua các năm. Bước này đóng vai trò làm sạch và tổ chức lại toàn bộ dữ liệu thành một hệ thống chuẩn chỉnh.',
-    ],
-    bullets: [
-      'Data Cleaning: Gộp hàng loạt file Excel rời rạc thành bảng thống nhất. Xử lý triệt để các thay đổi về chỉ tiêu kế toán (ví dụ: gộp các khoản mục bị đổi tên qua các năm) để đảm bảo chuỗi dữ liệu tài chính xuyên suốt, không bị đứt gãy.',
-      'Unpivot: Chuyển đổi cấu trúc dữ liệu từ dạng báo cáo ngang truyền thống sang định dạng dọc chuẩn, phục vụ trực tiếp cho việc vẽ biểu đồ và phân tích đa chiều.',
-      'Data Modeling: Xây dựng mô hình dữ liệu Star Schema. Phân tách dữ liệu thành các bảng Danh mục (Công ty, Thời gian) và bảng Số liệu sự kiện (CĐKT, KQKD), giúp loại bỏ dữ liệu thừa và tối ưu hóa tốc độ tính toán cho các báo cáo sau này.',
-    ],
-    tools: 'Python, thư viện Pandas.',
+    title: 'Trích xuất dữ liệu',
+    description:
+      'Đọc dữ liệu từ Excel hoặc PDF theo định dạng nguồn. OCR chỉ được sử dụng cho báo cáo dạng ảnh hoặc không có text layer.',
+    input: 'PDF · Excel',
+    output: 'Bảng dữ liệu đã trích xuất',
+    tools: ['Python', 'PDF/Excel parsing', 'OCR fallback'],
   },
   {
     number: '03',
-    title: 'Data Extraction & Quality Assurance — Trích xuất & Kiểm tra dữ liệu',
-    paragraphs: ['Quy trình: Lọc và xử lý dữ liệu từ Báo cáo tài chính để đảm bảo số liệu về danh mục đầu tư (FVTPL, AFS) luôn chính xác trước khi sử dụng cho báo cáo.'],
-    bullets: [
-      'Thu thập: Tự động tải BCTC theo năm và quý của các công ty chứng khoán niêm yết.',
-      'Trích xuất: Dùng Python (OCR) để đọc dữ liệu từ báo cáo.',
-      'Kiểm tra: Tôi chạy một đoạn script nhỏ để cộng lại các khoản mục, nếu tổng không khớp với số tổng trên báo cáo, hệ thống sẽ đánh dấu các công ty đó. Với những công ty bị đánh dấu lỗi, tôi sử dụng NotebookLM hoặc ChatGPT để hỗ trợ trích xuất lại thủ công, đảm bảo không bỏ sót số liệu.',
-      'Kết quả: Có được tập dữ liệu sạch, đảm bảo tính khớp đúng để phục vụ phân tích.',
-    ],
-    tools: 'Python, Pandas, NotebookLM, ChatGPT.',
+    title: 'Chuẩn hóa & kiểm soát chất lượng',
+    description:
+      'Chuẩn hóa tên chỉ tiêu, gộp dữ liệu nhiều file, unpivot sang cấu trúc phân tích và kiểm tra tổng nhằm phát hiện các trường hợp sai lệch.',
+    input: 'Dữ liệu trích xuất',
+    output: 'Dataset chuẩn hóa · Danh sách ngoại lệ',
+    tools: ['Python', 'Pandas', 'Validation rules'],
+    note: 'Các trường hợp sai lệch được đánh dấu để rà soát có kiểm soát. AI chỉ hỗ trợ rà soát các cấu trúc tài liệu ngoại lệ.',
   },
   {
     number: '04',
-    title: 'Data Storage & Management — Lưu trữ & Quản trị dữ liệu',
-    paragraphs: ['Thay vì quản lý bằng các file rời rạc và load thủ công, toàn bộ dữ liệu sau khi được làm sạch bằng Python sẽ được đẩy vào PostgreSQL. Việc chuyển đổi từ lưu trữ tệp sang Database giúp quản lý tập trung toàn bộ khối lượng dữ liệu tài chính, tạo nền tảng ổn định cho báo cáo.'],
-    bullets: [
-      'Lưu trữ tập trung: Nạp dữ liệu vào PostgreSQL, tổ chức phân lớp rõ ràng theo mô hình Star Schema (gồm các bảng Fact và Dimension) đã thiết kế ở bước trước.',
-      'Đảm bảo tính toàn vẹn: Thiết lập các ràng buộc dữ liệu cơ bản (Khóa chính - Primary Key, Khóa ngoại - Foreign Key) để đảm bảo không bị mâu thuẫn số liệu giữa các bảng.',
-    ],
-    tools: 'PostgreSQL, SQL, Python.',
+    title: 'Mô hình hóa & lưu trữ',
+    description:
+      'Thiết kế Fact/Dimension, khóa chính và khóa ngoại; lưu dữ liệu tập trung trong PostgreSQL để hỗ trợ truy vấn và Power BI.',
+    input: 'Dữ liệu tài chính chuẩn hóa',
+    output: 'Mô hình dữ liệu PostgreSQL',
+    tools: ['PostgreSQL', 'SQL', 'Dimensional Modeling'],
   },
   {
     number: '05',
-    title: 'Visualization Power BI — Trực quan hóa dữ liệu',
-    paragraphs: ['Ở bước cuối cùng, Power BI được kết nối trực tiếp vào Database PostgreSQL để kéo dữ liệu sạch lên và xây dựng các báo cáo tương tác.'],
-    bullets: [
-      'Giao diện đa nhiệm: Tích hợp đầy đủ 3 bảng báo cáo (CĐKT, KQKD, LCTT) giúp người dùng dễ dàng chuyển đổi góc nhìn.',
-      'Tương tác linh hoạt: Sử dụng tính năng Drill-down (xem chi tiết đa cấp độ) và các bộ lọc (Slicer) động theo mã công ty, kỳ báo cáo giúp việc truy xuất số liệu trở nên trực quan và nhanh chóng.',
-    ],
-    tools: 'Power BI Desktop & Service, DAX.',
+    title: 'Phân tích trên Power BI',
+    description:
+      'Kết nối dữ liệu đã chuẩn hóa vào Power BI, xây dựng DAX measures, slicer theo công ty/kỳ và drill-down cho phân tích chi tiết.',
+    input: 'PostgreSQL model',
+    output: 'Báo cáo Power BI tương tác',
+    tools: ['Power BI', 'DAX'],
   },
-]
+] as const
+
+export const verifiedQualityControls = [
+  {
+    title: 'Chuẩn hóa tên chỉ tiêu',
+    description: 'Chuẩn hóa tên chỉ tiêu giữa các công ty và kỳ báo cáo.',
+  },
+  {
+    title: 'Đối chiếu tổng báo cáo',
+    description: 'Đối chiếu tổng khoản mục với số tổng trên báo cáo.',
+  },
+  {
+    title: 'Tổ chức theo công ty và kỳ',
+    description: 'Tổ chức dữ liệu theo công ty, năm và kỳ báo cáo.',
+  },
+  {
+    title: 'Rà soát ngoại lệ có kiểm soát',
+    description: 'Đánh dấu sai lệch để kiểm tra lại theo quy trình có kiểm soát.',
+  },
+] as const
+
+export const architectureGroups = [
+  {
+    title: 'Các bảng Fact BCTC',
+    tables: ['fact_cdkt', 'fact_kqkd', 'fact_lctt'],
+    description: 'Ba bảng fact cho CĐKT, KQKD và LCTT.',
+  },
+  {
+    title: 'Các Dimension dùng chung',
+    tables: [
+      'dim_company',
+      'dim_date',
+      'dim_indicator',
+      'dim_periodtype',
+      'dim_auditstatus',
+      'dim_consolidationstatus',
+    ],
+    description: 'Các dimension dùng chung cho phân tích đa công ty và đa kỳ.',
+  },
+  {
+    title: 'Fact danh mục đầu tư',
+    tables: ['fact_fvtpl_afs'],
+    description: 'Giá trị và phân loại danh mục tài sản đầu tư FVTPL/AFS.',
+  },
+  {
+    title: 'Dữ liệu thị trường bổ sung',
+    tables: ['fact_market'],
+    description:
+      'Bổ sung dữ liệu cổ phiếu lưu hành, vốn hóa thị trường và giá đóng cửa cho phân tích tài chính.',
+  },
+] as const
+
+export const powerBiCapabilities = [
+  'Bộ lọc công ty & kỳ báo cáo',
+  'Drill-down báo cáo tài chính',
+  'Phân tích danh mục & hiệu quả',
+] as const
