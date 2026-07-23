@@ -1,23 +1,54 @@
+import { siteConfig } from '../../config/site'
 import styles from './HomeSections.module.css'
 
-const specialties = ['Data Analytics', 'Financial Analysis', 'Automation Pipeline', 'R & Python', 'Power BI & DAX']
+const tools = ['R', 'Python', 'SQL', 'PostgreSQL', 'Power BI'] as const
 
 export function HeroSection() {
   return (
     <section className={`${styles.hero} surface`} aria-labelledby="home-title">
       <div className={styles.heroCopy}>
-        <h1 id="home-title">👋 Võ Phước Nhật</h1>
+        <p className={styles.eyebrow}>Financial Data Analyst · Market Data</p>
+        <h1 id="home-title">Võ Phước Nhật</h1>
         <p className={styles.heroLead}>
-          Phát triển giải pháp dữ liệu và báo cáo tự động cho lĩnh vực <strong>Tài chính & Chứng khoán</strong>. Tập trung vào <strong>Financial Data Engineering</strong>, <strong>Algo Trading</strong> và tự động hóa pipeline dữ liệu cho thị trường chứng khoán Việt Nam.
+          Financial Data Analyst with 2 years of experience in multi-asset financial market data,
+          specializing in data automation, financial time-series processing, data quality validation,
+          and analytical workflows.
         </p>
-        <div className={styles.badges} aria-label="Chuyên môn chính">
-          {specialties.map((item) => <span key={item} className="badge">{item}</span>)}
+
+        <div className={styles.heroHighlights}>
+          <p>
+            <span>Professional experience</span>{' '}
+            Across global indices, equities, commodities, futures and crypto assets.
+          </p>
+          <p>
+            <span>Personal project</span>{' '}
+            Building an end-to-end Vietnam Market Data Warehouse for HOSE, HNX and UPCOM.
+          </p>
+        </div>
+
+        <div className={styles.techChips} aria-label="Core technology stack">
+          {tools.map((tool) => <span key={tool}>{tool}</span>)}
+        </div>
+
+        <div className={styles.heroActions}>
+          <a className="button buttonPrimary" href="#featured-projects">View Projects</a>
+          <a className="button buttonSecondary" href={siteConfig.cvUrl} download="Vo-Phuoc-Nhat-CV.pdf">
+            Download CV
+          </a>
+          <a className={styles.contactLink} href="#contact">Contact me →</a>
         </div>
       </div>
+
       <div className={styles.avatarRing}>
         <picture>
           <source srcSet="/images/avatar.webp" type="image/webp" />
-          <img src="/images/avatar.jpg" alt="Ảnh Võ Phước Nhật" width="2048" height="2048" fetchPriority="high" />
+          <img
+            src="/images/avatar.jpg"
+            alt="Portrait of Võ Phước Nhật"
+            width="2048"
+            height="2048"
+            fetchPriority="high"
+          />
         </picture>
       </div>
     </section>

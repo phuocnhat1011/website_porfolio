@@ -14,6 +14,18 @@
 .content { width: min(calc(100% - 48px), 1200px); margin-inline: auto; padding: 32px 0 48px; }
 .mobileHeader, .mobileOverlay { display: none; }
 
+@media (min-width: 1025px) {
+  .main:has(:global(#home-title)) .content {
+    width: min(calc(100% - 64px), 1220px);
+    margin-right: auto;
+    margin-left: clamp(32px, 3vw, 48px);
+  }
+}
+
+@media (min-width: 1800px) {
+  .main:has(:global(#home-title)) .content { margin-inline: auto; }
+}
+
 @media (max-width: 1024px) {
   .sidebar { display: none; }
   .main { margin-left: 0; padding-top: 66px; }
