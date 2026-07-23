@@ -19,12 +19,12 @@ export const expertiseItems = [
 
 export const homeProjectContent = {
   marketData: {
-    title: 'Vietnam Market Data Warehouse',
+    title: 'Vietnam Securities Financial Statements Analytics',
     description:
-      'An end-to-end personal project for Vietnam’s listed equity market, combining automated data collection, dimensional modeling, PostgreSQL, SQL analysis and Power BI reporting.',
-    tags: ['Python', 'PostgreSQL', 'SQL', 'Power BI', 'Data Modeling', 'Market Data'],
-    note: 'Designed for HOSE, HNX and UPCOM coverage.',
-    status: 'In development',
+      'An end-to-end personal project for collecting, standardizing and analyzing financial statements of Vietnamese securities companies using Python, PostgreSQL, SQL and Power BI.',
+    tags: ['Python', 'Pandas', 'PostgreSQL', 'SQL', 'Power BI', 'Data Modeling'],
+    note: 'Automated workflow covering 37+ Vietnamese securities companies.',
+    status: 'Financial Data Analytics',
     cta: 'View Case Study',
   },
   hedging: {

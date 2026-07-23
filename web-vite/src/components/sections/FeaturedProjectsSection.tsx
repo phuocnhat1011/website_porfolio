@@ -20,7 +20,7 @@ export function FeaturedProjectsSection() {
             <source srcSet="/images/data-model.webp" type="image/webp" />
             <img
               src="/images/data-model.png"
-              alt="Dimensional data model for the Vietnam Market Data Warehouse"
+              alt="Data model for Vietnam Securities Financial Statements Analytics"
               loading="lazy"
               width="1592"
               height="754"
@@ -32,7 +32,7 @@ export function FeaturedProjectsSection() {
               <span className={styles.statusBadge}>{homeProjectContent.marketData.status}</span>
             </div>
             <p className={styles.projectDescription}>{homeProjectContent.marketData.description}</p>
-            <div className={styles.projectTags} aria-label="Vietnam Market Data Warehouse technology stack">
+            <div className={styles.projectTags} aria-label="Vietnam Securities Financial Statements Analytics technology stack">
               {homeProjectContent.marketData.tags.map((tag) => <span key={tag}>{tag}</span>)}
             </div>
             <p className={styles.projectNote}>{homeProjectContent.marketData.note}</p>

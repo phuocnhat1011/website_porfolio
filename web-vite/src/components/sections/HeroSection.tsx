@@ -22,7 +22,7 @@ export function HeroSection() {
           </p>
           <p>
             <span>Personal project</span>{' '}
-            Building an end-to-end Vietnam Market Data Warehouse for HOSE, HNX and UPCOM.
+            Built an end-to-end financial statements analytics workflow for Vietnamese securities companies.
           </p>
         </div>
 
