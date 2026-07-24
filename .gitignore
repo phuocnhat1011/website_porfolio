@@ -5,3 +5,4 @@ __pycache__/
 .env
 .env.*
 !.env.example
+!web-vite/.env.example

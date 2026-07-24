@@ -202,6 +202,77 @@
 
 .flagshipCard { border-color: rgba(91, 33, 182, 0.2); }
 
+.marketOverviewCard {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(300px, 0.84fr) minmax(0, 1.16fr);
+}
+
+.marketOverviewVisual {
+  display: grid;
+  align-content: center;
+  gap: 24px;
+  min-height: 306px;
+  padding: 30px;
+  border-right: 1px solid #e9e5f0;
+  background:
+    radial-gradient(circle at 16% 20%, rgba(37, 99, 235, 0.14), transparent 34%),
+    linear-gradient(145deg, #f7f4ff, #f8fbff);
+}
+
+.marketOverviewVisual > div {
+  display: grid;
+  gap: 7px;
+}
+
+.marketOverviewVisual > div span {
+  color: #6d28d9;
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.marketOverviewVisual > div strong {
+  max-width: 430px;
+  color: #172033;
+  font-size: 1.3rem;
+  line-height: 1.35;
+}
+
+.marketOverviewVisual ol {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  counter-reset: market-flow;
+  list-style: none;
+}
+
+.marketOverviewVisual li {
+  position: relative;
+  min-height: 58px;
+  padding: 20px 12px 10px;
+  border: 1px solid rgba(109, 40, 217, 0.14);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.82);
+  color: #4c1d95;
+  counter-increment: market-flow;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.marketOverviewVisual li::before {
+  position: absolute;
+  top: 7px;
+  left: 12px;
+  color: #8b5cf6;
+  content: '0' counter(market-flow);
+  font-size: 0.61rem;
+  letter-spacing: 0.06em;
+}
+
 .projectCover {
   display: block;
   width: 100%;
@@ -220,7 +291,7 @@
   transition: transform 0.35s ease;
 }
 
-.flagshipCard .projectCover img { object-fit: contain; }
+.dataModelCard .projectCover img { object-fit: contain; }
 
 .projectCard:hover .projectCover img { transform: scale(1.015); }
 
@@ -334,6 +405,8 @@
   .expertiseItem:nth-child(2) { border-right: 0; }
   .expertiseItem:nth-child(-n + 2) { border-bottom: 1px solid #ece8f3; }
   .projectGrid { grid-template-columns: 1fr; }
+  .marketOverviewCard { grid-column: auto; grid-template-columns: 1fr; }
+  .marketOverviewVisual { min-height: 260px; border-right: 0; border-bottom: 1px solid #e9e5f0; }
   .projectCover { height: auto; aspect-ratio: 16 / 9; }
 }
 
@@ -364,6 +437,8 @@
   .projectBody { padding: 20px; }
   .projectTitleRow { align-items: flex-start; flex-direction: column; gap: 7px; }
   .contactActions { flex-wrap: wrap; }
+  .marketOverviewVisual { min-height: 0; padding: 22px 20px; }
+  .marketOverviewVisual ol { grid-template-columns: 1fr 1fr; }
 }
 
 @media (hover: hover) {

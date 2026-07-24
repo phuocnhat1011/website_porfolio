@@ -6,9 +6,9 @@ Bản migration frontend của portfolio từ Streamlit sang React + Vite + Type
 
 - React, Vite, TypeScript và React Router.
 - CSS Modules theo component/page; không dùng UI framework hay animation library.
-- Multi-route SPA: `/`, `/projects/securities`, `/projects/hedging`.
+- Multi-route SPA: `/`, `/market-overview`, `/projects/securities`, `/projects/hedging`.
 - Các view có trong source nhưng từng bị ẩn khỏi menu vẫn được bảo toàn tại `/projects/banking`, `/knowledge`, `/contact`.
-- Dữ liệu project nằm trong `src/data/projects.ts`; skill và bài viết nằm trong `src/data/`.
+- Dữ liệu project nằm trong `src/data/`; Market Overview dùng config riêng tại `src/data/marketOverview.ts`.
 - Backtest được chuyển từ Excel sang JSON tĩnh ở `public/data/backtesting.json`; workbook gốc vẫn nằm trong `public/documents/` để download và đối chiếu.
 - Power BI và chart được lazy-load khi mở tab. Không có access token, credential hoặc backend.
 
@@ -50,11 +50,13 @@ npm run lint
 ## 5. Cập nhật nội dung sau này
 
 - Thêm/sửa project: `src/data/projects.ts`.
+- Sửa nội dung Market Overview: `src/data/marketOverview.ts`.
 - Sửa navigation: `src/config/site.ts`.
 - Sửa skill: `src/data/skills.ts`.
 - Sửa bài viết/tip: `src/data/knowledge.ts`.
 - Sửa workflow Chứng khoán/Hedging: `src/data/securities.ts`, `src/data/hedging.ts`.
-- Thay URL Power BI: chỉ sửa `powerBiUrl` của project trong `src/data/projects.ts`; không sửa `PowerBIEmbed.tsx`.
+- Thay URL Power BI BCTC: chỉ sửa `powerBiUrl` của project trong `src/data/projects.ts`; không sửa `PowerBIEmbed.tsx`.
+- Bật Power BI Market Overview: copy `.env.example` thành `.env.local` trong `web-vite/` và điền `VITE_MARKET_OVERVIEW_POWERBI_URL`. Khi biến để trống, trang chỉ hiển thị placeholder và không render iframe/action.
 - Thay CV/ảnh: cập nhật file trong `public/documents/` hoặc `public/images/`, giữ nguyên tên file nếu không muốn sửa code.
 
 ## 6. Push lên GitHub
@@ -80,8 +82,8 @@ Credential PostgreSQL trong `upload_database.py` đã được chuyển sang env
 4. Install Command: `npm install`.
 5. Build Command: `npm run build`.
 6. Output Directory: `dist`.
-7. Không cần Environment Variable cho website hiện tại.
-8. Deploy và kiểm tra các URL con như `/projects/securities` và `/projects/hedging`.
+7. `VITE_MARKET_OVERVIEW_POWERBI_URL` là tùy chọn. Chỉ thêm khi có public embed URL thật; để trống trong giai đoạn report đang hoàn thiện.
+8. Deploy và kiểm tra các URL con như `/market-overview`, `/projects/securities` và `/projects/hedging`.
 
 `vercel.json` đã cấu hình SPA rewrite để refresh trực tiếp URL con không trả về 404, theo hướng dẫn Vite SPA của Vercel: <https://vercel.com/docs/frameworks/frontend/vite>.
 
@@ -107,6 +109,7 @@ Hướng dẫn chính thức: <https://vercel.com/docs/domains/set-up-custom-dom
 ## 10. Power BI
 
 - Report Chứng khoán giữ nguyên Publish to web URL từ source Streamlit.
+- Report Market Overview dùng biến `VITE_MARKET_OVERVIEW_POWERBI_URL`; hiện chưa có public embed URL nên không render iframe, Fullscreen hoặc Open Report.
 - Project Ngân hàng chưa có URL thật trong source nên hiển thị placeholder nhẹ “Báo cáo đang được hoàn thiện”, không tự tạo URL/token.
 - `PowerBIEmbed` nhận URL qua props, có loading, fallback, responsive aspect ratio và fullscreen.
 - Publish to web là report công khai; không đưa dữ liệu riêng tư vào report theo phương thức này.

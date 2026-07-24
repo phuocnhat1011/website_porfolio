@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom'
 import { homeProjectContent } from '../../data/home'
+import { marketOverviewProject } from '../../data/marketOverview'
 import { getProject } from '../../data/projects'
 import styles from './HomeSections.module.css'
 
-const marketDataProject = getProject('securities_vn')
+const securitiesProject = getProject('securities_vn')
 const hedgingProject = getProject('hedging_vn30f1m')
 
 export function FeaturedProjectsSection() {
@@ -15,7 +16,36 @@ export function FeaturedProjectsSection() {
       </div>
 
       <div className={styles.projectGrid}>
-        <article className={`${styles.projectCard} ${styles.flagshipCard} surface`}>
+        <article className={`${styles.projectCard} ${styles.flagshipCard} ${styles.marketOverviewCard} surface`}>
+          <div className={styles.marketOverviewVisual}>
+            <div>
+              <span>Vietnam listed-market platform</span>
+              <strong>From market sources to analytical reporting</strong>
+            </div>
+            <ol aria-label="Market Overview data flow">
+              <li>Market APIs</li>
+              <li>Python ETL</li>
+              <li>PostgreSQL</li>
+              <li>Power BI</li>
+            </ol>
+          </div>
+          <div className={styles.projectBody}>
+            <div className={styles.projectTitleRow}>
+              <h3>{homeProjectContent.marketOverview.title}</h3>
+              <span className={styles.statusBadge}>{homeProjectContent.marketOverview.status}</span>
+            </div>
+            <p className={styles.projectDescription}>{homeProjectContent.marketOverview.description}</p>
+            <div className={styles.projectTags} aria-label="Vietnam Market Overview technology stack">
+              {homeProjectContent.marketOverview.tags.map((tag) => <span key={tag}>{tag}</span>)}
+            </div>
+            <p className={styles.projectNote}>{homeProjectContent.marketOverview.note}</p>
+            <Link className="button buttonPrimary" to={marketOverviewProject.route}>
+              {homeProjectContent.marketOverview.cta}
+            </Link>
+          </div>
+        </article>
+
+        <article className={`${styles.projectCard} ${styles.dataModelCard} surface`}>
           <picture className={styles.projectCover}>
             <source srcSet="/images/data-model.webp" type="image/webp" />
             <img
@@ -28,16 +58,16 @@ export function FeaturedProjectsSection() {
           </picture>
           <div className={styles.projectBody}>
             <div className={styles.projectTitleRow}>
-              <h3>{homeProjectContent.marketData.title}</h3>
-              <span className={styles.statusBadge}>{homeProjectContent.marketData.status}</span>
+              <h3>{homeProjectContent.securities.title}</h3>
+              <span className={styles.statusBadge}>{homeProjectContent.securities.status}</span>
             </div>
-            <p className={styles.projectDescription}>{homeProjectContent.marketData.description}</p>
+            <p className={styles.projectDescription}>{homeProjectContent.securities.description}</p>
             <div className={styles.projectTags} aria-label="Vietnam Securities Financial Statements Analytics technology stack">
-              {homeProjectContent.marketData.tags.map((tag) => <span key={tag}>{tag}</span>)}
+              {homeProjectContent.securities.tags.map((tag) => <span key={tag}>{tag}</span>)}
             </div>
-            <p className={styles.projectNote}>{homeProjectContent.marketData.note}</p>
-            <Link className="button buttonPrimary" to={marketDataProject.route}>
-              {homeProjectContent.marketData.cta}
+            <p className={styles.projectNote}>{homeProjectContent.securities.note}</p>
+            <Link className="button buttonSecondary" to={securitiesProject.route}>
+              {homeProjectContent.securities.cta}
             </Link>
           </div>
         </article>

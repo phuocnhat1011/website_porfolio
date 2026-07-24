@@ -1,4 +1,5 @@
 import type { NavigationItem } from '../types'
+import { marketOverviewProject } from '../data/marketOverview'
 
 export const siteConfig = {
   name: 'Võ Phước Nhật',
@@ -16,6 +17,7 @@ export const navigation: NavigationItem[] = [
     label: 'Projects',
     icon: '📁',
     children: [
+      { label: 'Market Overview', icon: '🌐', to: marketOverviewProject.route },
       { label: 'BCTC Chứng Khoán VN', icon: '📊', to: '/projects/securities' },
       { label: 'Hedging VN30F1M', icon: '📈', to: '/projects/hedging' },
     ],

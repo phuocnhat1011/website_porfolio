@@ -3,6 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AppLayout } from './components/layout/AppLayout'
 
 const HomePage = lazy(() => import('./pages/HomePage'))
+const MarketOverviewPage = lazy(() => import('./pages/MarketOverviewPage'))
 const SecuritiesPage = lazy(() => import('./pages/SecuritiesPage'))
 const HedgingPage = lazy(() => import('./pages/HedgingPage'))
 const BankProjectPage = lazy(() => import('./pages/BankProjectPage'))
@@ -20,6 +21,7 @@ export default function App() {
         <Routes>
           <Route element={<AppLayout />}>
             <Route index element={<HomePage />} />
+            <Route path="market-overview" element={<MarketOverviewPage />} />
             <Route path="projects/securities" element={<SecuritiesPage />} />
             <Route path="projects/hedging" element={<HedgingPage />} />
             <Route path="projects/banking" element={<BankProjectPage />} />

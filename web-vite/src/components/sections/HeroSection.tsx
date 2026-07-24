@@ -22,7 +22,7 @@ export function HeroSection() {
           </p>
           <p>
             <span>Personal project</span>{' '}
-            Built an end-to-end financial statements analytics workflow for Vietnamese securities companies.
+            Built an end-to-end Vietnam market-data platform covering listed securities across HOSE, HNX and UPCOM.
           </p>
         </div>
 

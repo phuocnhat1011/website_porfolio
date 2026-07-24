@@ -18,7 +18,16 @@ export const expertiseItems = [
 ] as const
 
 export const homeProjectContent = {
-  marketData: {
+  marketOverview: {
+    title: 'Vietnam Market Overview & Analytics',
+    description:
+      'An end-to-end market data project covering Vietnam’s listed securities, benchmark indices, sectors, daily prices, liquidity and trading flows through a PostgreSQL dimensional model.',
+    tags: ['Python', 'PostgreSQL', 'SQL', 'Power BI', 'Market Data', 'Dimensional Modeling'],
+    note: 'Designed for market analysis across HOSE, HNX and UPCOM.',
+    status: 'Flagship Project',
+    cta: 'View Market Overview',
+  },
+  securities: {
     title: 'Vietnam Securities Financial Statements Analytics',
     description:
       'An end-to-end personal project for collecting, standardizing and analyzing financial statements of Vietnamese securities companies using Python, PostgreSQL, SQL and Power BI.',
@@ -28,7 +37,7 @@ export const homeProjectContent = {
     cta: 'View Case Study',
   },
   hedging: {
-    title: 'VN30F1M Hedging System',
+    title: 'VN30F1M Hedging & Monitoring System',
     description:
       'An R-based financial time-series and hedging workflow using backtesting, Grid Search, state-machine logic and SSI FastConnect.',
     tags: ['R', 'Backtesting', 'Grid Search', 'State Machine', 'SSI FastConnect'],
