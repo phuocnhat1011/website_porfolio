@@ -1,0 +1,886 @@
+.hedgingPage {
+  --case-border: rgba(214, 219, 232, 0.92);
+  --case-purple: #6d28d9;
+  --case-purple-dark: #4c1d95;
+  --case-purple-soft: #f4f0ff;
+  --case-navy: #111827;
+  --case-muted: #5f6b7a;
+  display: grid;
+  gap: 24px;
+  min-width: 0;
+}
+
+.caseHeader {
+  padding: clamp(28px, 4vw, 48px);
+  border: 1px solid var(--case-border);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 90% 14%, rgba(124, 58, 237, 0.08), transparent 26%),
+    #fff;
+  box-shadow: 0 12px 32px rgba(28, 25, 51, 0.06);
+}
+
+.eyebrow,
+.miniEyebrow,
+.sectionHeading > p {
+  margin: 0 0 10px;
+  color: var(--case-purple);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.caseHeader h1 {
+  max-width: 980px;
+  margin: 0;
+  color: var(--case-navy);
+  font-size: clamp(2.625rem, 3.7vw, 3rem);
+  line-height: 1.08;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+.subtitle {
+  margin: 12px 0 0;
+  color: var(--case-purple-dark);
+  font-size: 1rem;
+  font-weight: 750;
+}
+
+.description {
+  max-width: 900px;
+  margin: 18px 0 0;
+  color: #475569;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.techChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.techChips span {
+  padding: 6px 11px;
+  border: 1px solid #ddd6fe;
+  border-radius: 999px;
+  background: #faf8ff;
+  color: #5b21b6;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.mainTabs {
+  min-width: 0;
+}
+
+.mainTabs > div > :global([role='tablist']) {
+  position: sticky;
+  top: 0;
+  z-index: 8;
+  padding: 10px 8px;
+  border: 1px solid var(--case-border);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 8px 20px rgba(28, 25, 51, 0.05);
+  backdrop-filter: blur(12px);
+}
+
+.hedgingPage :global([role='tab']:focus-visible),
+.hedgingPage a:focus-visible,
+.hedgingPage button:focus-visible {
+  outline: 3px solid rgba(109, 40, 217, 0.3);
+  outline-offset: 2px;
+}
+
+.caseSection {
+  min-width: 0;
+}
+
+.sectionHeading {
+  max-width: 850px;
+  margin-bottom: 24px;
+}
+
+.sectionHeading h2,
+.systemCard > h2,
+.chartBlock h2,
+.walkForwardHeader h2,
+.emailControlCard h2 {
+  margin: 0;
+  color: var(--case-navy);
+  letter-spacing: -0.025em;
+}
+
+.sectionHeading h2 {
+  font-size: clamp(1.75rem, 3vw, 2rem);
+  line-height: 1.2;
+}
+
+.sectionHeading > span {
+  display: block;
+  margin-top: 10px;
+  color: var(--case-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.problemGrid,
+.systemGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.contextCard,
+.compactCard,
+.valueCard,
+.workflowCard,
+.systemCard,
+.repositoryRow,
+.walkForward,
+.emailControlCard,
+.dailySummary,
+.emailPreview {
+  border: 1px solid var(--case-border);
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(28, 25, 51, 0.04);
+}
+
+.contextCard {
+  min-height: 188px;
+  padding: 24px;
+  border-radius: 16px;
+}
+
+.cardIndex {
+  color: #8b5cf6;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.contextCard h3,
+.contentBlock > h3,
+.repositoryRow h3 {
+  margin: 8px 0 10px;
+  color: var(--case-navy);
+  font-size: 1.18rem;
+}
+
+.contextCard p {
+  margin: 0;
+  color: #475569;
+  font-size: 0.94rem;
+  line-height: 1.65;
+}
+
+.contentBlock {
+  margin-top: 28px;
+}
+
+.contentBlock > h3 {
+  margin-bottom: 14px;
+}
+
+.solutionGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.compactCard {
+  min-height: 145px;
+  padding: 19px;
+  border-radius: 14px;
+}
+
+.compactNumber {
+  color: #a9a3b4;
+  font-size: 0.66rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+}
+
+.compactCard h4,
+.valueCard h4 {
+  margin: 9px 0 7px;
+  color: var(--case-navy);
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.compactCard p,
+.valueCard p {
+  margin: 0;
+  color: var(--case-muted);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.valueGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.valueCard {
+  min-height: 122px;
+  padding: 19px;
+  border-top: 3px solid #8b5cf6;
+  border-radius: 14px;
+}
+
+.pipelineSummary,
+.automationFlow {
+  display: flex;
+  gap: 28px;
+  margin: 0;
+  padding: 0 2px 8px;
+  overflow-x: auto;
+  list-style: none;
+  scrollbar-width: thin;
+}
+
+.pipelineSummary li,
+.automationFlow li {
+  position: relative;
+  flex: 1 0 135px;
+  display: grid;
+  min-height: 58px;
+  place-items: center;
+  padding: 12px 14px;
+  border: 1px solid #ddd6fe;
+  border-radius: 12px;
+  background: var(--case-purple-soft);
+  color: var(--case-purple-dark);
+  font-size: 0.82rem;
+  font-weight: 750;
+  text-align: center;
+}
+
+.pipelineSummary li:not(:last-child)::after,
+.automationFlow li:not(:last-child)::after {
+  content: '→';
+  position: absolute;
+  top: 50%;
+  right: -22px;
+  color: #8b5cf6;
+  font-size: 1rem;
+  transform: translateY(-50%);
+}
+
+.workflowGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.workflowCard {
+  min-height: 270px;
+  padding: 22px;
+  border-radius: 16px;
+}
+
+.workflowCard header {
+  display: flex;
+  gap: 11px;
+  align-items: flex-start;
+}
+
+.workflowCard header > span {
+  display: grid;
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border-radius: 10px;
+  background: var(--case-purple-soft);
+  color: var(--case-purple);
+  font-size: 0.75rem;
+  font-weight: 850;
+}
+
+.workflowCard small {
+  display: block;
+  margin-bottom: 4px;
+  color: #8b5cf6;
+  font-size: 0.65rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+}
+
+.workflowCard h3 {
+  margin: 0;
+  color: var(--case-navy);
+  font-size: 1.03rem;
+  line-height: 1.35;
+}
+
+.workflowCard ul,
+.emailControlCard ul {
+  display: grid;
+  gap: 9px;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.workflowCard li,
+.emailControlCard li {
+  position: relative;
+  padding-left: 17px;
+  color: #475569;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.workflowCard li::before,
+.emailControlCard li::before {
+  content: '';
+  position: absolute;
+  top: 0.55em;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #8b5cf6;
+}
+
+.systemGrid {
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  margin-top: 20px;
+}
+
+.systemCard {
+  min-width: 0;
+  padding: 24px;
+  border-radius: 16px;
+}
+
+.systemCard > h2,
+.chartBlock h2,
+.walkForwardHeader h2 {
+  font-size: 1.25rem;
+}
+
+.systemCard > p {
+  margin: 9px 0 18px;
+  color: var(--case-muted);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.stateMachine {
+  display: grid;
+  gap: 10px;
+}
+
+.stateNode {
+  display: grid;
+  gap: 3px;
+  padding: 13px 15px;
+  border: 1px solid #ddd6fe;
+  border-radius: 12px;
+  background: #faf8ff;
+}
+
+.stateNode strong {
+  color: var(--case-purple-dark);
+  font-size: 0.82rem;
+}
+
+.stateNode span {
+  color: #64748b;
+  font-size: 0.77rem;
+}
+
+.activeState {
+  border-color: #a7f3d0;
+  background: #ecfdf5;
+}
+
+.activeState strong {
+  color: #047857;
+}
+
+.stateArrow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding-left: 15px;
+  color: var(--case-purple);
+  font-size: 0.74rem;
+  font-weight: 750;
+}
+
+.condition {
+  color: #64748b;
+  font-family: 'JetBrains Mono', Consolas, monospace;
+  font-size: 0.68rem;
+  font-weight: 500;
+}
+
+.rules {
+  display: grid;
+  gap: 16px;
+}
+
+.rules section {
+  padding: 16px;
+  border: 1px solid #e9e6f2;
+  border-radius: 12px;
+  background: #fbfbfe;
+}
+
+.rules h3 {
+  margin: 0 0 11px;
+  font-size: 0.9rem;
+}
+
+.shortTitle {
+  color: #047857;
+}
+
+.exitTitle {
+  color: #b45309;
+}
+
+.rules ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 18px;
+  color: #475569;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.repositoryRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px;
+  border-radius: 15px;
+}
+
+.repositoryRow h3 {
+  margin: 0 0 5px;
+}
+
+.repositoryRow p {
+  margin: 0;
+  color: var(--case-muted);
+  font-size: 0.84rem;
+}
+
+.chartBlock {
+  margin-top: 22px;
+}
+
+.chartBlock > div:first-child {
+  margin-bottom: 13px;
+}
+
+.walkForward {
+  margin-top: 20px;
+  padding: 24px;
+  border-radius: 16px;
+}
+
+.walkForwardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.plannedBadge,
+.emailBadge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  font-size: 0.67rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+}
+
+.plannedBadge {
+  flex: 0 0 auto;
+  padding: 6px 10px;
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.walkForwardIntro {
+  margin: 10px 0 18px;
+  color: var(--case-muted);
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+
+.plannedGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.plannedGrid article {
+  padding: 18px;
+  border: 1px solid #e9e6f2;
+  border-radius: 13px;
+  background: #fbfbfe;
+}
+
+.plannedGrid strong {
+  color: var(--case-navy);
+  font-size: 0.92rem;
+}
+
+.plannedGrid p {
+  margin: 7px 0 0;
+  color: var(--case-muted);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+.automationFlow {
+  gap: 34px;
+  margin-bottom: 22px;
+}
+
+.automationFlow li {
+  flex-basis: 170px;
+}
+
+.automationFlow li:not(:last-child)::after {
+  right: -25px;
+}
+
+.emailLayout {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.72fr) minmax(0, 1.45fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.emailAside {
+  display: grid;
+  gap: 14px;
+}
+
+.emailControlCard,
+.dailySummary {
+  min-width: 0;
+  padding: 19px;
+  border-radius: 15px;
+}
+
+.emailControlCard h2 {
+  font-size: 1.05rem;
+}
+
+.compactState {
+  display: grid;
+  gap: 18px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.compactState li {
+  position: relative;
+  padding: 9px 11px;
+  border: 1px solid #ddd6fe;
+  border-radius: 9px;
+  background: #faf8ff;
+  color: var(--case-purple-dark);
+  font-family: 'JetBrains Mono', Consolas, monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.compactState li:not(:last-child)::after {
+  content: '↓';
+  position: absolute;
+  bottom: -18px;
+  left: 50%;
+  color: #8b5cf6;
+  transform: translateX(-50%);
+}
+
+.dailySummary {
+  border-color: #ddd6fe;
+  background: #faf8ff;
+}
+
+.dailySummary strong {
+  color: var(--case-purple-dark);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+}
+
+.dailySummary p {
+  margin: 8px 0 0;
+  color: #475569;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.emailShowcase {
+  min-width: 0;
+}
+
+.emailPreview {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.emailBadge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 2;
+  padding: 5px 9px;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--case-purple-dark);
+  box-shadow: 0 3px 10px rgba(28, 25, 51, 0.08);
+}
+
+.emailHeader {
+  padding: 22px 190px 18px 22px;
+  border-bottom: 1px solid var(--case-border);
+  background: #f8fafc;
+}
+
+.emailHeader.short {
+  background: #fef2f2;
+}
+
+.emailHeader.exit {
+  background: #ecfdf5;
+}
+
+.emailHeader.daily {
+  background: #f5f3ff;
+}
+
+.emailSubject {
+  color: var(--case-navy);
+  font-size: 0.95rem;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.emailMeta {
+  margin-top: 6px;
+  color: #64748b;
+  font-size: 0.72rem;
+  overflow-wrap: anywhere;
+}
+
+.emailBody {
+  padding: 8px 22px;
+}
+
+.emailRow {
+  display: grid;
+  grid-template-columns: minmax(128px, 0.8fr) minmax(0, 1.2fr);
+  gap: 18px;
+  padding: 11px 0;
+  border-bottom: 1px solid #eef0f4;
+}
+
+.emailRow:last-child {
+  border-bottom: 0;
+}
+
+.emailLabel {
+  color: #64748b;
+  font-size: 0.79rem;
+}
+
+.emailValue {
+  color: #334155;
+  font-family: 'JetBrains Mono', Consolas, monospace;
+  font-size: 0.79rem;
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+
+.emailValue.red {
+  color: #b42318;
+}
+
+.emailValue.green {
+  color: #047857;
+}
+
+.emailValue.purple {
+  color: var(--case-purple);
+}
+
+.emailFooter {
+  padding: 14px 22px 18px;
+  border-top: 1px solid #eef0f4;
+  background: #fbfbfe;
+  color: #64748b;
+  font-size: 0.77rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 1024px) {
+  .mainTabs > div > :global([role='tablist']) {
+    top: 66px;
+  }
+
+  .solutionGrid,
+  .workflowGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .workflowCard {
+    min-height: 230px;
+  }
+
+  .emailLayout {
+    grid-template-columns: minmax(220px, 0.65fr) minmax(0, 1.35fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .caseHeader h1 {
+    font-size: 2.35rem;
+  }
+
+  .problemGrid,
+  .solutionGrid,
+  .valueGrid,
+  .workflowGrid,
+  .systemGrid,
+  .plannedGrid,
+  .emailLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .contextCard,
+  .workflowCard {
+    min-height: 0;
+  }
+
+  .emailAside {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dailySummary {
+    grid-column: 1 / -1;
+  }
+
+  .compactState {
+    grid-template-columns: repeat(5, minmax(104px, 1fr));
+    gap: 24px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+  }
+
+  .compactState li:not(:last-child)::after {
+    content: '→';
+    right: -19px;
+    bottom: auto;
+    left: auto;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .repositoryRow {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 520px) {
+  .hedgingPage {
+    gap: 18px;
+  }
+
+  .caseHeader {
+    padding: 24px 20px;
+    border-radius: 16px;
+  }
+
+  .caseHeader h1 {
+    font-size: 2rem;
+    line-height: 1.12;
+  }
+
+  .subtitle,
+  .description {
+    font-size: 0.94rem;
+  }
+
+  .mainTabs > div > :global([role='tablist']) {
+    margin-inline: -2px;
+    border-radius: 12px;
+  }
+
+  .solutionGrid,
+  .workflowGrid,
+  .emailAside {
+    grid-template-columns: 1fr;
+  }
+
+  .dailySummary {
+    grid-column: auto;
+  }
+
+  .contextCard,
+  .workflowCard,
+  .systemCard,
+  .walkForward {
+    padding: 20px;
+  }
+
+  .compactCard,
+  .valueCard {
+    min-height: 0;
+  }
+
+  .stateArrow {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .walkForwardHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .repositoryRow a {
+    width: 100%;
+  }
+
+  .emailHeader {
+    padding: 62px 18px 17px;
+  }
+
+  .emailBadge {
+    left: 18px;
+    right: auto;
+  }
+
+  .emailBody {
+    padding-inline: 18px;
+  }
+
+  .emailRow {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}

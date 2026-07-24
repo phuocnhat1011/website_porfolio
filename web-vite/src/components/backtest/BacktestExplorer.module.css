@@ -3,13 +3,15 @@
 .rankControl > span { margin-right: 4px; color: #64748b; font-size: 0.8rem; font-weight: 700; }
 .rankControl button { padding: 7px 14px; border: 1px solid #ddd6fe; border-radius: 10px; background: #fff; color: #5b21b6; font-size: 0.8rem; font-weight: 650; cursor: pointer; }
 .rankControl button[aria-pressed='true'] { border-color: #5b21b6; background: #5b21b6; color: #fff; }
-.kpiGrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
+.kpiBlock { margin-bottom: 16px; }
+.kpiGrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
 .kpiGrid article { padding: 18px; text-align: center; }
 .kpiGrid span { display: block; margin-bottom: 6px; color: #888780; font-size: 0.68rem; letter-spacing: 0.04em; text-transform: uppercase; }
 .kpiGrid strong { display: block; color: #1a1a19; font-size: 1.35rem; }
 .kpiGrid .positive, .positive { color: #1d9e75; }
 .kpiGrid .total, .negative { color: #d85a30; }
 .kpiGrid .trades { color: #6c63d5; }
+.kpiCaption { margin: 9px 2px 0; color: #64748b; font-size: 0.74rem; }
 .tableCard { min-width: 0; }
 .tableHeading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
 .tableHeading h3 { margin: 0; font-size: 1.1rem; }
@@ -17,6 +19,8 @@
 .tableWrap table { width: 100%; min-width: 1040px; border-collapse: collapse; font-size: 0.8rem; }
 .tableWrap th { position: sticky; top: 0; z-index: 1; padding: 10px 13px; border-bottom: 1px solid #e2e1dc; background: #f7f7f6; color: #888780; font-size: 0.66rem; font-weight: 650; letter-spacing: 0.04em; text-align: left; text-transform: uppercase; white-space: nowrap; }
 .tableWrap td { padding: 10px 13px; border-bottom: 1px solid #efefed; color: #5f5e5a; white-space: nowrap; }
+.representativeRow td { background: #faf8ff; }
+.representativeRow td:first-child { box-shadow: inset 3px 0 #ddd6fe; }
 .tableWrap tbody tr:hover td { background: #f9fafb; }
 .mono { font-family: 'JetBrains Mono', Consolas, monospace; }
 .pill { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 0.67rem; font-weight: 650; }
@@ -24,7 +28,8 @@
 .mid { background: #eeedfe; color: #3c3489; }
 .low { background: #faece7; color: #993c1d; }
 .empty { padding: 30px !important; text-align: center; }
-.note { margin: 12px 0 0; color: #888780; font-size: 0.7rem; }
+.disclosures { display: grid; gap: 3px; margin-top: 12px; }
+.disclosures p { margin: 0; color: #64748b; font-size: 0.72rem; line-height: 1.45; }
 @keyframes shimmer { from { background-position: -200% 0; } to { background-position: 200% 0; } }
 
 @media (max-width: 720px) {
